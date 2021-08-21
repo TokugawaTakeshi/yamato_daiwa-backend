@@ -1,0 +1,8 @@
+/.idea
+
+/Source/
+/Tests/
+
+.gitignore
+tsconfig.json
+tsconfig.test.json

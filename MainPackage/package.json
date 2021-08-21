@@ -1,0 +1,53 @@
+{
+  "name": "@yamato-daiwa/backend",
+  "version": "0.0.1",
+  "description": "Backend framework with build-in TypeScript type safety. Intended to be used in full-stack applications where both client and server part written in TypeScript.",
+  "keywords": [
+    "backend",
+    "framework",
+    "web",
+    "http",
+    "https",
+    "rest",
+    "restful",
+    "router",
+    "controller",
+    "api"
+  ],
+  "author": {
+    "name": "Takeshi Tokugawa",
+    "email": "tokugawa.takesi@gmail.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.16"
+  },
+  "homepage": "https://github.com/TokugawaTakeshi/yamato_daiwa-backend#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TokugawaTakeshi/yamato_daiwa-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TokugawaTakeshi/yamato_daiwa-backend/issues"
+  },
+  "main": "./Distributable/index.js",
+  "types": "./Distributable/index.d.ts",
+  "scripts": {
+    "Lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "@yamato-daiwa/es-extensions": "1.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "4.2.21",
+    "@types/mocha": "9.0.0",
+    "@types/node": "16.7.1",
+    "chai": "4.3.4",
+    "mocha": "9.1.0",
+    "nodemon": "2.0.12",
+    "ts-node": "10.2.1",
+    "tsconfig-paths": "3.10.1",
+    "typescript": "4.3.5",
+    "yamato-daiwa_code_quality_management": "0.0.17"
+  }
+}
