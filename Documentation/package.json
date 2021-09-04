@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@yamato-daiwa/es-extensions": "1.0.1",
-    "@yamato-daiwa/backend": "0.0.0"
+    "@yamato-daiwa/backend": "0.0.2"
   },
   "devDependencies": {
     "@types/node": "16.7.1",

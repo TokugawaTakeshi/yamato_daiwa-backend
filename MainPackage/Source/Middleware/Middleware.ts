@@ -1,9 +1,10 @@
-import { Request } from "../Request";
+import Request from "../Request";
 import Response from "../Response/Response";
-// import Server from "../Server";
+import Server from "../Server";
 
 
-type Middleware = (required: Request, response: Response /* serverConfig: Server.Config */ ) => Promise<Middleware.CompletionSignal>;
+type Middleware = (required: Request, response: Response, serverConfig: Server.NormalizedConfig) =>
+    Promise<Middleware.CompletionSignal>;
 
 /* 〔 ESLint muting rationale 〕 Thins merging is TypeScript-valid and intentional. */
 /* eslint-disable-next-line @typescript-eslint/no-redeclare */

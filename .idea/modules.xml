@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/backend-monorepo.iml" filepath="$PROJECT_DIR$/.idea/backend-monorepo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Yamato-Daiwa Backend.iml" filepath="$PROJECT_DIR$/.idea/Yamato-Daiwa Backend.iml" />
     </modules>
   </component>
 </project>

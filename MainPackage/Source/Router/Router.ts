@@ -6,16 +6,14 @@ import {
 } from "@yamato-daiwa/es-extensions";
 import removeSlashes from "../Utils/removeSlashes";
 
-import { Request } from "../Request";
+import Request from "../Request";
 import Response from "../Response/Response";
 import Controller, { ControllerInheritingClass } from "../Controller/Controller";
 
 
 abstract class Router {
 
-  public static normalizeRouting(
-    routesAndHandlersData: Array<ControllerInheritingClass | Router.RouteAndHandlerPair>
-  ): Router.NormalizedRouting {
+  public static normalizeRouting(routesAndHandlersData: Router.RawRouting): Router.NormalizedRouting {
 
     const normalizedRouting: Router.NormalizedRouting = {
       [HTTP_Methods.get]: {},
@@ -233,6 +231,8 @@ abstract class Router {
 
 
 namespace Router {
+
+  export type RawRouting = Array<ControllerInheritingClass | RouteAndHandlerPair>;
 
   export type Route = {
     type: HTTP_Methods;

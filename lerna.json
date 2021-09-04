@@ -1,4 +1,5 @@
 {
+  "version": "0.0.2",
   "command": {
     "init": {
       "exact": true
@@ -8,6 +9,5 @@
     "MainPackage",
     "Documentation",
     "Localizations/*"
-  ],
-  "version": "0.0.0"
+  ]
 }
