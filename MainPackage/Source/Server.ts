@@ -2,11 +2,10 @@ import HTTP from "http";
 import HTTPS from "https";
 import FileSystem from "fs";
 
-import { Request } from "./Request";
+import Request from "./Request";
 import Response from "./Response/Response";
 import Router from "./Router/Router";
 import Middleware from "./Middleware/Middleware";
-import { ControllerInheritingClass } from "./Controller/Controller";
 
 import HTTP_Response from "./Response/HTTP_Response";
 import CORS_Middleware from "./Middleware/CORS_Middleware";
@@ -15,82 +14,82 @@ import {
   HTTP_StatusCodes,
   HTTP_Methods,
   Logger,
+  UnsupportedScenarioError,
+  UnexpectedEventError,
+  InvalidConfigError,
   SuccessLog,
   isUndefined,
   isNotUndefined,
   isNull,
+  isNotNull,
   isElementOfEnumeration,
-  UnsupportedScenarioError,
-  UnexpectedEventError,
-  InvalidConfigError
+  substituteWhenUndefined
 } from "@yamato-daiwa/es-extensions";
 import ServerLocalization__English from "./Server.localization.english";
+
+import SubdomainsHelper from "./Helpers/SubdomainsHelper";
 
 
 class Server {
 
-  private readonly host: string;
-  private readonly HTTP_Config?: Server.Config.HTTP;
-  private readonly HTTPS_Config?: Server.Config.HTTPS;
-
-  private readonly routing: Router.NormalizedRouting;
-
+  private readonly config: Server.NormalizedConfig;
   private readonly localization: Server.Localization = ServerLocalization__English;
-
   private readonly middlewareHandlers: Array<Middleware> = [ CORS_Middleware ];
 
 
-  public static initializeAndStart(configuration: Server.Config): Server {
+  public static initializeAndStart(configuration: Server.RawConfig): Server {
     return new Server(configuration).start();
   }
 
-  public static initialize(configuration: Server.Config): Server {
+  public static initialize(configuration: Server.RawConfig): Server {
     return new Server(configuration);
   }
 
 
-  private constructor(config: Server.Config) {
+  private constructor(rawConfig: Server.RawConfig) {
 
-    this.host = config.host;
-
-    if (isUndefined(config.HTTP) && isUndefined(config.HTTPS)) {
+    if (isUndefined(rawConfig.HTTP) && isUndefined(rawConfig.HTTPS)) {
       Logger.throwErrorAndLog({
         errorInstance: new InvalidConfigError({
           customMessage: "Both HTTP and HTTPS settings has not been specified. Nothing to serve."
         }),
         title: InvalidConfigError.DEFAULT_TITLE,
-        occurrenceLocation: "Server.initializeAndStart|initialize(config)"
+        occurrenceLocation: "Server.initializeAndStart|initialize(rawConfig)"
       });
     }
 
-    if (isNotUndefined(config.HTTP)) {
-      this.HTTP_Config = config.HTTP;
-    }
+    const routing: Router.NormalizedRouting = Router.normalizeRouting(rawConfig.routing);
 
-    if (isNotUndefined(config.HTTPS)) {
-      this.HTTPS_Config = config.HTTPS;
-    }
+    const subdomainsConfig: Server.NormalizedConfig.Subdomains | null =
+        SubdomainsHelper.normalizeSubdomainsConfig({ rawSubdomainsConfig: rawConfig.subdomains, defaultRouting: routing });
 
-    this.routing = Router.normalizeRouting(config.routing);
+    this.config = {
+      host: rawConfig.host,
+      ...isNotUndefined(rawConfig.HTTP) ? { HTTP: rawConfig.HTTP } : null,
+      ...isNotUndefined(rawConfig.HTTPS) ? { HTTPS: rawConfig.HTTPS } : null,
+      routing,
+      ...isNotNull(subdomainsConfig) ? { subdomains: subdomainsConfig } : null
+    };
   }
 
 
   public start(): Server {
 
-    this.startHTTP_RequestServingIfRequired();
-    this.startHTTPS_RequestServingIfRequired();
+    this.startHTTP_RequestServingIfCorrespondingConfigDefined();
+    this.startHTTPS_RequestServingIfCorrespondingConfigDefined();
 
     return this;
   }
 
 
-  private startHTTP_RequestServingIfRequired(): void {
+  private startHTTP_RequestServingIfCorrespondingConfigDefined(): void {
 
-    if (isUndefined(this.HTTP_Config)) {
+    if (isUndefined(this.config.HTTP)) {
       return;
     }
 
-    const HTTP_Config: Server.Config.HTTP = this.HTTP_Config;
+
+    const HTTP_Config: Server.RawConfig.HTTP = this.config.HTTP;
 
     try {
 
@@ -108,7 +107,7 @@ class Server {
                       title: UnexpectedEventError.DEFAULT_TITLE,
                       description: "The 'requestMasterListener' did not catch all errors as expected. " +
                           "Bellow error has been passed.",
-                      occurrenceLocation: "server.startHTTP_RequestServingIfRequired()",
+                      occurrenceLocation: "server.startHTTP_RequestServingIfCorrespondingConfigDefined()",
                       caughtError: error
                     });
                   });
@@ -117,7 +116,7 @@ class Server {
 
           listen(HTTP_Config.port, (): void => {
             Logger.logSuccess(this.localization.successMessages.HTTP_RequestsServiceStarted({
-              host: this.host, HTTP_Port: HTTP_Config.port
+              host: this.config.host, HTTP_Port: HTTP_Config.port
             }));
           });
 
@@ -126,19 +125,20 @@ class Server {
         errorType: "HTTP_RequestsServingBootstrapError",
         title: "HTTP request serving bootstrapping failure",
         description: "The bootstrapping of HTTP requests serving functionality failed.",
-        occurrenceLocation: "server.startHTTP_RequestServingIfRequired()",
+        occurrenceLocation: "server.startHTTP_RequestServingIfCorrespondingConfigDefined()",
         caughtError: error
       });
     }
   }
 
-  private startHTTPS_RequestServingIfRequired(): void {
+  private startHTTPS_RequestServingIfCorrespondingConfigDefined(): void {
 
-    if (isUndefined(this.HTTPS_Config)) {
+    if (isUndefined(this.config.HTTPS)) {
       return;
     }
 
-    const HTTPS_Config: Server.Config.HTTPS = this.HTTPS_Config;
+
+    const HTTPS_Config: Server.RawConfig.HTTPS = this.config.HTTPS;
 
     try {
 
@@ -160,17 +160,16 @@ class Server {
                       title: UnexpectedEventError.DEFAULT_TITLE,
                       description: "The 'requestMasterListener' did not catch all errors as expected. " +
                           "Bellow error has been passed.",
-                      occurrenceLocation: "server.startHTTPS_RequestServingIfRequired()",
+                      occurrenceLocation: "server.startHTTPS_RequestServingIfCorrespondingConfigDefined()",
                       caughtError: error
                     });
                   });
             }
           ).
 
-          // FIXME Somehow error which occurring here (e. g. EADDRINUSE port in use)  will not be catched here...
-          listen(this.HTTPS_Config, (): void => {
+          listen(HTTPS_Config, (): void => {
             Logger.logSuccess(this.localization.successMessages.HTTPS_RequestsServiceStarted({
-              host: this.host, HTTPS_Port: HTTPS_Config.port
+              host: this.config.host, HTTPS_Port: HTTPS_Config.port
             }));
           });
 
@@ -180,7 +179,7 @@ class Server {
         errorType: "HTTPS_RequestsServingBootstrapError",
         title: "HTTPS request serving bootstrapping failure",
         description: "The bootstrapping of HTTPS requests serving functionality failed.",
-        occurrenceLocation: "server.startHTTPS_RequestServingIfRequired()",
+        occurrenceLocation: "server.startHTTPS_RequestServingIfCorrespondingConfigDefined()",
         caughtError: error
       });
     }
@@ -236,8 +235,8 @@ class Server {
       return;
     }
 
-    const HTTP_Method: HTTP_Methods = request.method;
 
+    const HTTP_Method: HTTP_Methods = request.method;
 
     /* [ Reference ] https://stackoverflow.com/q/68830828/4818123 */
     if (isUndefined(request.url)) {
@@ -256,39 +255,39 @@ class Server {
       return;
     }
 
+
     const URI_Path: string = request.url;
+    const actualSubdomainConfig: Server.NormalizedConfig.Subdomains.ConfigMatch | null = SubdomainsHelper.
+        getSubdomainConfig(request, this.config.subdomains);
+    const appropriateRouting: Router.NormalizedRouting =
+        substituteWhenUndefined(actualSubdomainConfig?.config.routing, this.config.routing);
 
 
     const normalizedRequest: Request = {
-      URL: new URL(URI_Path, `${loggingData.protocol}://${this.host}:${loggingData.port}/`),
-      HTTP_Method
+      URL: new URL(URI_Path, `${loggingData.protocol}://${this.config.host}:${loggingData.port}/`),
+      HTTP_Method,
+      subdomainParameters: { ...actualSubdomainConfig?.parameterizedHostNameLabels_Values }
     };
 
-
-    // To reviewer: Please check until here. Below code is a draft.
-    // -----------------------------------------------------------------------------------------------------------------
-    const routeMatch: Router.RouteMatch | null = Router.getRouteMatch(normalizedRequest, this.routing);
+    const routeMatch: Router.RouteMatch | null = Router.getRouteMatch(normalizedRequest, appropriateRouting);
 
     if (isNull(routeMatch)) {
       rawResponse.
-          writeHead(HTTP_StatusCodes.notFound, "The requested URL is not in service.").
+          writeHead(HTTP_StatusCodes.notFound, "The requested URI is not in service.").
           end();
       return;
     }
 
 
-    /* TODO
-        Here we can check the query parameters and if those are invalid - return the Error otherwise
-        add to HTTP_Response.
-     */
     const response: Response = new HTTP_Response(rawResponse);
-
 
     for (const middleware of this.middlewareHandlers) {
 
-      /* 〔 ESLint muting rationale 〕 The middleware must be executed sequentially. */
+      /* [ ESLint muting rationale ] The middleware must be executed sequentially. */
       /* eslint-disable-next-line no-await-in-loop */
-      const middlewareCompletionSignal: Middleware.CompletionSignal = await middleware(normalizedRequest, response);
+      const middlewareCompletionSignal: Middleware.CompletionSignal = await middleware(
+        normalizedRequest, response, this.config
+      );
 
       if (middlewareCompletionSignal === Middleware.CompletionSignal.finishRequestHandling) {
         return;
@@ -313,14 +312,15 @@ class Server {
 
 namespace Server {
 
-  export type Config = {
+  export type RawConfig = {
     host: string;
-    routing: Array<ControllerInheritingClass | Router.RouteAndHandlerPair>;
-    HTTP?: Config.HTTP;
-    HTTPS?: Config.HTTPS;
+    HTTP?: RawConfig.HTTP;
+    HTTPS?: RawConfig.HTTPS;
+    routing: Router.RawRouting;
+    subdomains?: RawConfig.Subdomains;
   };
 
-  export namespace Config {
+  export namespace RawConfig {
 
     export type HTTP = {
       port: number;
@@ -331,6 +331,67 @@ namespace Server {
       SSL_KeyFileAbsolutePath: string;
       SSL_CertificateFileAbsolutePath: string;
     };
+
+    export type Subdomains = { [subdomainPattern: string]: Subdomain; };
+
+    export type Subdomain = {
+      routing?: Router.RawRouting;
+    };
+  }
+
+  export type NormalizedConfig = {
+    host: string;
+    HTTP?: NormalizedConfig.HTTP;
+    HTTPS?: NormalizedConfig.HTTPS;
+    routing: Router.NormalizedRouting;
+    subdomains?: NormalizedConfig.Subdomains;
+  };
+
+  export namespace NormalizedConfig {
+
+    export type HTTP = {
+      port: number;
+    };
+
+    export type HTTPS = {
+      port: number;
+      SSL_KeyFileAbsolutePath: string;
+      SSL_CertificateFileAbsolutePath: string;
+    };
+
+    export type Subdomains = Subdomains.TreeNodes;
+
+    export type Subdomain = {
+      routing?: Router.NormalizedRouting;
+    };
+
+    export namespace Subdomains {
+
+      export type TreeNodes = {
+        staticLabels: StaticLabelsNodes;
+        dynamicLabel?: DynamicLabelNode;
+      };
+
+      export type StaticLabelsNodes = { [labelName: string]: StaticLabelNode | undefined; };
+
+      export type StaticLabelNode = {
+        match?: Subdomain;
+        children: TreeNodes;
+      };
+
+      export type DynamicLabelNode = {
+        name: string;
+        match?: Subdomain;
+        children: TreeNodes;
+      };
+
+      export type ConfigMatch = {
+        config: Subdomain;
+        parameterizedHostNameLabels_Values: ParameterizedHostNameLabels;
+      };
+
+      export type ParameterizedHostNameLabels = { [parameterName: string]: string | undefined; };
+    }
   }
 
   export type Localization = {

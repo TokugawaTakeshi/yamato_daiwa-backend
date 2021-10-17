@@ -1,11 +1,10 @@
 import Middleware from "./Middleware";
-import { Request } from "../Request";
+import Request from "../Request";
 import Response from "../Response/Response";
-// import Server from "../Server";
 
 
 const CORS_Middleware: Middleware = async (
-    _request: Request, response: Response //_serverConfig: Server.Config
+  _request: Request, response: Response
 ): Promise<Middleware.CompletionSignal> => new Promise<Middleware.CompletionSignal>(
     (resolve: (completionSignal: Middleware.CompletionSignal) => void): void => {
 
