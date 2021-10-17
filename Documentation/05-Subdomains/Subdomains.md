@@ -287,7 +287,3 @@ Server.initializeAndStart({
   }
 });
 ```
-
-Test for `calendar.example.com`:
-
-

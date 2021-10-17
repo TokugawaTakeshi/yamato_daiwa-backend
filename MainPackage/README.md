@@ -44,3 +44,5 @@ See the ["Hello, world!" tutorial](../Documentation/01-HelloWorld/HelloWorld.md)
 * [📖 HTTPS support](../Documentation/02-HTTPS_Support/HTTPS_Support.md) Serving of both `HTTP` and `HTTPS`.
 * [📖 Routing and controllers](../Documentation/03-RoutingAndControllers/RoutingAndControllers.md)
   Defining the routing without and with controllers.
+* [📖 Subdomains](../Documentation/05-Subdomains/Subdomains.md)
+  Defining the routing without and with controllers.
