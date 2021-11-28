@@ -3,7 +3,6 @@
 Back-end framework with build-in TypeScript type safety.
 Intended to be used in full-stack applications where both client and server part written in TypeScript.
 
-
 ## Installation
 
 ```
@@ -36,7 +35,6 @@ Server.initializeAndStart({
 ```
 
 See the ["Hello, world!" tutorial](../Documentation/01-HelloWorld/HelloWorld.md) for the details.
-
 
 ## Functionality tutorials
 

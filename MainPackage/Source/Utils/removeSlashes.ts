@@ -1,4 +1,4 @@
-import { removeNthSymbol } from "@yamato-daiwa/es-extensions";
+import { removeNthCharacter } from "@yamato-daiwa/es-extensions";
 import removeSpecificSymbolInLastPosition from "./removeSpecificSymbolInLastPosition";
 
 
@@ -13,8 +13,8 @@ export default function removeSlashes(
   let transformingWorkpiece: string = targetString;
 
   if (options.leading && transformingWorkpiece.startsWith("/")) {
-    transformingWorkpiece = removeNthSymbol(transformingWorkpiece, {
-      targetSymbolNumber: 0,
+    transformingWorkpiece = removeNthCharacter(transformingWorkpiece, {
+      targetCharacterNumber: 0,
       numerationFrom: 0
     });
   }

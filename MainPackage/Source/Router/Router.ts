@@ -2,7 +2,7 @@ import {
   HTTP_Methods,
   isUndefined,
   isNotUndefined,
-  removeNthSymbol
+  removeNthCharacter
 } from "@yamato-daiwa/es-extensions";
 import removeSlashes from "../Utils/removeSlashes";
 
@@ -179,7 +179,7 @@ abstract class Router {
 
         if (isUndefined(normalizedRoutingDataForSpecificPosition.routingForRouteParameterAtNextPosition)) {
           normalizedRoutingDataForSpecificPosition.routingForRouteParameterAtNextPosition = {
-            parameterName: removeNthSymbol(pathSegmentAtNextPosition, { targetSymbolNumber: 1, numerationFrom: 1 })
+            parameterName: removeNthCharacter(pathSegmentAtNextPosition, { targetCharacterNumber: 1, numerationFrom: 1 })
           };
           normalizedRoutingDataForSpecificPosition = normalizedRoutingDataForSpecificPosition.
               routingForRouteParameterAtNextPosition;
