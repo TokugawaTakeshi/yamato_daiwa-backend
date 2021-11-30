@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{{ metadata.title }}</title>
+
+</head>
+
+<body>
+
+  <h1>{{ topHeading }}</h1>
+  <h2> Articles </h2>
+
+  <ul>
+    {{#each articles}}
+      <li>
+        <a href="{{ this.URI }}">{{ this.title }}</a>
+      </li>
+    {{/each}}
+  </ul>
+
+  {{#if sampleBooleanVariable}}
+    <p>IF block</p>
+  {{else}}
+    <p>ELSE block</p>
+  {{/if}}
+
+</body>
+</html>

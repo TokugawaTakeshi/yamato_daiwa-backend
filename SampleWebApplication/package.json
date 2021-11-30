@@ -1,0 +1,34 @@
+{
+  "private": "true",
+  "name": "sample_web_application",
+  "scripts": {
+    "Static preview building": "rimraf 02-DevelopmentBuild/StaticPreview & yda build --selectiveExecution StaticPreview --mode DEVELOPMENT",
+    "Application development building": "rimraf 02-DevelopmentBuild/Application & yda build --selectiveExecution Application --mode DEVELOPMENT",
+    "Application production building": "rimraf 03-ProductionBuild & yda build --selectiveExecution Application --mode PRODUCTION",
+    "Local server starting": "nodemon 02-DevelopmentBuild/Application/FrontServerEntryPoint.js",
+    "Lint": "eslint 01-Source"
+  },
+  "dependencies": {
+    "@yamato-daiwa/backend": "0.0.3",
+    "@yamato-daiwa/es-extensions": "1.5.0-alpha.7",
+    "@yamato-daiwa/es-extensions-browserjs": "1.4.1",
+    "@yamato-daiwa/es-extensions-nodejs": "1.5.0-alpha.4",
+    "@yamato-daiwa/frontend": "0.3.2",
+    "qs": "6.10.3",
+    "vue": "3.2.36",
+    "vue-class-component": "8.0.0-rc.1",
+    "vue-property-decorator": "10.0.0-rc.3",
+    "vue-router": "4.0.15",
+    "vuex": "4.0.2"
+  },
+  "devDependencies": {
+    "@types/qs": "6.9.7",
+    "@types/webpack-node-externals": "2.5.3",
+    "@yamato-daiwa/automation": "../../YamatoDaiwaAutomation/MainPackage",
+    "@yamato-daiwa/style_guides": "0.0.7",
+    "nodemon": "2.0.16",
+    "rimraf": "3.0.2",
+    "ts-node": "10.8.0",
+    "tsconfig-paths": "4.0.0"
+  }
+}

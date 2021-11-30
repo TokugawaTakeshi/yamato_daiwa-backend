@@ -1,0 +1,17 @@
+extends: ./node_modules/@yamato-daiwa/style_guides/BasicPreset.js
+
+#extends: ./../../YamatoDaiwaStyleGuides/BasicPreset.js
+
+overrides:
+
+  - files: [ "01-Source/BusinessRules/Enterprise/**/*.ts" ]
+    rules:
+
+      # The merging of type/interface and namespace is the standard scenario for defining of business rules.
+      # It is completely valid TypeScript, but @typescript-eslint community does not wish to support it.
+      "@typescript-eslint/no-redeclare": off
+
+  - files: [ "*.vue", "*.vue.ts" ]
+
+    parserOptions:
+      project: "tsconfig.eslint.json"

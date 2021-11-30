@@ -1,0 +1,140 @@
+projectBuilding:
+
+  commonSettings:
+
+    selectiveExecutions:
+
+      StaticPreview:
+
+        tasksAndSourceFilesSelection:
+
+          markupProcessing: [ StaticPreview ]
+          stylesProcessing: [ StaticPreview ]
+
+        browserLiveReloadingSetupID: StaticPreview
+
+      Application:
+
+        tasksAndSourceFilesSelection:
+
+          markupProcessing: [ SingePageApplicationEntryPoint ]
+          stylesProcessing: [ ApplicationSharedStyles ]
+          ECMA_ScriptLogicProcessing: [ ClientEntryPoint, FrontServerEntryPoint ]
+          imagesProcessing: [ ApplicationIcons ]
+
+        browserLiveReloadingSetupID: Application
+
+
+  markupProcessing:
+
+    entryPointsGroups:
+
+      StaticPreview:
+
+        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/StaticPreview
+        partialsRecognition:
+          excludeSubdirectoriesWithPrefixes: "_"
+          excludeFilesWithPrefixes: "_"
+
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
+
+      SingePageApplicationEntryPoint:
+
+        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/index.pug
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          PRODUCTION:
+            outputBaseDirectoryRelativePath: 03-ProductionBuild/public
+
+  stylesProcessing:
+
+    entryPointsGroups:
+
+      StaticPreview:
+
+        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/StaticPreview/AllStyles.styl
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
+
+      ApplicationSharedStyles:
+
+        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/SharedAssets/Styles/SharedStyles.styl
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          PRODUCTION:
+            outputBaseDirectoryRelativePath: 03-ProductionBuild/public
+
+  ECMA_ScriptLogicProcessing:
+
+    common:
+
+      directoriesRelativePathsAliases:
+
+        "@EnterpriseBusinessRules": "01-Source/BusinessRules/Enterprise"
+        "@ApplicationBusinessRules": "01-Source/BusinessRules/Application"
+        "@Gateways": "01-Source/Gateways"
+        "@Interactions": "01-Source/Infrastructure/Interactions"
+        "@Utils": "01-Source/Utils"
+        "@MockDataSource": "01-Source/Infrastructure/Elements/MockDataSource"
+
+    entryPointsGroups:
+
+      ClientEntryPoint:
+
+        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/ClientEntryPoint.ts
+
+        targetRuntime:
+          type: BROWSER
+
+        associatedMarkupEntryPointsGroupID_ForModulesDynamicLoadingWithoutDevelopmentServer: SingePageApplicationEntryPoint
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          PRODUCTION:
+            outputBaseDirectoryRelativePath: 03-ProductionBuild/public
+
+      FrontServerEntryPoint:
+
+        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/FrontServer/FrontServerEntryPoint.ts
+
+        targetRuntime:
+          type: NODEJS
+          minimalVersion:
+            major: 16
+
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application
+          PRODUCTION:
+            outputBaseDirectoryRelativePath: 03-ProductionBuild
+
+  imagesProcessing:
+
+    assetsGroups:
+
+      ApplicationIcons:
+
+        sourceFilesTopDirectoryRelativePath: 01-Source/Infrastructure/Elements/Client/SharedAssets/Images/ApplicationIcons
+        buildingModeDependent:
+          DEVELOPMENT:
+            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          PRODUCTION:
+            outputBaseDirectoryRelativePath: 03-ProductionBuild/Application/public
+
+
+  browserLiveReloading:
+
+    StaticPreview:
+
+      targetFilesRootDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
+      customStartingFilenameWithExtension: StaticPreviewAnywherePage.html
+
+    Application:
+
+      targetFilesRootDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+      customStartingFilenameWithExtension: index.html

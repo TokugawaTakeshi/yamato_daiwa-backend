@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="504" height="92" viewBox="0 0 504 92">
+  <defs>
+    <clipPath id="clip-アートボード_1">
+      <rect width="504" height="92"/>
+    </clipPath>
+  </defs>
+  <g id="アートボード_1" data-name="アートボード – 1" clip-path="url(#clip-アートボード_1)">
+    <rect width="504" height="92" fill="#fff"/>
+    <text id="https:_example.com:80_products_1_page_1_items_per_page_10_list" data-name="https://example.com:80/products/1?page=1&amp;items_per_page=10#list" transform="translate(9 33)" fill="#888" font-size="14" font-family="Meiryo"><tspan x="0" y="15">https://example.com:80/products/1?page=1&amp;items_per_page=10#list</tspan></text>
+    <text id="https:_127.0.0.1:80_products_1_page_1_items_per_page_10_list" data-name="https://127.0.0.1:80/products/1?page=1&amp;items_per_page=10#list" transform="translate(9 14)" fill="#888" font-size="14" font-family="Meiryo"><tspan x="0" y="15">https://127.0.0.1:80/products/1?page=1&amp;items_per_page=10#list</tspan></text>
+    <text id="protocol" transform="translate(-1 56)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">protocol</tspan></text>
+    <text id="domain" transform="translate(81 56)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">domain</tspan></text>
+    <text id="IP_Address" data-name="IP Address" transform="translate(61 -4)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">IP Address</tspan></text>
+    <text id="port" transform="translate(154 56)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">port</tspan></text>
+    <text id="path" transform="translate(202 56)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">path</tspan></text>
+    <text id="origin" transform="translate(78 76)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">origin</tspan></text>
+    <text id="query" transform="translate(344 56)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">query</tspan></text>
+    <text id="hash" transform="translate(474 56)" fill="#707070" font-size="12" font-family="Meiryo-Bold, Meiryo" font-weight="700"><tspan x="0" y="13">hash</tspan></text>
+    <path id="パス_1" data-name="パス 1" d="M333,461v5h35v-5" transform="translate(-324 -409.5)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_7" data-name="パス 7" d="M343,415.191V411h65v4.191" transform="translate(-279 -398.191)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_2" data-name="パス 2" d="M383,460.5v4.75h95v-4.318" transform="translate(-324 -409.25)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_3" data-name="パス 3" d="M333,471v4.25H532.43V471" transform="translate(-65.049 -419.25)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_8" data-name="パス 8" d="M333,471v3.191H499.241V471" transform="translate(-324 -398.125)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_4" data-name="パス 4" d="M473,460.5v4.25h15.241v-3.864" transform="translate(-313 -408.75)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_5" data-name="パス 5" d="M553,461v4.25h73.329V461" transform="translate(-369 -409.25)" fill="none" stroke="#707070" stroke-width="1"/>
+    <path id="パス_6" data-name="パス 6" d="M743,461v4.25h19.324V461" transform="translate(-263.324 -409.25)" fill="none" stroke="#707070" stroke-width="1"/>
+  </g>
+</svg>

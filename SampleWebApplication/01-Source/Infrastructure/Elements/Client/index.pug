@@ -1,0 +1,24 @@
+extends ../../../../node_modules/@yamato-daiwa/frontend/PagesTemplates/RegularWebPage.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "en";
+    HTML_PAGE_TITLE = "Web application template";
+
+    HTML_PageMetaData = {
+      description: "Template of the web application project",
+      author: "NNN company"
+    };
+
+    //- FAVICON_URI = "@ApplicationIcons/favicon.ico"
+
+    //- styleSheetsURIs = [ "@ApplicationSharedStyles" ];
+    scriptsURIs.endOfBody = [ "@ClientEntryPoint" ]
+
+
+block append PageContent
+
+  #APPLICATION
