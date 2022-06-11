@@ -1,5 +1,5 @@
-/node_modules/
+node_modules/
 
 **/.DS_Store
 
-/Distributable/
+/Tutorials/02-HTTPS_Support/Example/SSL/
