@@ -37,7 +37,7 @@ export default class ProductController extends Controller {
       }
     }
   })
-  public async retrieveProductsSelection(request: Request, response: Response): Promise<void> {
+  public async generateProductsPage(request: Request, response: Response): Promise<void> {
 
     // Don't worry - will refactor it
     const {
@@ -64,7 +64,7 @@ export default class ProductController extends Controller {
 
   @Controller.RouteHandler({
     HTTP_Method: HTTP_Methods.get,
-    pathTemplate: "products/:ID",
+    pathTemplate: "products/:Id",
     pathParameterProcessing: {
       ID: {
         preValidationModifications: convertUnknownToIntegerIfPossible,
@@ -74,7 +74,7 @@ export default class ProductController extends Controller {
       }
     }
   })
-  public async retrieveSingleProduct(request: Request, response: Response): Promise<void> {
+  public async generateProductProfilePage(request: Request, response: Response): Promise<void> {
 
     const targetProductID: number = request.getProcessedRoutePathParameters<{ ID: number; }>().ID;
 

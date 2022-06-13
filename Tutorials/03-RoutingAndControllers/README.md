@@ -17,37 +17,39 @@ here we are focused on web.
 ### URI anatomy
 
 Let us consider the significant parts of URIs. 
-We need to know how we will use these parts rather than canonical definitions, so below list is descriptions, not definitions.
+We need to know how we will use these parts rather than abstract canonical definitions, so below list is the descriptions,
+not definitions.
 
 [![](Images/URI%20decomposition.svg)]()
 
 <dl>
 
   <dt>Protocol</dt>
-  <dd>We are working with HTTP or HTTPS protocols.</dd>
+  <dd>We are working with HTTP and HTTPS protocols.</dd>
 
   <dt>IP address</dt>
   <dd>
-    For the local development case it will be local IP Address (usually 127.0.0.1), for the production case it will be 
+    For the local development case it will be local IP Address (usually 127.0.0.1). For the production case it will be 
     the IP address given by VPS or similar service provider.
   </dd>
 
   <dt>Domain</dt>
   <dd>
-    The specifying of domain is required mainly on production mode. 
+    The specifying of the domain is required mainly on production mode.
     Besides the technological aspect, the domain name is part of the branding.
+    Developing the website or web application, we have to take care about domain could be easily replaced by another one.
   </dd>
 
   <dt>Port</dt>
   <dd>
-    We need one, maximum 2 ports (for the supporting of both HTTP and HTTPS case) during developing one application per VPS.
+    We need one, maximum 2 ports (for the supporting of both HTTP and HTTPS case) during developing of one site/application per VPS.
     If you want VPS server multiple application, it is required to use more ports.
   </dd>
 
   <dt>Origin</dt>
   <dd>
     Knowing this, anyone finally can visit your application. 
-    Usually the origin to the top page of the application. 
+    Usually the origin refers to the top page of the site/application. 
   </dd>
 
   <dt>Path</dt>
@@ -57,7 +59,7 @@ We need to know how we will use these parts rather than canonical definitions, s
   <dd>
     Frequently being used for the searching, filtering and so on.
     However it just a "usage guidelines" and we need to understand that programmer could implement any logic
-    depending on query. Also note that query means nothing without associated  route, by other words - path.
+    depending on query. Also note that query means nothing without associated route as context, by other words - path.
   </dd>
 
   <dt>Fragment / anchor</dt>
@@ -68,34 +70,35 @@ We need to know how we will use these parts rather than canonical definitions, s
 ### Routing
 
 Now, when we agreed about URI anatomy, we can define the **routing**.
-Please note that now we tell about routing _at server part_ - besides this routing there is cold be the routing in client 
-side and it's conception is a little bit different.
+Please note that now we tell about routing _at server part_ - besides this routing, there could be the routing in client 
+side, and it's concept is a little bit different.
 
-<dfn>Routing</dfn> (at backend) is the conditional responding on requests from the client side depending on
+**Routing** (at backend) is the conditional responding on requests from the client side depending on
 URI (mainly from **path** and **query** parts) and HTTP method (GET, POST, etc.). Conditional responding is being
 fully designed and coded by engineer for specific web application.
 
 Here the example of the routing of typical corporate website:
 
-| URI path      | Description                                                                                                         |
-|---------------|---------------------------------------------------------------------------------------------------------------------|
-| /             | Top page                                                                                                            |
-| /about        | The page with the corporation's self-introduction                                                                   |
-| /products     | The page with products of the corporation                                                                           |
-| /products/:id | The internal landing page with specific product. Here the ":id" is ID of product, could be numerical or alphabetic. |
-| /contact      | The path with contact form                                                                                          |
+| URI path      | What will be submitted with response                                                                                               |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------|
+| /             | The HTML code of top page                                                                                                          |
+| /about        | The HTML code of the page with the corporation's self-introduction                                                                 |
+| /products     | The HTML code of the page with products of the corporation                                                                         |
+| /products/:id | The HTML code of the internal landing page of specific product. Here the ":id" is ID of product; could be numerical or alphabetic. |
+| /contact      | The HTML code of the path with contact form                                                                                        |
 
-How it works is when the browser will submit the request, the server will return the HTML code.
+Besides these routes returning the HTML pages, responses with data (usually JSON) as known as **REST API** are more actual for today.
+The path of these routes are being frequently starts with **api** segment, for example
+
+| Request type | URI path          | What will be submitted with response                                                                                |
+|--------------|-------------------|---------------------------------------------------------------------------------------------------------------------|
+| GET          | /api/products     | The JSON array of products                                                                                          |
+| GET          | /api/products/:id | The JSON object representing the single product. Here the ":id" is ID of product; could be numerical or alphabetic. |
 
 > :memo: **Note:** 
 > The routing must work regardless of origin. Normally, we have 2-4 environments (local development, testing,
-> staging and production) each one with own origin, and also company could change the domain.
- 
-But besides HTML, the server could return the data (usually JSON).
-Assume that `/products` returns the product list, but only first pagination page; the subsequent pages are
-being rendered on client side according to JSON data which being retrieved from the server.
-The route of this data could be `/api/products`, herewith the pagination page and items could per pagination page
-are being specified via query parameters.
+> staging and production) each one with own origin, and also the companies could change the domain, split the big websites to
+> multiple etc.
 
 
 ## Defining the routes in YDD
@@ -112,7 +115,7 @@ Server.initializeAndStart({
   routing: [
     {
       route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
-      async handler(_request: Request, response: Response): Promise<void> {
+      async handler(request: Request, response: Response): Promise<void> {
         return response.submitWithSuccess({
           HTML_Content: "<h1>Top page</h1>"
         });
@@ -120,7 +123,7 @@ Server.initializeAndStart({
     },
     {
       route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/products" },
-      async handler(_request: Request, response: Response): Promise<void> {
+      async handler(request: Request, response: Response): Promise<void> {
         return response.submitWithSuccess({
           HTML_Content: "<h1>Products list</h1>"
         });
@@ -161,12 +164,13 @@ export type RouteHandler = (request: Request, response: Response) => Promise<voi
 * Prepended slashes could be omitted (`products/` is valid same as `/products/`).
 * Appended slashes also could be omitted (`/products` or just `products` are valid same as `/products/`).
 
-Start the server and visit `http://127.0.0.1:80/`, `http://127.0.0.1:80/products`, `http://127.0.0.1:80/products/1` pages.
+Start the server and visit `http://127.0.0.1:80/`, `http://127.0.0.1:80/products`, `http://127.0.0.1:80/products/1` pages
+by the browser or HTTP client.
 
 
 ## Routing with controllers
 
-Controllers are allowing to logically group the requests.
+Controllers are allowing to logically organize the requests.
 Let's move the second and third route to the **ProductController**:
 
 ```typescript

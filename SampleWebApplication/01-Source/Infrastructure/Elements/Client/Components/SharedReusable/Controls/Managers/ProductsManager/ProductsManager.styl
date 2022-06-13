@@ -1,0 +1,109 @@
+.ProductsManager
+
+  display flex
+  flex-direction column
+  overflow hidden
+
+
+  &-SearchInputField
+
+    flex-shrink 0
+
+
+  &-ErrorMessage
+
+    retireFrom({ targetElementSelector: ".ProductsManager-SearchInputField", y: 12px })
+
+
+  &-NoItemsMessage
+
+    display flex
+    flex-direction column
+    align-items center
+    row-gap 8px
+
+    retireFrom({ targetElementSelector: ".ProductsManager-SearchInputField", y: 12px })
+
+
+    &-Texting
+
+      MultilineTextWithoutExtraSpaceCausedByLineHeight({ fontSize: 13px, lineHeight: 17px })
+      color ShadeOfGray__16--W3C_Palette
+
+
+    &-ActionLink
+
+      Link({ geometry: { fontSize: 13px } })
+
+
+  &-CardsFlow
+
+    display flex
+    flex-direction column
+    row-gap 8px
+
+    overflow-y auto
+
+    provideClippedBoxShadowVisibility({
+      requiredLeftOrRightSpace: 4px,
+      requiredTopSpace: 4px,
+      requiredBottomSpace: 4px
+    })
+
+    flex-grow 1
+
+    background b10
+
+    retireFrom({ targetElementSelector: ".ProductsManager-SearchInputField", y: 12px })
+
+
+  &-Pagination
+
+    retireFrom({ targetElementSelector: ".ProductsManager-CardsFlow", y: 12px })
+
+
+  &-ProductAddingPanel
+
+    display grid
+    grid-template-columns 1fr auto
+    grid-gap 8px 12px
+
+    flex-shrink 0
+
+    background c10
+
+    retireFrom({ targetElementSelector: ".ProductsManager-Pagination", y: 12px })
+    retireFrom({ targetElementSelector: ".ProductsManager-CardsFlow", y: 16px })
+
+
+    +whenItJustAfter({ targetElementSelector: ".ProductsManager-NoItemsMessage" })
+
+      margin-top auto
+
+    +whenItJustAfter({ targetElementSelector: ".ProductsManager-ErrorMessage" })
+
+      margin-top auto
+
+
+    &-Heading
+
+      grid-column-start span 2
+
+      font-size 16px
+      color ShadeOfGray__12--W3C_Palette
+
+
+    &-InputField
+
+      max-width none
+
+
+  &-TemporaryLoadingPlaceholder
+
+    LoadingPlaceholder(
+      width: 100%,
+      height: 100px,
+      borderRadius: 8px
+    )
+
+    retireFromElementWithSameSelector({ y: 12px })

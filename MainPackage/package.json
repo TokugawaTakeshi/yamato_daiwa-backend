@@ -1,6 +1,6 @@
 {
   "name": "@yamato-daiwa/backend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Backend framework with build-in TypeScript type safety. Intended to be used in full-stack applications where both client and server part written in TypeScript.",
   "keywords": [
     "backend",
@@ -46,11 +46,11 @@
   "dependencies": {
     "@types/pug": "2.0.6",
     "@types/qs": "6.9.7",
-    "@yamato-daiwa/es-extensions": "1.5.0-alpha.7",
+    "@yamato-daiwa/es-extensions": "1.5.0-alpha.8",
     "@yamato-daiwa/es-extensions-nodejs": "1.5.0-alpha.4",
     "handlebars": "4.7.7",
     "pug": "3.0.2",
-    "qs": "6.10.3"
+    "qs": "6.10.5"
   },
   "devDependencies": {
     "@types/mocha": "9.1.1",
@@ -59,8 +59,8 @@
     "mocha": "10.0.0",
     "nodemon": "2.0.16",
     "rimraf": "3.0.2",
-    "ts-node": "10.8.0",
+    "ts-node": "10.8.1",
     "tsconfig-paths": "4.0.0",
-    "typescript": "4.7.2"
+    "typescript": "4.7.3"
   }
 }

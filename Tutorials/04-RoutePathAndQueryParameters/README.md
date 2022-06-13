@@ -1,8 +1,8 @@
 # Route path and query parameters
 ## Route path
 
-In **retrieveSingleProduct** method of **ProductController**, the path parameter **ID** 
-has been accessed as 
+In **generateProductProfilePage** method of **ProductController** from previous lesson, the path parameter **ID** 
+has been accessed as `request.routePathParameters.ID`:
 
 ```typescript
 import { Request, Response, Controller } from "@yamato-daiwa/backend";
@@ -15,7 +15,7 @@ export default class ProductController extends Controller {
     HTTP_Method: HTTP_Methods.get,
     pathTemplate: "products/:ID"
   })
-  public async retrieveSingleProduct(request: Request, response: Response): Promise<void> {
+  public async generateProductProfilePage(request: Request, response: Response): Promise<void> {
     return response.submitWithSuccess({
       HTML_Content: `<h1>Product with ID: ${request.routePathParameters.ID}</h1>`
     });
@@ -23,15 +23,20 @@ export default class ProductController extends Controller {
 }
 ```
 
-The **routePathParameters** property of **request** has type
+The **routePathParameters** property of **request** has type:
 
 ```typescript
-export type RoutePathParameters = { [pathSegment: string]: string | undefined; };
+export type RoutePathParameters = { readonly [pathSegment: string]: string | undefined; };
 ```
 
 Thus, any path parameter could be **undefined**.
-But what if we are sure that **ID** is definitely exists on **request.routePathParameters** and don't want to be warned
-about possible undefined? In this case, we need to specify **pathParameterProcessing** at target route:
+But what if we are sure that **ID** is definitely exists on **request.routePathParameters** for the `products/:ID` route
+(if this route is has been successfully resolved) and don't want to be warned by TypeScript about possible undefined value?
+Although we can make a typo at `products/:ID` and `request.routePathParameters.ID`, the necessity of additional 
+non-undefined check with manual throwing of error routine says about poor functionality of the framework because frameworks
+are being designed to take care about routines.
+
+Well, first specify **pathParameterProcessing** at target route to be automatically checked for existence of `ID` parameter:  
 
 ```typescript
 export default class ProductController extends Controller {
@@ -62,9 +67,15 @@ library is being used and **pathParameterProcessing** has
 [RawObjectDataProcessor.PropertiesSpecification](https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/blob/master/CoreLibrary/Package/Documentation/RawObjectDataProcessor/RawObjectDataProcessor.md#propertiesspecification-and-related---object-properties-specification)
 type. For now, we defined:
 
-* Type - assume that ID is string
-* Required - because is actually required
-* Minimal characters count
+* **type** - assume that ID is string
+* **required** - because is actually required
+* **minimalCharactersCount** - assume that ID has 1 character as minimum.
+
+How, if we make the typo at **pathTemplate** like `products/:Id`, we will know about this typo from the error log:
+
+![](Images/RequirePathParameterIsMissingErrorLog.png)
+
+[//]: # (TODO 再開点)
 
 Once it has done, we can call **getProcessedRoutePathParameters** on **request**, herewith it is required to specify
 the expected schema of route parameters via generic parameter:

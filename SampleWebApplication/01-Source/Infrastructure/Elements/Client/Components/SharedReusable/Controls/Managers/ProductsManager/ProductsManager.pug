@@ -1,0 +1,80 @@
+-
+  const ProductsManagerViewingOptions = {
+    loading: false,
+    loadingError: false,
+    noItems: false,
+    noSearchResults: false,
+    noPagination: false,
+    setLoadingOptionToTrue(condition) { if (condition) { this.loading = true; } return this; },
+    setLoadingErrorOptionToTrue(condition) { if (condition) { this.loadingError = true; } return this; },
+    setNoItemsOptionToTrue(condition) { if (condition) { this.noItems = true; } return this; },
+    setNoSearchResultsOptionToTrue(condition) { if (condition) { this.noSearchResults = true; } return this; },
+    setNoPaginationOptionToTrue(condition) { if (condition) { this.noPagination = true; } return this; }
+  }
+
+
+mixin ProductsManager(stateSimulations)
+
+  - stateSimulations = stateSimulations || ProductsManagerViewingOptions
+
+
+  .ProductsManager&attributes(attributes)
+
+    +SearchBox({
+      placeholder: "商品名",
+      ARIA_Label: "名前で商品を検索する",
+      disabled: stateSimulations.loading
+    }).ProductsManager-SearchInputField
+
+
+    if stateSimulations.loading
+
+      .ProductsManager-CardsFlow
+        each emptyElement in new Array(5)
+          .ProductsManager-TemporaryLoadingPlaceholder
+
+
+    else if stateSimulations.loadingError
+
+      +AttentionBox({
+        decoration: AttentionBox.DecorativeVariations.error,
+        hasPrependedSVG_Icon: true,
+      }).ProductsManager-ErrorMessage.
+        御詫び申し上げます。不具合が発生致しました。インターネット接続喪失のせいではなければ、開発側に通知が送信され、可能な限り対策を御取り致します。
+        御迷惑をおかけ致しまして、誠に申し訳御座いません。
+
+
+    else if stateSimulations.noItems
+
+      .ProductsManager-NoItemsMessage
+        p.ProductsManager-NoItemsMessage-Texting 現在、商品が一件も登録されていない状態です。
+        span.ProductsManager-NoItemsMessage-ActionLink(role="button") 商品を追加する
+
+
+    else if stateSimulations.noSearchResults
+
+      .ProductsManager-NoItemsMessage
+        p.ProductsManager-NoItemsMessage-Texting 検索要求と合っている商品は登録されていません。
+        span.ProductsManager-NoItemsMessage-ActionLink(role="button") 全商品を表示
+
+
+    else
+
+      .ProductsManager-CardsFlow
+        each product in mockProducts
+          +ProductCard(product)
+
+      if !stateSimulations.noPagination
+        +Pagination().ProductsManager-Pagination
+
+
+    .ProductsManager-ProductAddingPanel
+      .ProductsManager-ProductAddingPanel-Heading 商品を追加する
+      +InputField({
+        placeholder: "商品名",
+        ARIA_Label: "新しい商品の名前",
+      }).ProductsManager-ProductAddingPanel-InputField
+      +Button({
+        disabled: stateSimulations.loading,
+        decoration: Button.DecorativeVariations.accented
+      }) 追加

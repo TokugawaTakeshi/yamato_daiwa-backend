@@ -1,0 +1,121 @@
+.CategoriesManager
+
+  display flex
+  flex-direction column
+  overflow hidden
+
+
+  &-SearchInputField
+
+    flex-shrink 0
+
+
+  &-ErrorMessage
+
+    retireFrom({ targetElementSelector: ".CategoriesManager-SearchInputField", y: 12px })
+
+
+  &-NoItemsMessage
+
+    display flex
+    flex-direction column
+    align-items center
+    row-gap 8px
+
+    retireFrom({ targetElementSelector: ".CategoriesManager-SearchInputField", y: 12px })
+
+
+    &-Texting
+
+      MultilineTextWithoutExtraSpaceCausedByLineHeight({ fontSize: 13px, lineHeight: 17px })
+      color ShadeOfGray__16--W3C_Palette
+
+
+    &-ActionLink
+
+      Link({ geometry: { fontSize: 13px } })
+
+
+  &-Guidance
+
+    retireFrom({ targetElementSelector: ".CategoriesManager-SearchInputField", y: 12px })
+
+
+  &-CardsFlow
+
+    display flex
+    flex-direction column
+    row-gap 8px
+
+    overflow-y auto
+
+    provideClippedBoxShadowVisibility({
+      requiredLeftOrRightSpace: 4px,
+      requiredTopSpace: 4px,
+      requiredBottomSpace: 4px
+    })
+
+    flex-grow 1
+
+    background b10
+
+    retireFrom({ targetElementSelector: ".CategoriesManager-Guidance", y: 8px })
+    retireFrom({ targetElementSelector: ".CategoriesManager-SearchInputField", y: 8px })
+
+
+  &-Pagination
+
+    retireFrom({ targetElementSelector: ".CategoriesManager-CardsFlow", y: 12px })
+
+
+  &-ProductCategoryEditingPanel
+
+    display grid
+    grid-template-columns 1fr auto auto
+    grid-gap 8px 12px
+
+    flex-shrink 0
+
+    background c10
+
+    retireFrom({ targetElementSelector: ".CategoriesManager-Pagination", y: 12px })
+    retireFrom({ targetElementSelector: ".CategoriesManager-CardsFlow", y: 16px })
+
+
+    +whenItJustAfter({ targetElementSelector: ".CategoriesManager-NoItemsMessage" })
+
+      margin-top auto
+
+
+    +whenItJustAfter({ targetElementSelector: ".CategoriesManager-ErrorMessage" })
+
+      margin-top auto
+
+
+    &-Heading
+
+      grid-column-start span 3
+
+      font-size 16px
+      color ShadeOfGray__12--W3C_Palette
+
+
+    &-InputField
+
+      max-width none
+
+
+    &-Button
+
+      align-self start
+
+
+  &-TemporaryLoadingPlaceholder
+
+    LoadingPlaceholder(
+      width: 100%,
+      height: 100px,
+      borderRadius: 8px
+    )
+
+    retireFromElementWithSameSelector({ y: 12px })

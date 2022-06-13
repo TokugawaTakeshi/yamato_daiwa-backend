@@ -5,7 +5,7 @@
     "Lint": "eslint . --ext .ts"
   },
   "dependencies": {
-    "@yamato-daiwa/backend": "0.0.3",
+    "@yamato-daiwa/backend": "0.1.1",
     "@yamato-daiwa/es-extensions": "1.4.4"
   },
   "devDependencies": {

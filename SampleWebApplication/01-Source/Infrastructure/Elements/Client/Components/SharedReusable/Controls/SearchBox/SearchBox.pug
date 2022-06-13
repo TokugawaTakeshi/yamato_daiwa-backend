@@ -1,0 +1,50 @@
+mixin SearchBox(properties, statesSimulations)
+
+  -
+
+    properties = properties || {}
+    statesSimulations = statesSimulations || {}
+
+    const {
+      placeholder,
+      disabled = false,
+      ARIA_Label,
+      externalLabelHTML_ID
+    } = properties
+
+    const {
+      tooltip = false
+    } = statesSimulations
+
+
+  .SearchBox&attributes(attributes)
+
+    input.SearchBox-InputElement(
+      type="text"
+      placeholder= placeholder
+      disabled= disabled
+      class= disabled && "SearchBox__DisabledState"
+      aria-label= ARIA_Label
+      aria-labelledby= externalLabelHTML_ID
+    )
+
+    button.SearchBox-Button(
+      type="button"
+      disabled= disabled
+    )
+      +MultiplicationSign--YDF_Icon.SearchBox-Button-Icon
+      | Reset
+
+    button.SearchBox-Button(
+      type="button"
+      disabled= disabled
+    )
+      +MagnifyingGlass--YDF_Icon.SearchBox-Button-Icon
+      | Search
+
+
+    if tooltip
+
+      .SearchBox-Tooltip(
+        role="tooltip"
+      ) Please input at least #[span.SearchBox-Tooltip-AccentedText 2] characters

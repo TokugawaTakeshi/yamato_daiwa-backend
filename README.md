@@ -16,23 +16,23 @@ npm i @yamato-daiwa/backend -E
 ```
 
 
-## Quick example
+## Quick examples
+
+### "Hello, world!"
 
 ```typescript
-import { HTTP_Methods, HTTP_StatusCodes } from "@yamato-daiwa/es-extensions";
-import { Server, Request, Response } from "@yamato-daiwa/backend";
+import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
 
 Server.initializeAndStart({
   IP_Address: "127.0.0.1",
-  HTTP: { port: 1337 },
+  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
   routing: [
     {
       route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
       async handler(request: Request, response: Response): Promise<void> {
-        console.log(request);
         return response.submitWithSuccess({
-          statusCode: HTTP_StatusCodes.OK,
           HTML_Content: "<h1>Hello, world!</h1>"
         });
       }
@@ -42,6 +42,98 @@ Server.initializeAndStart({
 ```
 
 See the ["Hello, world!" tutorial](Tutorials/01-HelloWorld/README.md) for the details.
+
+
+### HTTPS support
+
+```typescript
+import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+Server.initializeAndStart({
+  IP_Address: "127.0.0.1",
+  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+  HTTPS: {
+    port: ProtocolDependentDefaultPorts.HTTPS,
+    SSL_CertificateFileRelativeOrAbsolutePath: "SSL/cert.pem",
+    SSL_KeyFileRelativeOrAbsolutePath: "SSL/key.pem"
+  },
+  routing: [
+    {
+      route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+      async handler(_request: Request, response: Response): Promise<void> {
+        return response.submitWithSuccess({
+          HTML_Content: "<h1>Hello, world!</h1>"
+        });
+      }
+    }
+  ]
+});
+```
+See the [HTTPS support tutorial](Tutorials/02-HTTPS_Support/README.md) for the details.
+
+
+### Routing and controllers
+#### Entry point
+
+```typescript
+import ProductController from "./ProductController";
+
+import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+Server.initializeAndStart({
+  IP_Address: "127.0.0.1",
+  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+  routing: [
+    {
+      route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+      async handler(_request: Request, response: Response): Promise<void> {
+        return response.submitWithSuccess({
+          HTML_Content: "<h1>Top page</h1>"
+        });
+      }
+    },
+    ProductController
+  ]
+});
+```
+
+
+#### Controller
+
+```typescript
+import { Request, Response, Controller } from "@yamato-daiwa/backend";
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+export default class ProductController extends Controller {
+
+  @Controller.RouteHandler({
+    HTTP_Method: HTTP_Methods.get,
+    pathTemplate: "products"
+  })
+  public async generateProductsPage(_request: Request, response: Response): Promise<void> {
+    return response.submitWithSuccess({
+      HTML_Content: "<h1>Products list</h1>"
+    });
+  }
+
+  @Controller.RouteHandler({
+    HTTP_Method: HTTP_Methods.get,
+    pathTemplate: "products/:ID"
+  })
+  public async generateProductProfilePage(request: Request, response: Response): Promise<void> {
+    return response.submitWithSuccess({
+      HTML_Content: `<h1>Product with ID: ${request.routePathParameters.ID}</h1>`
+    });
+  }
+}
+```
+
+See the [Routing and controllers tutorial](Tutorials/03-RoutingAndControllers/README.md) for the details.
 
 
 ## Functionality tutorials

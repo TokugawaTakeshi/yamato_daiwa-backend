@@ -1,0 +1,86 @@
+provideSearchBoxComponent()
+
+  .SearchBox
+
+    display flex
+
+    position relative
+
+
+    &__DisabledState
+
+      cursor not-allowed
+
+
+    &-InputElement
+
+      flex-grow 1
+
+      InputsAndTextareasElements-BasicRules()
+
+      applyBordersSpecification({
+        width: {
+          topOrBottomEqual: 1px,
+          left: 1px,
+          right: none
+        },
+        radius: {
+          leftSideFillets: 3px
+        }
+      })
+
+      padding 6px 15px
+
+      InputField-Decoration()
+
+
+    &-Button
+
+      flex-shrink 0
+
+      BorderLeftFilletsRadius(0)
+
+
+      &:not(:last-child)
+
+        BorderRightFilletsRadius(0)
+
+
+    &-Tooltip
+
+      PREPENDED_ARROW_WIDTH = 10px
+      PREPENDED_ARROW_HEIGHT = 8px
+
+      width 200px
+      border-radius 3px
+      padding 6px 8px
+      font-size 13px
+      line-height 17px
+
+      color #333333
+      background white
+      box-shadow 0 0 5px #666666
+
+      position absolute
+      right 0
+      top "calc(100% + %s)" % PREPENDED_ARROW_HEIGHT
+
+
+      &:before
+
+        content ""
+        display block
+
+        border-left 0.5*PREPENDED_ARROW_WIDTH solid transparent
+        border-right 0.5*PREPENDED_ARROW_WIDTH solid transparent
+        border-bottom PREPENDED_ARROW_HEIGHT solid white
+
+        position absolute
+        top -(PREPENDED_ARROW_HEIGHT)
+        right 55px
+
+
+      &-AccentedText
+
+        font-weight bold
+        color #cc0000

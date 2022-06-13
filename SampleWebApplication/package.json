@@ -9,11 +9,11 @@
     "Lint": "eslint 01-Source"
   },
   "dependencies": {
-    "@yamato-daiwa/backend": "0.0.3",
+    "@yamato-daiwa/backend": "0.1.1",
     "@yamato-daiwa/es-extensions": "1.5.0-alpha.7",
     "@yamato-daiwa/es-extensions-browserjs": "1.4.1",
     "@yamato-daiwa/es-extensions-nodejs": "1.5.0-alpha.4",
-    "@yamato-daiwa/frontend": "0.3.2",
+    "@yamato-daiwa/frontend": "../../YamatoDaiwaFrontend/CoreLibrary/Package",
     "qs": "6.10.3",
     "vue": "3.2.36",
     "vue-class-component": "8.0.0-rc.1",

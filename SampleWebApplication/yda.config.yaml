@@ -9,7 +9,7 @@ projectBuilding:
         tasksAndSourceFilesSelection:
 
           markupProcessing: [ StaticPreview ]
-          stylesProcessing: [ StaticPreview ]
+          stylesProcessing: [ StaticPreview, AllStylesForStaticPreview ]
 
         browserLiveReloadingSetupID: StaticPreview
 
@@ -53,14 +53,14 @@ projectBuilding:
 
     entryPointsGroups:
 
-      StaticPreview:
+      AllStylesForStaticPreview:
 
         entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/StaticPreview/AllStyles.styl
         buildingModeDependent:
           DEVELOPMENT:
             outputBaseDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
 
-      ApplicationSharedStyles:
+      SharedStylesForApplication:
 
         entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/SharedAssets/Styles/SharedStyles.styl
         buildingModeDependent:

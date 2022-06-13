@@ -1,0 +1,30 @@
+-
+  const TopPageStatesSimulations = {
+    loading: false,
+    noCategories: false,
+    error: false,
+    simulateLoadingState() { this.loading = true; return this; },
+    simulateNoCategoriesState() { this.noCategories = true; return this; },
+    simulateErrorState() { this.error = true; return this; }
+  }
+
+
+mixin TopPageContent(stateSimulations)
+
+  - stateSimulations = stateSimulations || TopPageStatesSimulations
+
+  .TopPage
+
+    +CategoriesManager(
+      CategoriesManagerStatesSimulations
+          .simulateLoadingStateIf(stateSimulations.loading)
+          .simulateLoadingErrorStateIf(stateSimulations.error)
+    ).ProductsPage-MainFragment
+
+    //-
+
+      +ProductsManager(
+        ProductsManagerViewingOptions
+            .setLoadingErrorOptionToTrue(stateSimulations.error)
+            .setNoItemsOptionToTrue(stateSimulations.noCategories)
+      ).ProductsPage-SecondaryFragmentForWideScreens
