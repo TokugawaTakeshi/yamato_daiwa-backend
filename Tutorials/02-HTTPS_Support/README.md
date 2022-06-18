@@ -98,7 +98,8 @@ trust them (it is understandable - is anyone can create the SLL certificate, the
 this certificate the local development mode, we need add our certificate to list of trusted ones. It is possible
 
 * For the Linux: via browser
-* For the Mac OS X: via [Keychain Access](https://support.apple.com/en-gb/guide/keychain-access/kyca1083/mac) 
+* For the Mac OS X: via [Keychain Access](https://support.apple.com/en-gb/guide/keychain-access/kyca1083/mac)
+* For the Windows: Microsoft Management Control
 
 `https://localhost` will work similarly to `https://127.0.0.1:443` and `https://127.0.0.1` as long as we use the default
 HTTPS port.

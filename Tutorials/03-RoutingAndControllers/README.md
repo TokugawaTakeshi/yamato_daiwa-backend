@@ -101,7 +101,7 @@ The path of these routes are being frequently starts with **api** segment, for e
 > multiple etc.
 
 
-## Defining the routes in YDD
+## Defining the routes in YDB
 
 Routes could be defined, obviously and must be obviously in high-quality API, in **routing** property:
 
