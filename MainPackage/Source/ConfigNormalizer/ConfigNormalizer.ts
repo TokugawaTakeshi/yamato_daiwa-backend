@@ -2,6 +2,9 @@ import Server from "../Server/Server";
 import Router from "../Router";
 import NormalizedConfig = Server.NormalizedConfig;
 
+/* --- Default conventions ------------------------------------------------------------------------------------------ */
+import URI_QueryParametersDefaultSerializer from "../DefaultConventions/URI_QueryParametersDefaultSerializer";
+
 /* --- General auxiliaries ------------------------------------------------------------------------------------------ */
 import Path from "path";
 import {
@@ -13,7 +16,6 @@ import {
   removeAllSpecifiedCharacters
 } from "@yamato-daiwa/es-extensions";
 import isIPv4AddressLiesInRange from "../UtilsIncubator/isIPv4AddressLiesInRange";
-import QueryString from "qs";
 
 
 export default class ConfigNormalizer {
@@ -43,7 +45,7 @@ export default class ConfigNormalizer {
       *     intended to be executed during server starting. Currently, there are asynchronous processing permitted in
       *     config normalizer to not make the Server's constructor asynchronous. */
       basicDomains: ConfigNormalizer.normalizeBasicDomains(rawConfig),
-      URI_QueryParametersMainSerializer: rawConfig.URI_QueryParametersMainSerializer ?? QueryString.parse
+      URI_QueryParametersMainDeserializer: rawConfig.URI_QueryParametersMainDeserializer ?? URI_QueryParametersDefaultSerializer
     };
   }
 

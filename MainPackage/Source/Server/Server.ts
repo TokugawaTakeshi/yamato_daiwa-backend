@@ -467,7 +467,7 @@ class Server {
 
 
     const queryParametersDeserializer: URI_QueryParametersDeserializer = routeMatch?.routeQueryParametersDeserializer ??
-        this.config.URI_QueryParametersMainSerializer;
+        this.config.URI_QueryParametersMainDeserializer;
 
     /* [ Theory ] Basically, the parameters deserializer must remove the leading question mark, however working with third-party
     *     deserializer, it could not be guaranteed. */
@@ -806,7 +806,7 @@ namespace Server {
     readonly routing?: Router.RawRouting;
     readonly publicDirectoriesAbsoluteOrRelativePaths?: ReadonlyArray<string>;
     readonly subdomains?: RawConfig.Subdomains;
-    readonly URI_QueryParametersMainSerializer?: URI_QueryParametersDeserializer;
+    readonly URI_QueryParametersMainDeserializer?: URI_QueryParametersDeserializer;
   };
 
   export namespace RawConfig {
@@ -849,7 +849,7 @@ namespace Server {
     readonly routing: Router.NormalizedRouting;
     readonly publicDirectoriesAbsolutePaths: Array<string>;
     readonly subdomains?: NormalizedConfig.Subdomains;
-    readonly URI_QueryParametersMainSerializer: URI_QueryParametersDeserializer;
+    readonly URI_QueryParametersMainDeserializer: URI_QueryParametersDeserializer;
   };
 
   export namespace NormalizedConfig {

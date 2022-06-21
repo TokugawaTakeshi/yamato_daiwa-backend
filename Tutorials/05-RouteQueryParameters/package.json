@@ -1,10 +1,10 @@
 {
-  "name": "tutorials-route_path_and_query_parameters",
+  "name": "tutorials-route_query_parameters",
   "private": true,
   "version": "0.0.3",
   "dependencies": {
-    "@yamato-daiwa/backend": "0.1.1",
-    "@yamato-daiwa/es-extensions": "1.5.0-alpha.7"
+    "@yamato-daiwa/backend": "0.1.2",
+    "@yamato-daiwa/es-extensions": "1.5.0-alpha.9"
   },
   "devDependencies": {
     "@types/node": "16.11.26",

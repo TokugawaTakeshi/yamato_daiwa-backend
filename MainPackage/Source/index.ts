@@ -5,4 +5,8 @@ export { default as Controller } from "./Controller/Controller";
 export { default as Router } from "./Router";
 export { default as TemplateEngine } from "./TemplateEngine";
 export { default as ProtocolDependentDefaultPorts } from "./ProtocolDependentDefaultPorts";
+
 export type { default as URI_QueryParametersDeserializer } from "./URI_QueryParametersDeserializer";
+
+export { default as BooleanParameterDefaultPreValidationModifier } from
+    "./DefaultConventions/BooleanParameterDefaultPreValidationModifier";

@@ -189,8 +189,8 @@ abstract class Router {
     if (route.pathTemplate === "/") {
       normalizedRoutesOfCurrentHTTP_Method["/"] = {
         handlerForPathOfCurrentLength: handler,
-        ...isNotUndefined(route.pathParameterProcessing) ? {
-          pathParametersProcessingForPathOfCurrentLength: route.pathParameterProcessing
+        ...isNotUndefined(route.pathParametersProcessing) ? {
+          pathParametersProcessingForPathOfCurrentLength: route.pathParametersProcessing
         } : null,
         ...isNotUndefined(route.queryParametersProcessing) ? {
           queryParametersProcessingForPathOfCurrentLength: route.queryParametersProcessing
@@ -225,9 +225,9 @@ abstract class Router {
 
         normalizedRoutingDataForSpecificPathSegment.handlerForPathOfCurrentLength = handler;
 
-        if (isNotUndefined(route.pathParameterProcessing)) {
+        if (isNotUndefined(route.pathParametersProcessing)) {
           normalizedRoutingDataForSpecificPathSegment.pathParametersProcessingForPathOfCurrentLength =
-              route.pathParameterProcessing;
+              route.pathParametersProcessing;
         }
 
         if (isNotUndefined(route.queryParametersProcessing)) {
@@ -316,7 +316,7 @@ namespace Router {
   export type Route = {
     readonly HTTP_Method: HTTP_Methods;
     readonly pathTemplate: string;
-    readonly pathParameterProcessing?: RawObjectDataProcessor.PropertiesSpecification;
+    readonly pathParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
     readonly queryParametersDeserializer?: URI_QueryParametersDeserializer;
     readonly queryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
   };

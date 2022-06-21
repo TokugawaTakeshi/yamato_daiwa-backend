@@ -79,7 +79,7 @@ Server.initializeAndStart({
 
 In real application, the values of **SSL_CertificateFileRelativeOrAbsolutePath** and **SSL_KeyFileRelativeOrAbsolutePath** 
 will be environment-dependent. We will discuss the environment dependent configuration in 
-[Dotenv config](../05-DotenvConfig/README.md) and [Console line interface](../06-ConsoleLineInterface/README.md) lessons.
+[Dotenv config](../06-DotenvConfig/README.md) and [Console line interface](../07-ConsoleLineInterface/README.md) lessons.
 
 The starting of server procedure is similar to previous lesson, but this time you will see two success messages
 instead of one - for HTTP and HTTPS functionality respectively:

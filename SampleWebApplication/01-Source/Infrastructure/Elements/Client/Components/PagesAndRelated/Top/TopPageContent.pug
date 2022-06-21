@@ -13,7 +13,7 @@ mixin TopPageContent(stateSimulations)
 
   - stateSimulations = stateSimulations || TopPageStatesSimulations
 
-  .TopPage
+  .TopPage&attributes(attributes)
 
     +CategoriesManager(
       CategoriesManagerStatesSimulations

@@ -1,9 +1,8 @@
-import { Request, Response, Controller } from "@yamato-daiwa/backend";
+import { Request, Response, Controller, BooleanParameterDefaultPreValidationModifier } from "@yamato-daiwa/backend";
 import {
   HTTP_Methods,
   RawObjectDataProcessor,
-  convertUnknownToIntegerIfPossible,
-  isString
+  convertPotentialStringToNumberIfPossible
 } from "@yamato-daiwa/es-extensions";
 
 
@@ -14,13 +13,13 @@ export default class ProductController extends Controller {
     pathTemplate: "products",
     queryParametersProcessing: {
       paginationPageNumber: {
-        preValidationModifications: convertUnknownToIntegerIfPossible,
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
         type: Number,
         required: true,
         numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
       },
       itemsCountPerPaginationPage: {
-        preValidationModifications: convertUnknownToIntegerIfPossible,
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
         type: Number,
         required: true,
         numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
@@ -31,7 +30,7 @@ export default class ProductController extends Controller {
         minimalCharactersCount: 2
       },
       mustIncludeProductsOutOfStock: {
-        preValidationModifications: (rawValue: unknown): boolean => (isString(rawValue) && rawValue !== "false"),
+        preValidationModifications: BooleanParameterDefaultPreValidationModifier,
         type: Boolean,
         defaultValue: false
       }
@@ -52,10 +51,13 @@ export default class ProductController extends Controller {
       mustIncludeProductsOutOfStock?: boolean;
     } = request.getProcessedQueryParameters();
 
-    console.log(paginationPageNumber);
-    console.log(itemsCountPerPaginationPage);
-    console.log(searchingByFullOrPartialProductName);
-    console.log(mustIncludeProductsOutOfStock);
+    console.log(`paginationPageNumber: ${paginationPageNumber} (${typeof paginationPageNumber})`);
+    console.log(`itemsCountPerPaginationPage: ${itemsCountPerPaginationPage} (${typeof itemsCountPerPaginationPage})`);
+    console.log(
+      `searchingByFullOrPartialProductName: ` +
+      `${searchingByFullOrPartialProductName} (${typeof searchingByFullOrPartialProductName})`
+    );
+    console.log(`mustIncludeProductsOutOfStock: ${mustIncludeProductsOutOfStock} (${typeof mustIncludeProductsOutOfStock})`);
 
     return response.submitWithSuccess({
       HTML_Content: "<h1>Products list</h1>"
@@ -64,10 +66,10 @@ export default class ProductController extends Controller {
 
   @Controller.RouteHandler({
     HTTP_Method: HTTP_Methods.get,
-    pathTemplate: "products/:Id",
-    pathParameterProcessing: {
+    pathTemplate: "products/:ID",
+    pathParametersProcessing: {
       ID: {
-        preValidationModifications: convertUnknownToIntegerIfPossible,
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
         type: Number,
         required: true,
         numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger

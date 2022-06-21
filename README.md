@@ -1,4 +1,4 @@
-# Yamato-Daiwa Backend [YDB]
+# Yamato-Daiwa Backend 〔YDB〕
 
 Back-end framework with build-in TypeScript type safety.
 Intended to be used in full-stack applications where both client and server part written in TypeScript.
@@ -136,6 +136,45 @@ export default class ProductController extends Controller {
 See the [Routing and controllers tutorial](Tutorials/03-RoutingAndControllers/README.md) for the details.
 
 
+### Strongly typed route path parameters
+
+```typescript
+import { Request, Response, Controller } from "@yamato-daiwa/backend";
+import {
+  HTTP_Methods,
+  RawObjectDataProcessor,
+  convertPotentialStringToNumberIfPossible
+} from "@yamato-daiwa/es-extensions";
+
+
+export default class ProductController extends Controller {
+
+  @Controller.RouteHandler({
+    HTTP_Method: HTTP_Methods.get,
+    pathTemplate: "products/:ID",
+    pathParametersProcessing: {
+      ID: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger
+      }
+    }
+  })
+  public async generateProductProfilePage(request: Request, response: Response): Promise<void> {
+
+    const targetProductID: number = request.getProcessedRoutePathParameters<{ ID: number; }>().ID;
+
+    return response.submitWithSuccess({
+      HTML_Content: `<h1>Product with ID: ${targetProductID}</h1>`
+    });
+  }
+}
+```
+
+See the [Strongly typed route path parameters](Tutorials/04-RoutePathParameters/README.md) for the details.
+
+
 ## Functionality tutorials
 
 Please take the tutorials in following order.
@@ -151,7 +190,7 @@ Please take the tutorials in following order.
   <dt><a href="Tutorials/03-RoutingAndControllers/README.md">Routing and controllers</a></dt>
   <dd>Defining the routing without and with controllers</dd>
 
-  <dt><a href="Tutorials/04-RoutePathAndQueryParameters/README.md">Route path and query parameters</a></dt>
-  <dd>Dealing with route path and query parameters type-safely</dd>
+  <dt><a href="Tutorials/04-RoutePathParameters/README.md">Strongly typed route path parameters</a></dt>
+  <dd>Processing and type-safe accessing to route path parameters</dd>
 
 </dl>

@@ -68,8 +68,8 @@ This method does exactly according to it's name, and only that's how it should b
 
 The **IP_Address** has been made to required property because you as engineer *must* comprehend on which IP-address
 your server will run. In real application, it will be environment-dependent (local, staging, production, etc.). We will
-discuss the conditional configuration in dedicated tutorials [Dotenv config](../05-DotenvConfig/README.md) and
-[Console line interface](../06-ConsoleLineInterface/README.md). Now, if you have no idea which IP-address 
+discuss the conditional configuration in dedicated tutorials [Dotenv config](../06-DotenvConfig/README.md) and
+[Console line interface](../07-ConsoleLineInterface/README.md). Now, if you have no idea which IP-address 
 will be appropriate for the current tutorial, set **127.0.0.1** (see [localhost article](https://en.wikipedia.org/wiki/Localhost)
 for details).
 
@@ -134,7 +134,7 @@ Second one has been submitted by browser automatically - browser asked the serve
 If the framework has not been prepared for this, it responded with "not found" error, because there is no favicon has been
 provided from your side. But the framework provides the default favicon with crane illustrating the web-site or web application
 under development. Of course, when publish your web-site/web application, you may want to use your own favicon.
-It is simple to do it, but we will consider it [static files](../06-StaticFiles/README.md) tutorial.
+It is simple to do it, but we will consider it [static files](../08-StaticFiles/README.md) tutorial.
 
 Because **127.0.0.1** is the **localhost** and **80** is the default port (for HTTP), you can submit request
 `http://localhost` instead of `http://127.0.0.1:80/`.
