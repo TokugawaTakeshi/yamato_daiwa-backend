@@ -178,7 +178,7 @@ Please take the tutorials in following order.
 
 <dl>
 
-  <dt><a href="https://user-images.githubusercontent.com/41653501/168190921-78edc07d-58cc-4298-8b59-182468cf280a.png">Hello, world!</a></dt>
+  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/01-HelloWorld/README.md">Hello, world!</a></dt>
   <dd>Retrieving on HTML code by HTTP</dd>
 
   <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/02-HTTPS_Support/README.md">HTTPS support</a></dt>
