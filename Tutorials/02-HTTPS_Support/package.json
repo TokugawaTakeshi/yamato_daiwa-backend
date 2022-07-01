@@ -1,10 +1,10 @@
 {
   "name": "tutorials-https",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.0",
   "dependencies": {
-    "@yamato-daiwa/backend": "0.1.2",
-    "@yamato-daiwa/es-extensions": "1.5.0"
+    "@yamato-daiwa/backend": "0.1.4",
+    "@yamato-daiwa/es-extensions": "1.5.1"
   },
   "devDependencies": {
     "@types/node": "16.11.26",
