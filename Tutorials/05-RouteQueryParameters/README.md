@@ -451,7 +451,7 @@ export default class ProductController extends Controller {
 
 Both **forcedFiltering** and **consciousFiltering** could be or could not be, so these properties are optional.
 In this case, if **forcedFiltering** is defined, **makerID** must be defined too 
-(same for **fullOrPartialProductName** and **fullOrPartialProductName**), but it there are multiple filters,
+(same for **fullOrPartialProductName** and **fullOrPartialProductName**), but if there are multiple filters,
 each one could be optional too.
 
 > :warning: **Warning:**
@@ -461,83 +461,212 @@ each one could be optional too.
 > Well, there is no way to hide from the user which requests are being submitted - all we can do is check from whom
 > the request has been submitted and respond the error if some problem with authority. 
 
-TODO 再開点
+Everything is ready to test. Let us try to submit the request with both forces and conscious filtering:
 
-// http://127.0.0.1:80/api/products?paginationPageNumber=1&itemsCountPerPaginationPage=20&forcedFiltering[makerID]=1&consciousFiltering[fullOrPartialProductName]=hair
+```
+http://127.0.0.1:80/api/products?paginationPageNumber=1&itemsCountPerPaginationPage=20&forcedFiltering[makerID]=1&consciousFiltering[fullOrPartialProductName]=hair
+```
 
-[//]: # (### Object- and array-type query parameters )
+Among console logs, we can see correctly parsed object-type query parameters:
 
-[//]: # ()
-[//]: # ()
+```
+{ makerID: 1 }
+{ fullOrPartialProductName: 'hair' }
+```
+
+
+## Array-type query parameters
+
+Let us add the filtering by categories to above API.
+Assume that each category has numeric ID as the product, for the filtering, the IDs of desired categories must be specified.
+The **qs** library understands below arrayed parameters notations as default:
+
+>
+> ```javascript
+> const withArray = qs.parse('a[]=b&a[]=c');
+> assert.deepEqual(withArray, { a: ['b', 'c'] });
+>
+> const withIndexes = qs.parse('a[1]=c&a[0]=b');
+> assert.deepEqual(withIndexes, { a: ['b', 'c'] });
+> ```
+> https://www.npmjs.com/package/qs
+
+
+Let us modify the query parameters processing of above example:
+
+```typescript
+export default class ProductController extends Controller {
+
+  // ...
+
+  @Controller.RouteHandler({
+    HTTP_Method: HTTP_Methods.get,
+    pathTemplate: "api/products",
+    queryParametersProcessing: {
+      paginationPageNumber: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      itemsCountPerPaginationPage: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      forcedFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          makerID: {
+            preValidationModifications: convertPotentialStringToNumberIfPossible,
+            type: Number,
+            required: true,
+            numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+          }
+        }
+      },
+      consciousFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          fullOrPartialProductName: {
+            type: String,
+            required: false,
+            minimalCharactersCount: 2
+          },
+          categoriesIDs: {
+            type: Array,
+            required: false,
+            element: {
+              preValidationModifications: convertPotentialStringToNumberIfPossible,
+              type: Number,
+              numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+            }
+          }
+        }
+      }
+    }
+  })
+  public async retrieveProductsSelection(request: Request, response: Response): Promise<void> {
+    // ...
+  }
+}
+```
+
+Next, try to search the products by 2 categories.
+According default conventions of **qs** library, the correct URI will be like:
+
+```
+http://127.0.0.1:80/api/products?paginationPageNumber=1&itemsCountPerPaginationPage=20&consciousFiltering[categoriesIDs][0]=1&consciousFiltering[categoriesIDs][1]=2
+```
+
+There are no forced filtering now, but there will be the **consciousFiltering** will be the object with arrayed property this time:
+
+```
+{ categoriesIDs: [ 1, 2 ] }
+```
+
+
 [//]: # (## Organizing of code)
 
+[//]: # ()
 [//]: # ()
 [//]: # (Significantly, we need to know)
 
 [//]: # ()
+[//]: # ()
 [//]: # (* HTTP method)
 
+[//]: # ()
 [//]: # (* URI)
 
+[//]: # ()
 [//]: # (* Path parameters)
 
+[//]: # ()
 [//]: # (* Query parameters)
 
+[//]: # ()
 [//]: # ()
 [//]: # (of each request on both client and server side. )
 
 [//]: # ()
+[//]: # ()
 [//]: # (// ...)
 
+[//]: # ()
 [//]: # ()
 [//]: # (Let's create the file **ProductInteractions**)
 
 [//]: # ()
+[//]: # ()
 [//]: # (```typescript)
 
+[//]: # ()
 [//]: # (namespace CategoryInteractions {)
 
+[//]: # ()
 [//]: # ()
 [//]: # (  export namespace RetrievingByID {)
 
 [//]: # ()
+[//]: # ()
 [//]: # (    export const HTTP_METHOD: HTTP_Methods = HTTP_Methods.get;)
 
+[//]: # ()
 [//]: # ()
 [//]: # (    export namespace URI_Path {)
 
 [//]: # ()
+[//]: # ()
 [//]: # (      export type Parameters = {)
 
+[//]: # ()
 [//]: # (        readonly categoryID: string;)
 
+[//]: # ()
 [//]: # (      };)
 
 [//]: # ()
+[//]: # ()
 [//]: # (      export namespace Parameters {)
 
+[//]: # ()
 [//]: # (        export enum Names {)
 
+[//]: # ()
 [//]: # (          categoryID = "categoryID")
 
+[//]: # ()
 [//]: # (        })
 
+[//]: # ()
 [//]: # (      })
 
+[//]: # ()
 [//]: # ()
 [//]: # (      export function build&#40;{ targetCategoryID }: { targetCategoryID: Category.ID; }&#41;: string {)
 
+[//]: # ()
 [//]: # (        return `/api/categories/${targetCategoryID}`;)
 
+[//]: # ()
 [//]: # (      })
 
 [//]: # ()
+[//]: # ()
 [//]: # (      export const TEMPLATE: string = build&#40;{ targetCategoryID: `:${Parameters.Names.categoryID}` }&#41;;)
 
+[//]: # ()
 [//]: # (    })
 
+[//]: # ()
 [//]: # (  })
 
+[//]: # ()
 [//]: # (})
 
+[//]: # ()
 [//]: # (```)

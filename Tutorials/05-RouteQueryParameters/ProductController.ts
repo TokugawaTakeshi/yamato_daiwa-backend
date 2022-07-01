@@ -121,6 +121,15 @@ export default class ProductController extends Controller {
             type: String,
             required: false,
             minimalCharactersCount: 2
+          },
+          categoriesIDs: {
+            type: Array,
+            required: false,
+            element: {
+              preValidationModifications: convertPotentialStringToNumberIfPossible,
+              type: Number,
+              numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+            }
           }
         }
       }
