@@ -39,7 +39,7 @@ import {
   isNull,
   isNotUndefined,
   removeArrayElementsByPredicates,
-  removeSpecificCharacter
+  removeSpecificCharacterFromCertainPosition
 } from "@yamato-daiwa/es-extensions";
 import type { ParsedJSON_Object } from "@yamato-daiwa/es-extensions";
 import {
@@ -472,7 +472,11 @@ class Server {
     /* [ Theory ] Basically, the parameters deserializer must remove the leading question mark, however working with third-party
     *     deserializer, it could not be guaranteed. */
     const deserializedURI_QueryParameters: ParsedJSON_Object = queryParametersDeserializer(
-      removeSpecificCharacter({ targetString: normalizedURI.search, targetCharacter: "?", atFirstPosition: true })
+      removeSpecificCharacterFromCertainPosition({
+        targetString: normalizedURI.search,
+        targetCharacter: "?",
+        fromFirstPosition: true
+      })
     );
 
     let processedURI_QueryParameters: ParsedJSON_Object | undefined;

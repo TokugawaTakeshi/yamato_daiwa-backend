@@ -1,12 +1,10 @@
-import { HTTP_Methods, Logger } from "@yamato-daiwa/es-extensions";
-import { Server, Request, Response } from "../../Source";
-import ConsoleApplicationLogger from "../../Source/UtilsIncubator/ConsoleApplicationLogger";
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+import type { Request, Response } from "../../Source";
+import { Server } from "../../Source";
 
 
 /* [ Execution ] cd  nodemon Tests/MinimalExample.test.ts */
 (function runApplication(): void {
-
-  Logger.setImplementation(ConsoleApplicationLogger);
 
   Server.initializeAndStart({
     IP_Address: "127.0.0.1",

@@ -1,4 +1,4 @@
-import { removeNthCharacter, removeSpecificCharacterInLastPosition } from "@yamato-daiwa/es-extensions";
+import { removeNthCharacter, removeSpecificCharacterFromCertainPosition } from "@yamato-daiwa/es-extensions";
 
 
 export default function removeSlashes(
@@ -19,7 +19,11 @@ export default function removeSlashes(
   }
 
   if (options.trailing && transformingWorkpiece.endsWith("/")) {
-    transformingWorkpiece = removeSpecificCharacterInLastPosition(transformingWorkpiece, "/");
+    transformingWorkpiece = removeSpecificCharacterFromCertainPosition({
+      targetString: transformingWorkpiece,
+      targetCharacter: "/",
+      fromLastPosition: true
+    });
   }
 
   return transformingWorkpiece;

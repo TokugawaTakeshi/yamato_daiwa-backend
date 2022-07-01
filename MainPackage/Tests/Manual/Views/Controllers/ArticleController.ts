@@ -1,8 +1,9 @@
-import Article from "../BusinessRules/Enterprise/Article";
-
+import type Article from "../BusinessRules/Enterprise/Article";
 import {
   Controller,
-  TemplateEngine,
+  TemplateEngine
+} from "../../../../Source";
+import type {
   Request,
   Response
 } from "../../../../Source";
@@ -15,11 +16,10 @@ export default class ArticleController extends Controller {
       TemplateEngine.cacheRenderer("Views/Sample.hbs");
 
   @Controller.RouteHandler({
-    type: HTTP_Methods.get,
+    HTTP_Method: HTTP_Methods.get,
     pathTemplate: "articles"
   })
-  public async generateProductsPage(request: Request, response: Response): Promise<void> {
-    console.log(request);
+  public async generateProductsPage(_request: Request, response: Response): Promise<void> {
     return response.submitWithSuccess({
       HTML_Content: this.renderProductsPage({
         topHeading: "Test",

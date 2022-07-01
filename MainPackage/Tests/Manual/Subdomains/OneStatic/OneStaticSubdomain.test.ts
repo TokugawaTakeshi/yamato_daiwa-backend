@@ -1,4 +1,5 @@
-import { Server, ProtocolDependentDefaultPorts, Request, Response } from "../../../../Source";
+import { Server, ProtocolDependentDefaultPorts } from "../../../../Source";
+import type { Request, Response } from "../../../../Source";
 import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
 
@@ -27,7 +28,7 @@ Server.initializeAndStart({
             });
           }
         }
-      ] 
+      ]
     }
   }
 });

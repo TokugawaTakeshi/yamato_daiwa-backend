@@ -318,8 +318,8 @@ mustIncludeProductsOutOfStock: false (boolean)
 First, when object-type query parameters could be useful?
 
 Assume that admin users can view unpublish yet products, while regular users - not.
-It means, for the regular uses the force filtering will be applied.
-Unlike this, the searching (filtering) by full or partial product name is conscious.
+It means, for the regular uses the **forced filtering** will be applied.
+Unlike this, the searching (filtering) by full or partial product name is **conscious filtering**.
 
 We can represent the deserialized query parameters as:
 
@@ -340,7 +340,8 @@ type DeserializedQueryParameters = {
 }
 ```
 
-For the admin users, **unpublishedProducts** could be among **consciousFiltering** too:
+The same filters could be among forced and conscious filtering.
+For example, in the admin users case **unpublishedProducts** could be among **consciousFiltering** too:
 
 ```typescript
 type DeserializedQueryParameters = {
@@ -361,19 +362,108 @@ type DeserializedQueryParameters = {
 ```
 
 > :warning: **Warning:**
-> Just this organizing will not prevent the unauthorized access of regular users to unpublish products (and other force).
+> Just this organizing will not prevent the unauthorized access of regular users to unpublish products 
+> (and other data intended to be forcedly filtered).
 > Before respond with requested data, it is required to check has user enough authority to view the limited data and if no -
 > respond with appropriate error.
 
-Also, the query parameters including `forceFiltering[unpublishedProducts]=false` could be visible in search bar of user's
-browser thus user will know about some products are not being displaying. So in this case the creating of separate API
-for admin users is more safe.
+Also, the query parameters including `forcedFiltering[unpublishedProducts]=false` could be visible in the search bar of user's
+browser thus user will know about some products abe being hidden. So in this case the creating of separate API for admin
+users is more safe solution.
 
 But the authority role dependent filtering is not only case where forced and conscious filtering conception could be used.
 For example, in products page case there is no filtering by default while in maker profile page, only products of this
-maker should be displayed. In this case, the forces filtering by makers will be.
+maker should be displayed. In this case, the forced filtering by makers will be.
 
+Let's prepare the handler returned the JSON, not HTML this time.
+Assume that this API could be used on both products list and maker profile page.
+We will not prepare the data for now because the current target is processing of the query parameters. 
 
+```typescript
+export default class ProductController extends Controller {
+
+  @Controller.RouteHandler({
+    HTTP_Method: HTTP_Methods.get,
+    pathTemplate: "api/products",
+    queryParametersProcessing: {
+      paginationPageNumber: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      itemsCountPerPaginationPage: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      forcedFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          makerID: {
+            preValidationModifications: convertPotentialStringToNumberIfPossible,
+            type: Number,
+            required: true,
+            numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+          }
+        }
+      },
+      consciousFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          fullOrPartialProductName: {
+            type: String,
+            required: false,
+            minimalCharactersCount: 2
+          }
+        }
+      }
+    }
+  })
+  public async retrieveProductsSelection(request: Request, response: Response): Promise<void> {
+
+    // Don't worry - will refactor it
+    const {
+      paginationPageNumber,
+      itemsCountPerPaginationPage,
+      forcedFiltering,
+      consciousFiltering
+    }: {
+      paginationPageNumber: number,
+      itemsCountPerPaginationPage: number,
+      forcedFiltering?: { makerID: number; }
+      consciousFiltering?: { fullOrPartialProductName: number; }
+    } = request.getProcessedQueryParameters();
+
+    console.log(request.URI);
+    console.log(paginationPageNumber);
+    console.log(itemsCountPerPaginationPage);
+    console.log(forcedFiltering);
+    console.log(consciousFiltering);
+
+    return response.submitWithSuccess({ JSON_Content: [] });
+  }
+}
+```
+
+Both **forcedFiltering** and **consciousFiltering** could be or could not be, so these properties are optional.
+In this case, if **forcedFiltering** is defined, **makerID** must be defined too 
+(same for **fullOrPartialProductName** and **fullOrPartialProductName**), but it there are multiple filters,
+each one could be optional too.
+
+> :warning: **Warning:**
+> In the case of such REST API, the query parameters will be displayed in the user's browser search bar.
+> However, the user still can know about forced filtering from the **developer tools** which are available is the most 
+> popular browsers and try to submit the request without forced filtering.
+> Well, there is no way to hide from the user which requests are being submitted - all we can do is check from whom
+> the request has been submitted and respond the error if some problem with authority. 
+
+TODO 再開点
+
+// http://127.0.0.1:80/api/products?paginationPageNumber=1&itemsCountPerPaginationPage=20&forcedFiltering[makerID]=1&consciousFiltering[fullOrPartialProductName]=hair
 
 [//]: # (### Object- and array-type query parameters )
 

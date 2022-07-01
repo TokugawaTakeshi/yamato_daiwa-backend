@@ -2,7 +2,7 @@ import {
   HTTP_Methods,
   isUndefined,
   isNotUndefined,
-  removeSpecificCharacter
+  removeSpecificCharacterFromCertainPosition
 } from "@yamato-daiwa/es-extensions";
 import type {
   RawObjectDataProcessor
@@ -246,10 +246,10 @@ abstract class Router {
         if (isUndefined(normalizedRoutingDataForSpecificPathSegment.routingForRoutePathParameterAtNextPosition)) {
 
           normalizedRoutingDataForSpecificPathSegment.routingForRoutePathParameterAtNextPosition = {
-            parameterName: removeSpecificCharacter({
+            parameterName: removeSpecificCharacterFromCertainPosition({
               targetString: pathSegmentAtNextPosition,
               targetCharacter: ":",
-              atFirstPosition: true
+              fromFirstPosition: true
             })
           };
           normalizedRoutingDataForSpecificPathSegment = normalizedRoutingDataForSpecificPathSegment.

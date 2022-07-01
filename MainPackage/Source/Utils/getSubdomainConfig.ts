@@ -1,4 +1,4 @@
-import Server from "../Server/Server";
+import type Server from "../Server/Server";
 
 import {
   isUndefined,
