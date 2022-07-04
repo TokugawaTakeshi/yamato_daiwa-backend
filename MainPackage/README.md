@@ -172,6 +172,113 @@ export default class ProductController extends Controller {
 See the [Strongly typed route path parameters](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/04-RoutePathParameters/README.md) for the details.
 
 
+### Strongly typed route query parameters
+
+The query parameters default deserializer is [qs](https://www.npmjs.com/package/qs) with default configuration.
+
+```typescript
+import { Request, Response, Controller, BooleanParameterDefaultPreValidationModifier } from "@yamato-daiwa/backend";
+import { HTTP_Methods, RawObjectDataProcessor, convertPotentialStringToNumberIfPossible } from "@yamato-daiwa/es-extensions";
+
+
+export default class ProductController extends Controller {
+
+  @Controller.RouteHandler({
+    HTTP_Method: HTTP_Methods.get,
+    pathTemplate: "api/products",
+    queryParametersProcessing: {
+      
+      paginationPageNumber: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      itemsCountPerPaginationPage: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      
+      // Valid URL example:
+      // http://127.0.0.1:80/api/products?forcedFiltering[makerID]=1&paginationPageNumber=1&itemsCountPerPaginationPage=20
+      forcedFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          makerID: {
+            preValidationModifications: convertPotentialStringToNumberIfPossible,
+            type: Number,
+            required: true,
+            numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+          }
+        }
+      },
+      
+      consciousFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          fullOrPartialProductName: {
+            type: String,
+            required: false,
+            minimalCharactersCount: 2
+          },
+
+          // Valid URL example:
+          // http://127.0.0.1:80/api/products?consciousFiltering[outOfStock]=true&paginationPageNumber=1&itemsCountPerPaginationPage=20
+          outOfStock: {
+            preValidationModifications: BooleanParameterDefaultPreValidationModifier,
+            type: Boolean,
+            required: false
+          },
+          
+          // Valid URL example:
+          // http://127.0.0.1:80/api/products?consciousFiltering[categoriesIDs][0]=1&consciousFiltering[categoriesIDs][1]=2&paginationPageNumber=1&itemsCountPerPaginationPage=20
+          categoriesIDs: {
+            type: Array,
+            required: false,
+            element: {
+              preValidationModifications: convertPotentialStringToNumberIfPossible,
+              type: Number,
+              numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+            }
+          }
+        }
+      }
+    }
+  })
+  public async retrieveProductsSelection(request: Request, response: Response): Promise<void> {
+
+    const {
+      paginationPageNumber,
+      itemsCountPerPaginationPage,
+      forcedFiltering,
+      consciousFiltering
+    }: {
+      paginationPageNumber: number;
+      itemsCountPerPaginationPage: number;
+      forcedFiltering?: { makerID: number; };
+      consciousFiltering?: { fullOrPartialProductName?: number; };
+    } = request.getProcessedQueryParameters();
+
+    console.log(request.URI);
+    console.log(paginationPageNumber);
+    console.log(itemsCountPerPaginationPage);
+    console.log(forcedFiltering);
+    console.log(consciousFiltering);
+
+    
+    // The specific data retrieving is not target of this example
+    return response.submitWithSuccess({ JSON_Content: [] });
+  }
+}
+```
+
+See the [Strongly typed route query parameters](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/05-RouteQueryParameters/README.md) for the details.
+
+
 ## Functionality tutorials
 
 Please take the tutorials in following order.
@@ -189,5 +296,8 @@ Please take the tutorials in following order.
 
   <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/04-RoutePathParameters/README.md">Strongly typed route path parameters</a></dt>
   <dd>Processing and type-safe accessing to route path parameters</dd>
+
+  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/05-RouteQueryParameters/README.md">Strongly typed route query parameters</a></dt>
+  <dd>Processing and type-safe accessing to route query parameters</dd>
 
 </dl>
