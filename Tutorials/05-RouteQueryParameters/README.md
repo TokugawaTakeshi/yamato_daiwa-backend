@@ -547,98 +547,149 @@ There are no forced filtering now, but there will be the **consciousFiltering** 
 ```
 
 
-[//]: # (## Organizing of code)
+## Organizing of code
 
-[//]: # ()
-[//]: # (Significantly, we need to know)
+Significantly, but we need to know
 
-[//]: # ()
-[//]: # (* HTTP method)
+* HTTP method
+* URI
+* Path parameters
+* Query parameters
 
-[//]: # (* URI)
+of each request **on both client and server sides**.
+In those days when the programming languages for the server and client sides was different, it was inevitably to 
+declare and edit this metadata on client and server sides separately because BrowserJS could not read files like 
+server language (maybe it was some workarounds like bundling of non JavaScript files by early frontend project building
+systems of parsing of JavaScript file of server language, but this acrobatics hardly has been frequently used).
 
-[//]: # (* Path parameters)
+But ever today, when both client and server could be written by TypeScript (and then transpiled to Browser JavaScript and
+Node.js respectively), the practice to define the metadata mentioned above on client and server side separately is still
+popular. Well, we will not discuss the disadvantages of this methodology here; we just prepare the file intended to be
+used by both client and server sides. Create the file with **ProductTransactions.ts** name with below content:
 
-[//]: # (* Query parameters)
+```typescript
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
-[//]: # ()
-[//]: # (of each request on both client and server side. )
 
-[//]: # ()
-[//]: # ()
-[//]: # (// ...)
+namespace ProductTransactions {
 
-[//]: # ()
-[//]: # ()
-[//]: # (Let's create the file **ProductInteractions**)
+  export namespace SelectionRetrieving {
 
-[//]: # ()
-[//]: # ()
-[//]: # (```typescript)
+    export const HTTP_METHOD: HTTP_Methods = HTTP_Methods.get;
 
-[//]: # ()
-[//]: # (namespace CategoryInteractions {)
+    export const URI_PATH: string = "api/products";
 
-[//]: # ()
-[//]: # ()
-[//]: # (  export namespace RetrievingByID {)
+    export type QueryParameters = {
+      paginationPageNumber: number;
+      itemsCountPerPaginationPage: number;
+      forcedFiltering?: {
+        makerID: number;
+      };
+      consciousFiltering?: {
+        fullOrPartialProductName?: string;
+        outOfStock?: boolean;
+        categoriesIDs?: Array<number>;
+      }
+    };
+  }
+}
 
-[//]: # ()
-[//]: # ()
-[//]: # (    export const HTTP_METHOD: HTTP_Methods = HTTP_Methods.get;)
 
-[//]: # ()
-[//]: # ()
-[//]: # (    export namespace URI_Path {)
+export default ProductTransactions;
+```
 
-[//]: # ()
-[//]: # ()
-[//]: # (      export type Parameters = {)
+Then, use the data from this file in Product controller. The final code of lesson will be:
 
-[//]: # ()
-[//]: # (        readonly categoryID: string;)
+```typescript
+import ProductTransactions from "./ProductTransactions";
+import { Request, Response, Controller, BooleanParameterDefaultPreValidationModifier } from "@yamato-daiwa/backend";
+import { RawObjectDataProcessor, convertPotentialStringToNumberIfPossible } from "@yamato-daiwa/es-extensions";
 
-[//]: # ()
-[//]: # (      };)
 
-[//]: # ()
-[//]: # ()
-[//]: # (      export namespace Parameters {)
+export default class ProductController extends Controller {
 
-[//]: # ()
-[//]: # (        export enum Names {)
+  @Controller.RouteHandler({
+    HTTP_Method: ProductTransactions.SelectionRetrieving.HTTP_METHOD,
+    pathTemplate: ProductTransactions.SelectionRetrieving.URI_PATH,
+    queryParametersProcessing: {
+      paginationPageNumber: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      itemsCountPerPaginationPage: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        required: true,
+        numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+      },
+      forcedFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          makerID: {
+            preValidationModifications: convertPotentialStringToNumberIfPossible,
+            type: Number,
+            required: true,
+            numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+          }
+        }
+      },
+      consciousFiltering: {
+        type: Object,
+        required: false,
+        properties: {
+          fullOrPartialProductName: {
+            type: String,
+            required: false,
+            minimalCharactersCount: 2
+          },
+          outOfStock: {
+            preValidationModifications: BooleanParameterDefaultPreValidationModifier,
+            type: Boolean,
+            required: false
+          },
+          categoriesIDs: {
+            type: Array,
+            required: false,
+            element: {
+              preValidationModifications: convertPotentialStringToNumberIfPossible,
+              type: Number,
+              numbersSet: RawObjectDataProcessor.NumbersSets.naturalNumber
+            }
+          }
+        }
+      }
+    }
+  })
+  public async retrieveProductsSelection(request: Request, response: Response): Promise<void> {
 
-[//]: # ()
-[//]: # (          categoryID = "categoryID")
+    const {
+      paginationPageNumber,
+      itemsCountPerPaginationPage,
+      forcedFiltering,
+      consciousFiltering
+    }: ProductTransactions.SelectionRetrieving.QueryParameters = request.getProcessedQueryParameters();
 
-[//]: # ()
-[//]: # (        })
+    console.log(request.URI);
+    console.log(paginationPageNumber);
+    console.log(itemsCountPerPaginationPage);
+    console.log(forcedFiltering);
+    console.log(consciousFiltering);
 
-[//]: # ()
-[//]: # (      })
+    return response.submitWithSuccess({
+      JSON_Content: []
+    });
+  }
+}
+```
 
-[//]: # ()
-[//]: # ()
-[//]: # (      export function build&#40;{ targetCategoryID }: { targetCategoryID: Category.ID; }&#41;: string {)
+You can notice "The definition of 'HTTP_Method' and 'pathTemplate' became to long, it was much clear before refactoring".
+Saying this, you are focused on quickly write the code while must focus on the application maintainability after realize. 
+All definitions below **ProductTransactions.SelectionRetrieving** will be reused on client side, so
 
-[//]: # ()
-[//]: # (        return `/api/categories/${targetCategoryID}`;)
-
-[//]: # ()
-[//]: # (      })
-
-[//]: # ()
-[//]: # ()
-[//]: # (      export const TEMPLATE: string = build&#40;{ targetCategoryID: `:${Parameters.Names.categoryID}` }&#41;;)
-
-[//]: # ()
-[//]: # (    })
-
-[//]: # ()
-[//]: # (  })
-
-[//]: # ()
-[//]: # (})
-
-[//]: # ()
-[//]: # (```)
+* No subsequent code editing will require if to change the value of **ProductTransactions.SelectionRetrieving.URI_PATH** neither
+  on client nor on server side.
+* If we will change **ProductTransactions.SelectionRetrieving.QueryParameters**, the TypeScript transpiling on both client and
+  server emits errors. Is it bad? No! Because we know where we must to edit the code to restore both client and server side.

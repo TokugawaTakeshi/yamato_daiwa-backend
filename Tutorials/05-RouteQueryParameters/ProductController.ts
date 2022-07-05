@@ -1,12 +1,13 @@
+import ProductTransactions from "./ProductTransactions";
 import { Request, Response, Controller, BooleanParameterDefaultPreValidationModifier } from "@yamato-daiwa/backend";
-import { HTTP_Methods, RawObjectDataProcessor, convertPotentialStringToNumberIfPossible } from "@yamato-daiwa/es-extensions";
+import { RawObjectDataProcessor, convertPotentialStringToNumberIfPossible } from "@yamato-daiwa/es-extensions";
 
 
 export default class ProductController extends Controller {
 
   @Controller.RouteHandler({
-    HTTP_Method: HTTP_Methods.get,
-    pathTemplate: "api/products",
+    HTTP_Method: ProductTransactions.SelectionRetrieving.HTTP_METHOD,
+    pathTemplate: ProductTransactions.SelectionRetrieving.URI_PATH,
     queryParametersProcessing: {
       paginationPageNumber: {
         preValidationModifications: convertPotentialStringToNumberIfPossible,
@@ -61,18 +62,12 @@ export default class ProductController extends Controller {
   })
   public async retrieveProductsSelection(request: Request, response: Response): Promise<void> {
 
-    // Don't worry - will refactor it
     const {
       paginationPageNumber,
       itemsCountPerPaginationPage,
       forcedFiltering,
       consciousFiltering
-    }: {
-      paginationPageNumber: number;
-      itemsCountPerPaginationPage: number;
-      forcedFiltering?: { makerID: number; };
-      consciousFiltering?: { fullOrPartialProductName?: number; };
-    } = request.getProcessedQueryParameters();
+    }: ProductTransactions.SelectionRetrieving.QueryParameters = request.getProcessedQueryParameters();
 
     console.log(request.URI);
     console.log(paginationPageNumber);
