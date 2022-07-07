@@ -39,8 +39,7 @@
   "scripts": {
     "Lint": "eslint . --ext .ts",
     "Incremental building": "tsc --watch",
-    "Distributable update": "rimraf Distributable & tsc",
-    "Run test entry point": "nodemon Tests/TestEntryPoint.ts",
+    "Distributable updating": "rimraf Distributable & tsc",
     "Alpha realize": "npm publish --tag alpha"
   },
   "dependencies": {
