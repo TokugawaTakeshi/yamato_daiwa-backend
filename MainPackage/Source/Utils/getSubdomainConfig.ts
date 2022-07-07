@@ -49,7 +49,7 @@ export default function getSubdomainConfig(
 
 
       const dynamicLabelNode: Server.NormalizedConfig.Subdomains.DynamicLabelNode | undefined =
-          subdomainsTheeNodesForCurrentDomainLevel?.dynamicLabel;
+          subdomainsTheeNodesForCurrentDomainLevel.dynamicLabel;
       const matchByParameter: Server.NormalizedConfig.Subdomain | undefined = dynamicLabelNode?.match;
 
 

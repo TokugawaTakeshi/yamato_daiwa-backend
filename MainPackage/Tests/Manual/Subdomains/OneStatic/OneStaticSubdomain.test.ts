@@ -3,7 +3,9 @@ import type { Request, Response } from "../../../../Source";
 import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
 
-// npx nodemon Tests/Manual/Subdomains/OneStatic/OneStaticSubdomain.test.ts
+/* Run
+npx nodemon Tests/Manual/Subdomains/OneStatic/OneStaticSubdomain.test.ts
+*/
 Server.initializeAndStart({
   IP_Address: "127.0.0.1",
   HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
