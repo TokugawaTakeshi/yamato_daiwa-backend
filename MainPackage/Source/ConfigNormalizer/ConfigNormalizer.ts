@@ -2,10 +2,10 @@ import Server from "../Server/Server";
 import Router from "../Router";
 import NormalizedConfig = Server.NormalizedConfig;
 
-/* --- Default conventions ------------------------------------------------------------------------------------------ */
+/* --- Default conventions --------------------------------------------------------------------------------------------------- */
 import URI_QueryParametersDefaultSerializer from "../DefaultConventions/URI_QueryParametersDefaultSerializer";
 
-/* --- General auxiliaries ------------------------------------------------------------------------------------------ */
+/* --- General auxiliaries --------------------------------------------------------------------------------------------------- */
 import Path from "path";
 import {
   Logger,
@@ -17,6 +17,9 @@ import {
 } from "@yamato-daiwa/es-extensions";
 import isIPv4AddressLiesInRange from "../UtilsIncubator/isIPv4AddressLiesInRange";
 
+/* --- Localization ----------------------------------------------------------------------------------------------------------- */
+import { ConfigNormalizerLocalizer } from "./ConfigNormalizerLocalization";
+
 
 export default class ConfigNormalizer {
 
@@ -25,12 +28,13 @@ export default class ConfigNormalizer {
     if (isUndefined(rawConfig.HTTP) && isUndefined(rawConfig.HTTPS)) {
       Logger.throwErrorAndLog({
         errorInstance: new InvalidConfigError({
-          customMessage: "Both HTTP and HTTPS settings has not been specified. Nothing to serve."
+          customMessage: ConfigNormalizerLocalizer.localization.neitherHTTP_NotHTTPS_SettingsHasBeenSpecifiedError
         }),
         title: InvalidConfigError.localization.defaultTitle,
         occurrenceLocation: "ConfigNormalizer.normalize(rawConfig)"
       });
     }
+
 
     return {
       IP_Address: rawConfig.IP_Address,
@@ -42,7 +46,7 @@ export default class ConfigNormalizer {
       ...ConfigNormalizer.normalizeSubdomainsConfig(rawConfig),
 
       /* [ Theory ] We need to check does each specified domain matching with IP_Address, what is the asynchronous processing
-      *     intended to be executed during server starting. Currently, there are asynchronous processing permitted in
+      *     intended to be executed during server starting. Currently, there are asynchronous processings are not allowed in
       *     config normalizer to not make the Server's constructor asynchronous. */
       basicDomains: ConfigNormalizer.normalizeBasicDomains(rawConfig),
       URI_QueryParametersMainDeserializer: rawConfig.URI_QueryParametersMainDeserializer ?? URI_QueryParametersDefaultSerializer
@@ -119,15 +123,17 @@ export default class ConfigNormalizer {
       const subdomainPatternExplodedToLabels: Array<string> = splitString(subdomainPattern, ".").reverse();
       const labelsCountInSubdomainPattern: number = subdomainPatternExplodedToLabels.length;
 
-
       for (const [ index, currentHostNameLabel ] of subdomainPatternExplodedToLabels.entries()) {
 
-        // Console.log(`--- ${labelNumber__numerationFrom1} : ${currentHostNameLabel} ------------------------------- `);
         const labelNumber__numerationFrom1: number = index + 1;
         const isLastLabel: boolean = labelNumber__numerationFrom1 === labelsCountInSubdomainPattern;
 
+        // Console.log(`--- ${labelNumber__numerationFrom1} : ${currentHostNameLabel} ------------------------------- `);
+
         if (isLastLabel) {
 
+          /* eslint-disable-next-line max-depth --
+          * In this case, the extraction in other method will be singular and brake the uniform narration. */
           if (ConfigNormalizer.isSubdomainLabelTheParameter(currentHostNameLabel)) {
 
             nodesOfCurrentDepthLevel.dynamicLabel = {
@@ -197,11 +203,7 @@ export default class ConfigNormalizer {
     if (isSpecifiedIP_AddressTheLocalhost) {
 
       if (rawConfig.basicDomains.includes("localhost")) {
-        Logger.logWarning({
-          title: "Redundant explicit domain",
-          description: "No need to specify explicitly 'localhost' in 'basicDomains' of raw config - is will be detected " +
-              "automatically."
-        });
+        Logger.logWarning(ConfigNormalizerLocalizer.localization.redundantExplicitLocalhostWarning);
         return [ ...rawConfig.basicDomains ];
       }
 

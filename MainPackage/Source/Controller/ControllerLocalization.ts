@@ -9,7 +9,7 @@ type ControllerLocalization = {
 
 
 export class ControllerLocalizer {
-  public static readonly localization: ControllerLocalization = ControllerLocalization__English;
+  public static localization: ControllerLocalization = ControllerLocalization__English;
 }
 
 

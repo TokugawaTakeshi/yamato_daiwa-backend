@@ -369,6 +369,7 @@ class Server {
     let targetDomain: string;
     let routingActualForTargetDomain: Router.NormalizedRouting;
     let publicDirectoriesAbsolutePathsActualForTargetDomain: Array<string>;
+    let actualSubdomainConfig: Server.NormalizedConfig.Subdomains.ConfigMatch | null = null;
 
     if ("IP_Address" in parsedHostHTTP_Header) {
 
@@ -386,11 +387,10 @@ class Server {
 
       targetDomain = parsedHostHTTP_Header.domain;
 
-      const actualSubdomainConfig: Server.NormalizedConfig.Subdomains.ConfigMatch | null =
-          getSubdomainConfig({
-            subdomainsOfMainDomain__fromTopmostLevel: parsedHostHTTP_Header.subdomainsOfMainDomain.fromTopmostLevel,
-            subdomainsNormalizedConfig: this.config.subdomains
-          });
+      actualSubdomainConfig = getSubdomainConfig({
+        subdomainsOfMainDomain__fromTopmostLevel: parsedHostHTTP_Header.subdomainsOfMainDomain.fromTopmostLevel,
+        subdomainsNormalizedConfig: this.config.subdomains
+      });
 
       if (isNull(actualSubdomainConfig)) {
 
@@ -560,6 +560,9 @@ class Server {
          * Is this case casting is inevitable because we can not know at advance the exact schema of query path parameters
          * which will be defined by user. */
         return processedURI_QueryParameters as ProcessedURI_QueryParameters;
+      },
+      subdomainParameters: {
+        ...isNotNull(actualSubdomainConfig) ? actualSubdomainConfig.parameterizedHostNameLabels_Values : null
       }
     };
 

@@ -1,0 +1,16 @@
+{
+  "name": "tutorials-dotenv_config",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "@yamato-daiwa/backend": "0.1.4",
+    "@yamato-daiwa/es-extensions": "1.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.26",
+    "nodemon": "2.0.18",
+    "ts-node": "10.8.1",
+    "tsconfig-paths": "4.0.0",
+    "typescript": "4.7.4"
+  }
+}
