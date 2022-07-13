@@ -1,19 +1,19 @@
+/* --- Framework --------------------------------------------------------------------------------------------------- */
+import type Request from "./Request";
+import type Response from "./Response";
+import type { ControllerInheritingClass } from "./Controller/Controller";
+import type Controller from "./Controller/Controller";
+import type URI_QueryParametersDeserializer from "./URI_QueryParametersDeserializer";
+
+/* --- Utils ------------------------------------------------------------------------------------------------------- */
 import {
   HTTP_Methods,
   isUndefined,
   isNotUndefined,
   removeSpecificCharacterFromCertainPosition
 } from "@yamato-daiwa/es-extensions";
-import type {
-  RawObjectDataProcessor
-} from "@yamato-daiwa/es-extensions";
+import type { RawObjectDataProcessor } from "@yamato-daiwa/es-extensions";
 import removeSlashes from "./UtilsIncubator/removeSlashes";
-
-import type Request from "./Request";
-import type Response from "./Response";
-import type { ControllerInheritingClass } from "./Controller/Controller";
-import type Controller from "./Controller/Controller";
-import type URI_QueryParametersDeserializer from "./URI_QueryParametersDeserializer";
 
 
 abstract class Router {
@@ -70,7 +70,6 @@ abstract class Router {
     return normalizedRouting;
   }
 
-
   public static getRouteMatch(
     {
       URI_Path,
@@ -115,12 +114,12 @@ abstract class Router {
     }
 
 
-    let currentPathSegmentMatches: Router.NormalizedRouting.RoutingDataForSpecificPathSegment | undefined =
+    let matchesForCurrentPathSegmentsCount: Router.NormalizedRouting.RoutingDataForSpecificPathSegment | undefined =
         matchesActualForCurrentHTTP_Method[URI_PathSegments[0]];
 
     for (const [ index ] of URI_PathSegments.entries()) {
 
-      if (isUndefined(currentPathSegmentMatches)) {
+      if (isUndefined(matchesForCurrentPathSegmentsCount)) {
         return null;
       }
 
@@ -129,22 +128,22 @@ abstract class Router {
 
       if (isLastSegment) {
 
-        if (isUndefined(currentPathSegmentMatches.handlerForPathOfCurrentLength)) {
+        if (isUndefined(matchesForCurrentPathSegmentsCount.handlerForPathOfCurrentLength)) {
           return null;
         }
 
 
         return {
-          handler: currentPathSegmentMatches.handlerForPathOfCurrentLength,
+          handler: matchesForCurrentPathSegmentsCount.handlerForPathOfCurrentLength,
           routePathParameters,
-          ...isNotUndefined(currentPathSegmentMatches.pathParametersProcessingForPathOfCurrentLength) ? {
-            routePathParameterProcessing: currentPathSegmentMatches.pathParametersProcessingForPathOfCurrentLength
+          ...isNotUndefined(matchesForCurrentPathSegmentsCount.pathParametersProcessingForPathOfCurrentLength) ? {
+            routePathParameterProcessing: matchesForCurrentPathSegmentsCount.pathParametersProcessingForPathOfCurrentLength
           } : null,
-          ...isNotUndefined(currentPathSegmentMatches.queryParametersProcessingForPathOfCurrentLength) ? {
-            routeQueryParametersProcessing: currentPathSegmentMatches.queryParametersProcessingForPathOfCurrentLength
+          ...isNotUndefined(matchesForCurrentPathSegmentsCount.queryParametersProcessingForPathOfCurrentLength) ? {
+            routeQueryParametersProcessing: matchesForCurrentPathSegmentsCount.queryParametersProcessingForPathOfCurrentLength
           } : null,
-          ...isNotUndefined(currentPathSegmentMatches.queryParametersDeserializerForPathOfCurrentLength) ? {
-            routeQueryParametersDeserializer: currentPathSegmentMatches.queryParametersDeserializerForPathOfCurrentLength
+          ...isNotUndefined(matchesForCurrentPathSegmentsCount.queryParametersDeserializerForPathOfCurrentLength) ? {
+            routeQueryParametersDeserializer: matchesForCurrentPathSegmentsCount.queryParametersDeserializerForPathOfCurrentLength
           } : null
         };
       }
@@ -153,20 +152,21 @@ abstract class Router {
       const nextPathSegment: string = URI_PathSegments[index + 1];
       const routingForStaticPathSegmentsAtNextPosition: Router.NormalizedRouting.
           RoutingForStaticPathSegmentsAtNextPosition | undefined =
-              currentPathSegmentMatches.routingForStaticPathSegmentsAtNextPosition;
+              matchesForCurrentPathSegmentsCount.routingForStaticPathSegmentsAtNextPosition;
 
       if (
         isNotUndefined(routingForStaticPathSegmentsAtNextPosition) &&
         isNotUndefined(routingForStaticPathSegmentsAtNextPosition[nextPathSegment])
       ) {
-        currentPathSegmentMatches = routingForStaticPathSegmentsAtNextPosition[nextPathSegment];
+        matchesForCurrentPathSegmentsCount = routingForStaticPathSegmentsAtNextPosition[nextPathSegment];
         continue;
       }
 
 
-      if (isNotUndefined(currentPathSegmentMatches.routingForRoutePathParameterAtNextPosition)) {
-        routePathParameters[currentPathSegmentMatches.routingForRoutePathParameterAtNextPosition.parameterName] = nextPathSegment;
-        currentPathSegmentMatches = currentPathSegmentMatches.routingForRoutePathParameterAtNextPosition;
+      if (isNotUndefined(matchesForCurrentPathSegmentsCount.routingForRoutePathParameterAtNextPosition)) {
+        routePathParameters[matchesForCurrentPathSegmentsCount.
+            routingForRoutePathParameterAtNextPosition.parameterName] = nextPathSegment;
+        matchesForCurrentPathSegmentsCount = matchesForCurrentPathSegmentsCount.routingForRoutePathParameterAtNextPosition;
       }
     }
 
@@ -313,37 +313,37 @@ namespace Router {
   /* [ API ] For the user's convenience, it is better to refrain from namespacing of "RouteAndHandlerPair" a */
   export type RouteAndHandlerPair = { readonly route: Route; readonly handler: RouteHandler; };
 
-  export type Route = {
-    readonly HTTP_Method: HTTP_Methods;
-    readonly pathTemplate: string;
-    readonly pathParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
-    readonly queryParametersDeserializer?: URI_QueryParametersDeserializer;
-    readonly queryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
-  };
+  export type Route = Readonly<{
+    HTTP_Method: HTTP_Methods;
+    pathTemplate: string;
+    pathParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
+    queryParametersDeserializer?: URI_QueryParametersDeserializer;
+    queryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
+  }>;
 
-  export type RouteMatch = {
-    readonly handler: RouteHandler;
-    readonly routePathParameters: RoutePathParameters;
-    readonly routePathParameterProcessing?: RawObjectDataProcessor.PropertiesSpecification;
-    readonly routeQueryParametersDeserializer?: URI_QueryParametersDeserializer;
-    readonly routeQueryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
-  };
+  export type RouteMatch = Readonly<{
+    handler: RouteHandler;
+    routePathParameters: RoutePathParameters;
+    routePathParameterProcessing?: RawObjectDataProcessor.PropertiesSpecification;
+    routeQueryParametersDeserializer?: URI_QueryParametersDeserializer;
+    routeQueryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
+  }>;
 
   export type RoutePathParameters = { [pathSegment: string]: string | undefined; };
 
 
-  export type NormalizedRouting = {
-    readonly [HTTP_Methods.get]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.post]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.create]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.put]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.delete]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.options]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.head]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.connect]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.trace]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-    readonly [HTTP_Methods.patch]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
-  };
+  export type NormalizedRouting = Readonly<{
+    [HTTP_Methods.get]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.post]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.create]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.put]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.delete]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.options]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.head]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.connect]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.trace]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+    [HTTP_Methods.patch]: NormalizedRouting.RoutesOfSpecificHTTP_Method;
+  }>;
 
   export namespace NormalizedRouting {
 
@@ -363,7 +363,7 @@ namespace Router {
     export type RoutingForStaticPathSegmentsAtNextPosition = {
        [routePathSegment: string]: RoutingDataForSpecificPathSegment | undefined;
     };
-    export type RoutingForRouteParameterAtNextPosition = RoutingDataForSpecificPathSegment & { readonly parameterName: string; };
+    export type RoutingForRouteParameterAtNextPosition = RoutingDataForSpecificPathSegment & Readonly<{ parameterName: string; }>;
   }
 }
 
