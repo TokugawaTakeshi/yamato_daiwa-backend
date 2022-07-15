@@ -1,13 +1,46 @@
-import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
-import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+/* --- Configuration ------------------------------------------------------------------------------------------------ */
+import type ConfigFromDotEnvFile from "./ConfigFromDotEnvFile";
+import ConfigRepresentative from "./ConfigRepresentative";
+
+/* --- Framework ---------------------------------------------------------------------------------------------------- */
+import { Server, Request, Response } from "@yamato-daiwa/backend";
+
+/* --- Utils -------------------------------------------------------------------------------------------------------- */
+import { HTTP_Methods, RawObjectDataProcessor, convertPotentialStringToNumberIfPossible } from "@yamato-daiwa/es-extensions";
+import { ObjectDataFilesProcessor } from "@yamato-daiwa/es-extensions-nodejs";
+
+
+const configFromDotEnvFile: ConfigFromDotEnvFile = ObjectDataFilesProcessor.processFile({
+  filePath: ".env",
+  schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
+  validDataSpecification: {
+    nameForLogging: "ConfigurationFromDotenv",
+    subtype: RawObjectDataProcessor.ObjectSubtypes.fixedKeyAndValuePairsObject,
+    properties: {
+      IP_ADDRESS: {
+        type: String,
+        required: false
+      },
+      HTTP_PORT: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
+        required: false
+      }
+    }
+  }
+});
+
+
+ConfigRepresentative.initialize(configFromDotEnvFile);
 
 
 /* Running the test:
 *  npx nodemon EntryPoint.ts
 * */
 Server.initializeAndStart({
-  IP_Address: "127.0.0.1",
-  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+  IP_Address: ConfigRepresentative.IP_Address,
+  HTTP: { port: ConfigRepresentative.HTTP_Port },
   routing: [
     {
       route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },

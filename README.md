@@ -18,6 +18,11 @@ npm i @yamato-daiwa/backend -E
 
 ## Quick examples
 
+> :warning: **Warning:** 
+> Below examples has been developed to demonstrate the API of framework such as easy to understand.
+> For this, the splitting of code the to files and code itself has been minified, but this approach is unfit
+> for the development of the real applications from the viewpoint of the architecture.
+
 ### "Hello, world!"
 
 ```typescript
@@ -41,7 +46,7 @@ Server.initializeAndStart({
 });
 ```
 
-See the ["Hello, world!" tutorial](Tutorials/01-HelloWorld/README.md) for the details.
+See the ["Hello, world!"](Tutorials/01-HelloWorld/README.md) tutorial for the details.
 
 
 ### HTTPS support
@@ -71,7 +76,7 @@ Server.initializeAndStart({
   ]
 });
 ```
-See the [HTTPS support tutorial](Tutorials/02-HTTPS_Support/README.md) for the details.
+See the [HTTPS support](Tutorials/02-HTTPS_Support/README.md) tutorial for the details.
 
 
 ### Routing and controllers
@@ -133,7 +138,7 @@ export default class ProductController extends Controller {
 }
 ```
 
-See the [Routing and controllers tutorial](Tutorials/03-RoutingAndControllers/README.md) for the details.
+See the [Routing and controllers](Tutorials/03-RoutingAndControllers/README.md) tutorial for the details.
 
 
 ### Strongly typed route path parameters
@@ -172,7 +177,7 @@ export default class ProductController extends Controller {
 }
 ```
 
-See the [Strongly typed route path parameters](Tutorials/04-RoutePathParameters/README.md) for the details.
+See the [Strongly typed route path parameters](Tutorials/04-RoutePathParameters/README.md) tutorial for the details.
 
 
 ### Strongly type route query parameters
@@ -279,8 +284,67 @@ export default class ProductController extends Controller {
 }
 ```
 
-See the [Strongly typed route query parameters](Tutorials/05-RouteQueryParameters/README.md) for the details.
+See the [Strongly typed route query parameters](Tutorials/05-RouteQueryParameters/README.md) tutorial for the details.
 
+
+### Dotenv config
+#### Entry point
+
+```typescript
+import { Server, Request, Response } from "@yamato-daiwa/backend";
+import { HTTP_Methods, RawObjectDataProcessor, convertPotentialStringToNumberIfPossible } from "@yamato-daiwa/es-extensions";
+import { ObjectDataFilesProcessor } from "@yamato-daiwa/es-extensions-nodejs";
+
+
+const configFromDotEnvFile: Readonly<{
+  IP_ADDRESS: string;
+  HTTP_PORT: number;
+}> = ObjectDataFilesProcessor.processFile({
+  filePath: ".env",
+  schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
+  validDataSpecification: {
+    nameForLogging: "ConfigFromDotenvFile",
+    subtype: RawObjectDataProcessor.ObjectSubtypes.fixedKeyAndValuePairsObject,
+    properties: {
+      IP_ADDRESS: {
+        type: String,
+        required: true
+      },
+      HTTP_PORT: {
+        preValidationModifications: convertPotentialStringToNumberIfPossible,
+        type: Number,
+        numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
+        required: true
+      }
+    }
+  }
+});
+
+
+Server.initializeAndStart({
+  IP_Address: configFromDotEnvFile.IP_ADDRESS,
+  HTTP: { port: configFromDotEnvFile.HTTP_PORT },
+  routing: [
+    {
+      route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+      async handler(_request: Request, response: Response): Promise<void> {
+        return response.submitWithSuccess({
+          HTML_Content: "<h1>Top page</h1>"
+        });
+      }
+    }
+  ]
+});
+```
+
+#### Dotenv file
+
+```dotenv
+IP_ADDRESS=127.0.0.1
+HTTP_PORT=80
+```
+
+See the [Dotenv config tutorial](Tutorials/06-DotenvConfig/README.md) for the details.
 
 
 ## Functionality tutorials
@@ -303,5 +367,8 @@ Please take the tutorials in following order.
 
   <dt><a href="Tutorials/05-RouteQueryParameters/README.md">Strongly typed route query parameters</a></dt>
   <dd>Processing and type-safe accessing to route query parameters</dd>
+
+  <dt><a href="Tutorials/06-DotenvConfig/README.md">Dotenv config</a></dt>
+  <dd>The retrieving of the configuration from the Dotenv files</dd>
 
 </dl>
