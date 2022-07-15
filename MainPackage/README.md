@@ -366,7 +366,7 @@ Please take the tutorials in following order.
   <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/05-RouteQueryParameters/README.md">Strongly typed route query parameters</a></dt>
   <dd>Processing and type-safe accessing to route query parameters</dd>
 
-  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/05-RouteQueryParameters/Tutorials/06-DotenvConfig/README.md">Dotenv config</a></dt>
+  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md">Dotenv config</a></dt>
   <dd>The retrieving of the configuration from the Dotenv files</dd>
 
 </dl>

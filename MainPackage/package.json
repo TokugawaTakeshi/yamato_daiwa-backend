@@ -1,6 +1,6 @@
 {
   "name": "@yamato-daiwa/backend",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Backend framework with build-in TypeScript type safety. Intended to be used in full-stack applications where both client and server part written in TypeScript.",
   "keywords": [
     "backend",
