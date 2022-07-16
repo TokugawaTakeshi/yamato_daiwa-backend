@@ -19,9 +19,9 @@ npm i @yamato-daiwa/backend -E
 ## Quick examples
 
 > :warning: **Warning:** 
-> Below examples has been developed to demonstrate the API of framework such as easy to understand.
-> For this, the splitting of code the to files and code itself has been minified, but this approach is unfit
-> for the development of the real applications from the viewpoint of the architecture.
+> Below examples has been developed to demonstrate the API of the framework such as easy to understand.
+> For this, the splitting of the code to files and code itself has been minified, but this approach is unfit
+> for the development of the real applications from the viewpoint of architecture.
 
 ### "Hello, world!"
 
