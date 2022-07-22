@@ -345,6 +345,65 @@ HTTP_PORT=80
 See the [Dotenv config tutorial](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md) for the details.
 
 
+## Console Line Interface (CLI) config
+
+Because the console commands parsing is actual for the console applications, not just for server applications,
+the [ConsoleCommandsParser](https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/blob/master/NodeJS/Package/Documentation/ConsoleCommandsParser/ConsoleCommandsParser.md)
+utility is available in [@yamato-daiwa/es-extensions-nodejs](https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/blob/master/NodeJS/Package/README.md)
+package.
+
+
+```typescript
+/* --- Framework ---------------------------------------------------------------------------------------------------- */
+import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+
+/* --- Utils -------------------------------------------------------------------------------------------------------- */
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+import { ConsoleCommandsParser, ObjectDataFilesProcessor } from "@yamato-daiwa/es-extensions-nodejs";
+
+
+const configFromConsoleCommand: ConsoleCommandsParser.ParsedCommand<
+  Readonly<{
+    IP_Address?: string;
+    HTTP_Port?: number;
+  }>
+> = ConsoleCommandsParser.parse(
+  process.argv,
+  {
+    applicationName: "Server",
+    defaultCommand: {
+      IP_Address: {
+        type: ConsoleCommandsParser.ParametersTypes.string,
+        required: false
+      },
+      HTTP_Port: {
+        type: ConsoleCommandsParser.ParametersTypes.number,
+        numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
+        required: false
+      }
+    }
+  }
+);
+
+Server.initializeAndStart({
+  IP_Address: configFromConsoleCommand.IP_Address ?? "127.0.0.1",
+  HTTP: { port: configFromConsoleCommand.HTTP_Port ?? ProtocolDependentDefaultPorts.HTTP },
+  routing: [
+    {
+      route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+      async handler(_request: Request, response: Response): Promise<void> {
+        return response.submitWithSuccess({
+          HTML_Content: "<h1>Top page</h1>"
+        });
+      }
+    }
+  ]
+});
+```
+
+See the [Console Line Interface configuration](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/07-ConsoleLineInterface/README.md) for the details.
+
+
 ## Functionality tutorials
 
 Please take the tutorials in following order.
@@ -366,7 +425,10 @@ Please take the tutorials in following order.
   <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/05-RouteQueryParameters/README.md">Strongly typed route query parameters</a></dt>
   <dd>Processing and type-safe accessing to route query parameters</dd>
 
-  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md">Dotenv config</a></dt>
+  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md">Dotenv configuration</a></dt>
   <dd>The retrieving of the configuration from the Dotenv files</dd>
+
+  <dt><a href="https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/07-ConsoleLineInterface/README.md">Console Line Interface configuration</a></dt>
+  <dd>The retrieving of the configuration from the Console Line Interface</dd>
 
 </dl>

@@ -10,6 +10,7 @@ import FetchAPI_Service from "./Service/FetchAPI_Service";
 
 /* --- Framework ---------------------------------------------------------------------------------------------------- */
 import { createApp as createVueApplication } from "vue";
+import { ButtonBasicImplementation } from "@yamato-daiwa/frontend-vue";
 
 /* --- Utils -------------------------------------------------------------------------------------------------------- */
 import { Logger } from "@yamato-daiwa/es-extensions";
@@ -31,6 +32,7 @@ import ClientDependenciesInjector from "./ClientDependencies";
 
   createVueApplication(RootComponent).
       use(routing).
+      component("Button", ButtonBasicImplementation).
       mount("#APPLICATION");
 
 })();

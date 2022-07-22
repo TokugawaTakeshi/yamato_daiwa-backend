@@ -123,11 +123,11 @@ import { ObjectDataFilesProcessor } from "@yamato-daiwa/es-extensions-nodejs";
 const configFromDotEnvFile: Readonly<{
   IP_ADDRESS: string;
   HTTP_PORT: number;
-}> = ObjectDataFilesProcessor.processFile({
+}> = ObjectDataFilesProcessor.processFile({ // ✏　1
   filePath: ".env",
   schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
   validDataSpecification: {
-    nameForLogging: "ConfigFromDotenvFile", // ✏　1
+    nameForLogging: "ConfigFromDotenvFile", // ✏　2
     subtype: RawObjectDataProcessor.ObjectSubtypes.fixedKeyAndValuePairsObject,
     properties: {
       IP_ADDRESS: {
@@ -135,7 +135,7 @@ const configFromDotEnvFile: Readonly<{
         required: true
       },
       HTTP_PORT: {
-        preValidationModifications: convertPotentialStringToNumberIfPossible, // ✏　2
+        preValidationModifications: convertPotentialStringToNumberIfPossible, // ✏　3
         type: Number,
         numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
         required: true
@@ -171,10 +171,19 @@ Server.initializeAndStart({
 #### Explanations
 ##### ✏　1
 
-If there will be the problems with validation, the specified name will be used for the accurate logging.
+There are a lot of problems could occur during the retrieving of configuration - file not found, malformed data format,
+mismatch with expected schema etc. In each of these cases, error will be thrown. Is it O'K to not wrap it by try/catch?
+In this case - yes, because if error will be thrown, it will be before server will be started.
+
+What we must avoid is unhandled errors _after server will start_.
 
 
 ##### ✏　2
+
+If there will be the problems with validation, the specified name will be used for the accurate logging.
+
+
+##### ✏　3
 
 Similarly to [qs](https://www.npmjs.com/package/qs) does not try to parse the seems to be numeric query parameters,
 [dotenv parser](https://www.npmjs.com/package/dotenv) on which **@yamato-daiwa/backend** depending does not try

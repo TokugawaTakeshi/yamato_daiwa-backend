@@ -1,6 +1,12 @@
 <template lang="pug">
 
-.TopPage Top page
+.TopPage
+
+  | Top page
+
+  Button(
+    label="Test"
+  )
 
 </template>
 
@@ -11,9 +17,7 @@
 
 
   @VueComponentConfiguration({
-    components: {
-
-    }
+    components: {}
   })
   export default class TopPage extends VueComponent { }
 

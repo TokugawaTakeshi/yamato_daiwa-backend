@@ -9,26 +9,27 @@
     "Lint": "eslint 01-Source"
   },
   "dependencies": {
-    "@yamato-daiwa/backend": "0.1.3",
-    "@yamato-daiwa/es-extensions": "1.5.0",
-    "@yamato-daiwa/es-extensions-browserjs": "1.5.0",
-    "@yamato-daiwa/es-extensions-nodejs": "1.5.0-alpha.6",
+    "@yamato-daiwa/backend": "0.1.7",
+    "@yamato-daiwa/es-extensions": "1.5.2",
+    "@yamato-daiwa/es-extensions-browserjs": "1.5.4",
+    "@yamato-daiwa/es-extensions-nodejs": "1.5.1",
+    "@yamato-daiwa/frontend-vue": "../../YamatoDaiwaFrontend/FrameworksIntegrations/Vue/Package",
     "@yamato-daiwa/frontend": "../../YamatoDaiwaFrontend/CoreLibrary/Package",
-    "qs": "6.10.5",
-    "vue": "3.2.36",
+    "qs": "6.11.0",
+    "vue": "3.2.37",
     "vue-class-component": "8.0.0-rc.1",
     "vue-property-decorator": "10.0.0-rc.3",
-    "vue-router": "4.0.15",
+    "vue-router": "4.1.2",
     "vuex": "4.0.2"
   },
   "devDependencies": {
     "@types/qs": "6.9.7",
     "@types/webpack-node-externals": "2.5.3",
     "@yamato-daiwa/automation": "../../YamatoDaiwaAutomation/MainPackage",
-    "@yamato-daiwa/style_guides": "0.0.14",
-    "nodemon": "2.0.16",
+    "@yamato-daiwa/style_guides": "0.0.17",
+    "nodemon": "2.0.19",
     "rimraf": "3.0.2",
-    "ts-node": "10.8.0",
+    "ts-node": "10.9.1",
     "tsconfig-paths": "4.0.0"
   }
 }

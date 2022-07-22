@@ -1,3 +1,9 @@
+/*!
+ * @yamato-daiwa/backend v0.1
+ * (c) 2021 Sole proprietorship "Yamato Daiwa" Takeshi Tokugawa
+ * Released under the MIT License.
+ */
+
 export { default as Server } from "./Server/Server";
 export type { default as Request } from "./Request";
 export { default as Response } from "./Response";
