@@ -449,14 +449,110 @@ Waiting for the HTTP requests on:
 Works as expected. Do the similar test for the IT address.
 
 
-[//]: # (### Environment dependent .env file)
+### Environment dependent .env file
 
-[//]: # ()
-[//]: # (Currently, we have single **.env** file for all environments what is too far from the real application.)
+Currently, we have single **.env** file for all environments what is too far from the real application.
+But how our application will know which Dotenv file should to use?
+We can pass the path to Dotenv file via appropriate argument of the console command.
 
-[//]: # (But how our application will know which Dotenv file should to use?)
+Let us prepare the **.env** files.
 
-[//]: # (We can pass the path to Dotenv file via argument of the console command.  )
+1. Rename **.env** to **.env.local**.
+2. Create **.env.production** with the config different with **.env.local**.
 
-[//]: # ()
-[//]: # ()
+Well, we don't have the actual IP address for the production now, but for the testing
+it's the little differences with **.env.local** will be enough:
+
+```dotenv
+IP_ADDRESS=127.0.0.2
+HTTP_PORT=81
+```
+
+And, let use return **HTTP_PORT** to **80** in **.env.local**.
+
+Next, let us update the **ConfigFromConsoleCommand**:
+
+```typescript
+import { ConsoleCommandsParser } from "@yamato-daiwa/es-extensions-nodejs";
+import { RawObjectDataProcessor } from "@yamato-daiwa/es-extensions";
+
+
+namespace ConfigFromConsoleCommand {
+
+  export const specification: ConsoleCommandsParser.CommandLineInterfaceSpecification = {
+    applicationName: "Server",
+    defaultCommand: {
+      dotEnvConfig: {
+        newName: "dotEnvConfigFileRelativePath",
+        type: ConsoleCommandsParser.ParametersTypes.string,
+        required: true
+      },
+      IP_Address: {
+        type: ConsoleCommandsParser.ParametersTypes.string,
+        required: false
+      },
+      HTTP_Port: {
+        type: ConsoleCommandsParser.ParametersTypes.number,
+        numbersSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
+        required: false
+      }
+    }
+  };
+
+  export type ParsedArguments = Readonly<{
+    dotEnvConfigFileRelativePath: string;
+    IP_Address?: string;
+    HTTP_Port?: number;
+  }>;
+}
+
+
+export default ConfigFromConsoleCommand;
+```
+
+It is subjective, but we are assuming that neither **local development mode** nor **production mode** are "main":
+both are required cyclic stages of the of application lifecycle. That is why we made the **dotEnvConfig** option required -
+the is no "default" mode thus default DotEnv file.
+
+The **dotEnvConfig** is short name for the console command, but it does not express what this option actually means.
+One of disadvantages of the console commands is we are forced to sacrifice by unambiguity to reduce the hassle with typing.
+However, it does not meas that we have not choice except reduce the unambiguity of the source code.
+The **ConsoleCommandsParser** allows to rename the arguments name by **newName** option.
+In this case, the **ParsedArguments** must have the property with name same with **newName**.
+
+Now, when path to Dotenv file is dynamic, we need to change the value of **filePath** in the usage of 
+**ObjectDataFilesProcessor.processFile**:  
+
+```typescript
+const configFromDotenvFile: ConfigFromDotEnvFile = ObjectDataFilesProcessor.processFile({
+  filePath: configFromConsoleCommand.dotEnvConfigFileRelativePath,
+  schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
+  validDataSpecification: ConfigFromDotEnvFile.specification
+});
+```
+
+Now, if we will try to start the application by `nodemon EntryPoint.ts`, the application will crash with: 
+
+```
+InvalidConsoleCommandError: Invalid console command
+Invalid console command for the application 'Server'.
+The option '--dotEnvConfig' is required for the default command.Please check the reference for this command:
+(Default command):
+ dotEnvConfig: string:
+ IP_Address: string:
+ HTTP_Port: number
+```
+
+No problems - we will restart, but with 
+
+```shell
+nodemon EntryPoint.ts --dotEnvConfig .env.local
+```
+
+Finally, let us restart the application with 
+
+```shell
+nodemon EntryPoint.ts --dotEnvConfig .env.production
+```
+
+and make sure that IP address and HTTP port changed.

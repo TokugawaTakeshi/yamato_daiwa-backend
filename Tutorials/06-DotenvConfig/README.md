@@ -27,8 +27,17 @@ be accessed throughout the project.
 >
 > [The documentation to **eslint-plugin-node**](https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-process-env.md)
 
-On this account, YDB does not suggest the functionality of merging of variables from **.env** file with **process.env**.
-If you are critically need this functionality, use the third-party solutions like [dotenv](https://www.npmjs.com/package/dotenv).
+Not all developers are agreed with it. For example, the developers of [NestJS framework](https://nestjs.com) contrary
+tells that the merging with **process.env** is the "best practice":
+
+> Since configuration variables change, best practice is to store configuration variables in the environment.
+> 
+> ["Configuration", NestJS documentation](https://docs.nestjs.com/techniques/configuration)
+
+We are see that so-called "best practices" could be subjective, but other words, the preferences of the framework developers.
+
+YDB does not suggest the functionality of merging of variables from **.env** file with **process.env*, but
+if you are critically need this functionality, use the third-party solutions like [dotenv](https://www.npmjs.com/package/dotenv).
 
 
 ### Managing of the sensitive data

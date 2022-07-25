@@ -354,10 +354,7 @@ package.
 
 
 ```typescript
-/* --- Framework ---------------------------------------------------------------------------------------------------- */
 import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
-
-/* --- Utils -------------------------------------------------------------------------------------------------------- */
 import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 import { ConsoleCommandsParser, ObjectDataFilesProcessor } from "@yamato-daiwa/es-extensions-nodejs";
 

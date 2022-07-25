@@ -17,7 +17,7 @@ const configFromConsoleCommand: ConsoleCommandsParser.ParsedCommand<ConsoleLineI
     ConsoleCommandsParser.parse(process.argv, ConsoleLineInterface.specification);
 
 const configFromDotenvFile: ConfigFromDotEnvFile = ObjectDataFilesProcessor.processFile({
-  filePath: ".env",
+  filePath: configFromConsoleCommand.dotEnvConfigFileRelativePath,
   schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
   validDataSpecification: ConfigFromDotEnvFile.specification
 });

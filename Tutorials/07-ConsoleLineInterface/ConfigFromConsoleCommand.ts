@@ -7,6 +7,11 @@ namespace ConfigFromConsoleCommand {
   export const specification: ConsoleCommandsParser.CommandLineInterfaceSpecification = {
     applicationName: "Server",
     defaultCommand: {
+      dotEnvConfig: {
+        newName: "dotEnvConfigFileRelativePath",
+        type: ConsoleCommandsParser.ParametersTypes.string,
+        required: true
+      },
       IP_Address: {
         type: ConsoleCommandsParser.ParametersTypes.string,
         required: false
@@ -20,6 +25,7 @@ namespace ConfigFromConsoleCommand {
   };
 
   export type ParsedArguments = Readonly<{
+    dotEnvConfigFileRelativePath: string;
     IP_Address?: string;
     HTTP_Port?: number;
   }>;
