@@ -1,0 +1,33 @@
+extends ../../Layouts/Main/MainLayout.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_TITLE = "Top";
+    styleSheetsURIs = [ "@AllStylesForStaticPreview" ]
+
+
+block Requirements
+
+  include ../../StaticPreview/_CommonRequirements.pug
+
+
+block append SpecificContent
+
+  .TopPage.MainLayout-ChildElementFillingSpecificContentSlotVertically&attributes(attributes)
+
+    +CategoriesManager({
+      loading: TopPageStatesSimulations.loading,
+      error: TopPageStatesSimulations.error,
+      noSearchResults: TopPageStatesSimulations.noSearchResults
+    })
+
+    //-
+
+      +ProductsManager(
+        ProductsManagerViewingOptions
+            .setLoadingErrorOptionToTrue(stateSimulations.error)
+            .setNoItemsOptionToTrue(stateSimulations.noCategories)
+      ).ProductsPage-SecondaryFragmentForWideScreens

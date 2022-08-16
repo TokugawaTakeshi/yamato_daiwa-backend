@@ -15,13 +15,14 @@
 
     "baseUrl": "./01-Source",
     "paths": {
-      "@EnterpriseBusinessRules/*": [ "./BusinessRules/Enterprise/*"],
-      "@ApplicationBusinessRules/*": [ "./BusinessRules/Application/*"],
-      "@Gateways/*": [ "./Gateways/*"],
-      "@Interactions/*": [ "./Infrastructure/Interactions/*" ],
-      "@Utils/*": [ "./Utils/*"],
-      "@MockDataSource/*": [ "./Infrastructure/Elements/MockDataSource/*"]
+      "@Entities/*": [ "./CommonSolution/Entities/*"],
+      "@Gateways/*": [ "./CommonSolution/Gateways/*"],
+      "@Client/*": [ "./Implementation/Elements/Client/*"],
+      "@MockDataSource/*": [ "./Implementation/Elements/MockDataSource/*"],
+      "@Interactions/*": [ "./Implementation/Interactions/*" ],
+      "@Utils/*": [ "./Utils/*"]
     }
+
   },
   "ts-node": {
     "require": [

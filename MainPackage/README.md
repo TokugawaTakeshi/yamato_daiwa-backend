@@ -342,10 +342,10 @@ IP_ADDRESS=127.0.0.1
 HTTP_PORT=80
 ```
 
-See the [Dotenv config tutorial](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md) for the details.
+See the [Dotenv configuration tutorial](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md) for the details.
 
 
-## Console Line Interface (CLI) config
+## Console Line Interface (CLI) configuration
 
 Because the console commands parsing is actual for the console applications, not just for server applications,
 the [ConsoleCommandsParser](https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/blob/master/NodeJS/Package/Documentation/ConsoleCommandsParser/ConsoleCommandsParser.md)

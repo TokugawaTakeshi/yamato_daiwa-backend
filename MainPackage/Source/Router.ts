@@ -1,6 +1,6 @@
 /* --- Framework --------------------------------------------------------------------------------------------------- */
 import type Request from "./Request";
-import type Response from "./Response";
+import type Response from "./Response/Response";
 import type { ControllerInheritingClass } from "./Controller/Controller";
 import type Controller from "./Controller/Controller";
 import type URI_QueryParametersDeserializer from "./URI_QueryParametersDeserializer";

@@ -1,0 +1,105 @@
+mixin CategoriesManager(stateSimulations)
+
+  -
+
+    const {
+      loading = false,
+      error = false,
+      noItems = false,
+      noSearchResults = false,
+      noPagination = false
+    } = stateSimulations ?? {}
+
+
+  .CategoriesManager&attributes(attributes)
+
+    //-
+      +SearchBox({
+        placeholder: "Category name",
+        ARIA_Label: "Input the name of desired category",
+        disabled: loading
+      }).CategoriesManager-SearchBox
+
+    if loading
+
+      .CategoriesManager-CardsFlow
+        each cardIndex in Array.from(new Array(6).keys())
+          +CategoryCardLoadingPlaceholder
+
+    else if error
+
+      +AttentionBox--YDF({
+        decoration: AttentionBox__YDF.DecorativeVariations.error,
+        hasPrependedSVG_Icon: true
+      })
+        p.
+          We are sorry, but the malfunction has occurred during the data retrieving.
+          If the cause is not the internet connection, the support theme has been notified and will investigate it soon.
+          Please accept out deepest apologies again about this malfunction.
+        +Button--YDF({
+          HTML_Type: Button__YDF.HTML_Types.regular,
+          label: "Try to retrieve again",
+          geometry: Button__YDF.GeometricVariations.small
+        })
+
+    else if noItems
+
+      +AttentionBox--YDF({
+        decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+        hasPrependedSVG_Icon: true
+      })
+        p Currently, no categories has been registered.
+        +Button--YDF({
+          HTML_Type: Button__YDF.HTML_Types.regular,
+          label: "Add first category",
+          geometry: Button__YDF.GeometricVariations.small
+        })
+
+    else if noSearchResults
+
+      +AttentionBox--YDF({
+        decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+        hasPrependedSVG_Icon: true
+      })
+        p No results matching with current search request.
+        +Button--YDF({
+          HTML_Type: Button__YDF.HTML_Types.regular,
+          label: "Reset filtering",
+          geometry: Button__YDF.GeometricVariations.small
+        })
+
+    else
+
+      +AttentionBox--YDF({
+        decoration: AttentionBox__YDF.DecorativeVariations.guidance,
+        hasPrependedSVG_Icon: true,
+        hasDismissButton: true
+      }).CategoriesManager-Message Child the category to display the products of this category
+
+      ul.CategoriesManager-CardsFlow
+        each category in MockData.categories
+          +CategoryCard(category)
+
+      //-
+
+        if !stateSimulations.noPagination
+          +Pagination().CategoriesManager-Pagination
+
+
+        .CategoriesManager-ProductCategoryEditingPanel
+
+          .CategoriesManager-ProductCategoryEditingPanel-Heading カテゴリーを追加する
+
+          +InputField({
+            placeholder: "カテゴリー名",
+            ARIA_Label: "新しいカテゴリーの名前",
+          }).CategoriesManager-ProductCategoryEditingPanel-InputField
+
+          +Button({
+            disabled: stateSimulations.loading,
+            decoration: Button.DecorativeVariations.accented
+          }) 追加
+
+          +Button({
+            disabled: stateSimulations.loading
+          }) 編集停止

@@ -50,6 +50,8 @@ type ServerLocalization = {
     fileStatisticsRetrievingFailure: string;
     directoryInsteadOfFileHasBeenRequested: Pick<Log, "title"> &
         { generateDescription: (templateNamedParameters: { targetPath: string; }) => string; };
+    publicFileSubmittingFailed: Pick<Log, "title"> &
+        { generateDescription: (templateNamedParameters: { targetPath: string; }) => string; };
   };
 
 

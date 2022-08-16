@@ -1,0 +1,23 @@
+mixin CategoryCard(targetCategory)
+
+  li.CategoryCard&attributes(attributes)
+
+    span.CategoryCard-NameLabel= targetCategory.name
+
+    +Button--YDF({
+      HTML_Type: Button__YDF.HTML_Types.regular,
+      geometry: Button__YDF.GeometricVariations.small
+    }).CategoryCard-Button
+      +Pencil__Filled--YDF_Icon.Button--YDF-SVG_Icon
+      span.Button--YDF-Label Edit
+
+    +Button--YDF({
+      HTML_Type: Button__YDF.HTML_Types.regular,
+      label: "Delete",
+      geometry: Button__YDF.GeometricVariations.small
+    }).CategoryCard-Button
+      +TrashCan__Filled--YDF_Icon.Button--YDF-SVG_Icon
+      span.Button--YDF-Label Delete
+
+
+include LoadingPlaceholder/CategoryCard-LoadingPlaceholder.pug

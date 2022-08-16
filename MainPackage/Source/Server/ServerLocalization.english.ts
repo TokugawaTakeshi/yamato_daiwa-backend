@@ -130,6 +130,11 @@ const ServerLocalization__English: ServerLocalization = {
       title: "Directory has been requested",
       generateDescription: ({ targetPath }: { targetPath: string; }): string =>
           `The directory with path '${ targetPath }' has been requested. Was it consciously?`
+    },
+
+    publicFileSubmittingFailed: {
+      title: "Public file submitting failed",
+      generateDescription: ({ targetPath }: { targetPath: string; }): string => `Failed to submit public file '${ targetPath }'.`
     }
   },
 

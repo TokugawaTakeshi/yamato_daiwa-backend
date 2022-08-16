@@ -1,0 +1,24 @@
+extends ../../../../../node_modules/@yamato-daiwa/frontend/PagesTemplates/StaticPreviewAnywherePage.pug
+
+
+block append Metadata
+
+  -
+    HTML_PAGE_LANGUAGE = "en";
+    HTML_PAGE_TITLE = "Sample application - The static preview";
+
+
+block append TableOfContents
+
+  h1.AnywherePage-TopHeading= HTML_PAGE_TITLE
+
+  +PageLinksGroup({
+    title: "Top page",
+    linksData: [
+      { label: "Normal displaying", URI: "@Pages/Top/TopPage" },
+      { label: "Loading", URI: "@Pages/Top/TopPage__Loading" },
+      { label: "Error", URI: "@Pages/Top/TopPage__Error" },
+      { label: "No search results", URI: "@Pages/Top/TopPage__NoSearchResults" }
+    ],
+    progressStatus: StaticPreviewAnywherePage.PageDevelopmentProgressStatuses.implementationInProgress
+  })

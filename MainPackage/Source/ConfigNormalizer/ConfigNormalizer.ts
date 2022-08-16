@@ -10,12 +10,12 @@ import Path from "path";
 import {
   Logger,
   InvalidConfigError,
-  isUndefined,
-  isNotUndefined,
+  isIPv4AddressLiesInRange,
   splitString,
-  removeAllSpecifiedCharacters
+  isUndefined,
+  removeAllSpecifiedCharacters,
+  isNotUndefined
 } from "@yamato-daiwa/es-extensions";
-import isIPv4AddressLiesInRange from "../UtilsIncubator/isIPv4AddressLiesInRange";
 
 /* --- Localization ----------------------------------------------------------------------------------------------------------- */
 import { ConfigNormalizerLocalizer } from "./ConfigNormalizerLocalization";
@@ -37,6 +37,7 @@ export default class ConfigNormalizer {
 
 
     return {
+
       IP_Address: rawConfig.IP_Address,
       ...ConfigNormalizer.normalizeHTTP_Config(rawConfig),
       ...ConfigNormalizer.normalizeHTTPS_Config(rawConfig),

@@ -1,6 +1,6 @@
 import Middleware from "./Middleware";
 import type Request from "../Request";
-import type Response from "../Response";
+import type Response from "../Response/Response";
 
 
 const CORS_Middleware: Middleware = async (

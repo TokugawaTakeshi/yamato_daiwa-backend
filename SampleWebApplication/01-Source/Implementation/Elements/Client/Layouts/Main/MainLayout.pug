@@ -1,0 +1,32 @@
+extends ../../../../../../node_modules/@yamato-daiwa/frontend/PagesTemplates/RegularWebPage.pug
+
+
+block append StatesSimulations
+
+  -
+
+    const MainLayoutStatesSimulations = {
+      drawerMenu: false
+    }
+
+
+block append PageContent
+
+  .MainLayout
+
+    .MainLayout-UpperFixedContentSlot
+
+      +Header
+
+    .MainLayout-Sidebar
+
+      +NavigationMenu
+
+    .MainLayout-SpecificContent
+
+      block SpecificContent
+
+    if MainLayoutStatesSimulations.drawerMenu
+      .MainLayout-DrawerOverlay
+        .MainLayout-Drawer
+          +NavigationMenu

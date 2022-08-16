@@ -8,7 +8,7 @@ import DomainNameSystem from "dns/promises";
 
 /* --- Framework's entities ----------------------------------------------------------------------------------------- */
 import type Request from "../Request";
-import Response from "../Response";
+import Response from "../Response/Response";
 import Router from "../Router";
 import Middleware from "../Middleware/Middleware";
 import type URI_QueryParametersDeserializer from "../URI_QueryParametersDeserializer";
@@ -20,7 +20,6 @@ import CORS_Middleware from "../Middleware/CORS_Middleware";
 import ConfigNormalizer from "../ConfigNormalizer/ConfigNormalizer";
 import HostHTTP_HeaderParser from "../Utils/HostHTTP_HeaderParser";
 import getSubdomainConfig from "../Utils/getSubdomainConfig";
-import sendFileByStreams from "../Utils/sendFileByStreamsAPI";
 
 /* --- General auxiliaries ------------------------------------------------------------------------------------------ */
 import {
@@ -32,6 +31,8 @@ import {
   UnexpectedEventError,
   InvalidConfigError,
   ImproperUsageError,
+  DataSubmittingFailedError,
+  ServerErrorsHTTP_StatusCodes,
   isUndefined,
   isElementOfEnumeration,
   isNotNull,
@@ -46,7 +47,6 @@ import {
   ConsoleApplicationLogger,
   isErrnoException
 } from "@yamato-daiwa/es-extensions-nodejs";
-import { ServerErrorsHTTP_StatusCodes } from "../UtilsIncubator/HTTP_StatusCodes";
 
 /* --- Localization ------------------------------------------------------------------------------------------------- */
 import type Localization from "./ServerLocalization";
@@ -54,6 +54,11 @@ import defaultLocalization from "./ServerLocalization.english";
 
 
 class Server {
+
+  static {
+    Logger.setImplementation(ConsoleApplicationLogger);
+  }
+
 
   private readonly config: Server.NormalizedConfig;
   private readonly middlewareHandlers: Array<Middleware> = [ CORS_Middleware ];
@@ -661,8 +666,7 @@ class Server {
     if (isUndefined(validAbsolutePathToPublicFile)) {
 
       if (normalizedRequest.URI.pathname === "/favicon.ico") {
-        sendFileByStreams(Path.join(__dirname, "..", "..", "favicon.ico"), response);
-        return;
+        return response.submitWithSuccess({ filePath: Path.join(__dirname, "..", "..", "favicon.ico") });
       }
 
 
@@ -721,8 +725,24 @@ class Server {
       return;
     }
 
+    try {
 
-    sendFileByStreams(validAbsolutePathToPublicFile, response);
+      await response.submitWithSuccess({ filePath: validAbsolutePathToPublicFile });
+
+    } catch (error: unknown) {
+
+      Logger.logError({
+        errorType: DataSubmittingFailedError.NAME,
+        title: this.localization.errors.publicFileSubmittingFailed.title,
+        description: this.localization.errors.publicFileSubmittingFailed.generateDescription({
+          targetPath: validAbsolutePathToPublicFile
+        }),
+        occurrenceLocation: "className.methodName(parametersObject)",
+        caughtError: error
+      });
+
+      rawResponse.writeHead(HTTP_StatusCodes.internalServerError).end();
+    }
   }
 
 
@@ -794,11 +814,6 @@ class Server {
             });
           });
     });
-  }
-
-
-  static {
-    Logger.setImplementation(ConsoleApplicationLogger);
   }
 }
 

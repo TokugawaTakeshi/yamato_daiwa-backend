@@ -45,9 +45,10 @@ class PoliteErrorsMessagesBuilder {
 
         return "We are sorry, but it is a bug. We apologize for any inconvenience. 🙇‍♂️\n" +
             "Please consider the opening issue on official GitHub repository: " +
-            "https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/issues/new?labels=bug&title=Unexpedted+Event+Report \n" +
+            "https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/issues/new?labels=bug&title=Unexpedted+Event+Report \n\n" +
             "--- What happened? -----------------------------------------------------------------------------------\n" +
             `${ politeExplanation }` +
+            "\n\n" +
             "--- Technical information --------------------------------------------------------------------------- \n" +
             `${ technicalDetails }`;
       }

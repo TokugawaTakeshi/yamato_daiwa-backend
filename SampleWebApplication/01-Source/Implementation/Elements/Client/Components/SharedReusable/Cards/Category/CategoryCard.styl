@@ -1,0 +1,71 @@
+CategoryCard = {
+  BOX_SHADOW_THICKNESS: 4px
+}
+
+
+.CategoryCard
+
+  display flex
+  align-items center
+
+  border-radius 4px
+  padding 12px 16px
+
+  background-color white
+  box-shadow: 0 0 CategoryCard.BOX_SHADOW_THICKNESS 1px alpha(black, 0.25)
+
+  cursor pointer
+
+
+  &:hover
+
+    box-shadow: 0 0 CategoryCard.BOX_SHADOW_THICKNESS 1px goldenrod
+
+
+  &:focus
+
+    box-shadow: 0 0 CategoryCard.BOX_SHADOW_THICKNESS 1px orangered
+
+
+  &:active
+
+    box-shadow: 0 0 CategoryCard.BOX_SHADOW_THICKNESS 1px red
+
+
+  &-NameLabel
+
+    applyTextGeometryWithoutExtraSpaceCausedByLineHeight({
+      fontSize: 18px,
+      lineSpacing: 4px,
+      mustAllowWordBreakingAnywhere: true
+    })
+
+    flex-grow 1
+
+
+    &--LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 40%,
+        height: 18px,
+        borderRadius: 4px
+      })
+
+
+  &-Button
+
+    flex-shrink 0
+
+    retireFrom({ targetElementSelector: ".CategoryCard-NameLabel", x: 12px })
+    retireFromElementWithSameSelector({ x: 8px })
+
+
+    &__LoadingPlaceholder
+
+      LoadingPlaceholder({
+        width: 100px,
+        height: 24px,
+        borderRadius: 3px
+      })
+
+      margin-left auto
