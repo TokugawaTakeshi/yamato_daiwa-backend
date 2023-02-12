@@ -737,7 +737,7 @@ class Server {
         description: this.localization.errors.publicFileSubmittingFailed.generateDescription({
           targetPath: validAbsolutePathToPublicFile
         }),
-        occurrenceLocation: "className.methodName(parametersObject)",
+        occurrenceLocation: "Server.requestMasterHandler(rawRequest, rawResponse)",
         caughtError: error
       });
 
