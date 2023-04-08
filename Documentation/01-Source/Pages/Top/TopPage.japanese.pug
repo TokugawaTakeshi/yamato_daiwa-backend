@@ -1,0 +1,36 @@
+extends ../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/Minimal/MinimalLayout.pug
+
+
+block append Requirements
+
+  include ../../Components/Components.japanese.pug
+  include ../../SharedAssets/Markup/Assets.japanese.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("トップ");
+    HTML_PageMetaData = {
+      author: HTML_PAGE_AUTHOR
+    };
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon.ico";
+
+    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/Minimal/MinimalLayout", "@Shared/ExternalComponents", "@Pages/Top/TopPage" ];
+
+    RoutingEmulator.setCurrentRoute("top");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      [LanguageDropDownList__YDF_DK.supportedLanguages.english]: "./../index.html",
+      [LanguageDropDownList__YDF_DK.supportedLanguages.russian]: "./TopPage.russian.html"
+    });
+
+
+block append SpecificContent
+
+  main.TopPage
+
+    +CompactTableOfContents--YDF_DK(localizedRouting).TopPage-TableOfContents

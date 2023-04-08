@@ -38,18 +38,19 @@ namespace CategoriesCollectionsMocker {
 
   export type MockingOrder = ReadonlyArray<Subset>;
 
-  export type Subset =
-      Readonly<{
-        completelyRandom: true;
-        quantity: number;
-      }> |
-      Readonly<{
-        withNames: ReadonlyArray<string>;
-      }> |
-      Readonly<{
-        nameInfixForSearchingImitation: string;
-        quantity: number;
-      }>;
+  export type Subset = Readonly<
+    {
+      completelyRandom: true;
+      quantity: number;
+    } |
+    {
+      withNames: ReadonlyArray<string>;
+    } |
+    {
+      nameInfixForSearchingImitation: string;
+      quantity: number;
+    }
+  >;
 
 }
 

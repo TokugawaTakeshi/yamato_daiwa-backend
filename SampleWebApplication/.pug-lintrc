@@ -1,4 +1,4 @@
 {
-  "extends": "./node_modules/@yamato-daiwa/style_guides/Markup-BasicPreset.js",
+  "extends": "./node_modules/@yamato-daiwa/style_guides/Markup.js",
   "excludeFiles": [ "01-Source/Implementation/Elements/Client/StaticPreview/_MockData/MockData.pug" ]
 }

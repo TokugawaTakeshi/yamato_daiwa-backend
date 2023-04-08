@@ -9,10 +9,10 @@ import MockDataSource from "@MockDataSource/MockDataSource";
 const mockDataSource: MockDataSource = MockDataSource.getInstance();
 
 
-const MockData: {
+const MockData: Readonly<{
   categories: ReadonlyArray<Category>;
   products: ReadonlyArray<Product>;
-} = {
+}> = {
   categories: mockDataSource.categories,
   products: mockDataSource.products
 };

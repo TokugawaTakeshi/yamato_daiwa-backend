@@ -44,7 +44,7 @@ Server.initializeAndStart({
 });
 ```
 
-See the ["Hello, world!"](https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/01-HelloWorld/README.md) tutorial for the details.
+See the ["Hello, world!"](https://es-extensions.yamatodaiwa.com/Tutorials/HelloWorld/HelloWorldTutorialPage.english.html) tutorial for the details.
 
 
 ### HTTPS support

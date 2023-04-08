@@ -64,16 +64,16 @@ namespace ProductsCollectionsMocker {
   export type Subset =
       Readonly<{
         completelyRandom: true;
-        optionalPropertiesDecisionStrategy?: DataMocking.OptionalPropertiesDecisionStrategies;
+        optionalPropertiesDecisionStrategy: DataMocking.OptionalPropertiesDecisionStrategies;
         quantity: number;
       }> |
       Readonly<{
         withNames: Array<string>;
-        optionalPropertiesDecisionStrategy?: DataMocking.OptionalPropertiesDecisionStrategies;
+        optionalPropertiesDecisionStrategy: DataMocking.OptionalPropertiesDecisionStrategies;
       }> |
       Readonly<{
         nameInfixForSearchingImitation: string;
-        optionalPropertiesDecisionStrategy?: DataMocking.OptionalPropertiesDecisionStrategies;
+        optionalPropertiesDecisionStrategy: DataMocking.OptionalPropertiesDecisionStrategies;
         quantity: number;
       }>;
 

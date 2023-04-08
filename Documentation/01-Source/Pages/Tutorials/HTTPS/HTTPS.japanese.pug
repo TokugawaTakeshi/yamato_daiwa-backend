@@ -1,0 +1,38 @@
+extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
+
+
+block append Requirements
+
+  include ../../../SharedAssets/Markup/Assets.japanese.pug
+  include ../../../Components/Components.russian.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("HTTPS利用");
+    HTML_PageMetaData = {
+      description: "",
+      author: HTML_PAGE_AUTHOR
+    };
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon";
+
+    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/TwoColumns/TwoColumnsLayout", "@Shared/ExternalComponents" ];
+    scriptsURIs.endOfBody = [ "@Common" ];
+
+    RoutingEmulator.setCurrentRoute("tutorials.HTTPS");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      [LanguageDropDownList__YDF_DK.supportedLanguages.english]: "./HTTPS.english.html",
+      [LanguageDropDownList__YDF_DK.supportedLanguages.russian]: "./HTTPS.russian.html",
+    });
+
+
+block append SpecificContent
+
+  article
+
+    h1.Article-Heading1 HTTPS利用
