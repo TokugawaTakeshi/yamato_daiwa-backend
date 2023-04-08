@@ -123,7 +123,7 @@ const ServerLocalization__English: ServerLocalization = {
     requestedResourceNotFound: {
       title: "Requested resource not found",
       generateDescription: ({ potentialRawRelatedPathToPublicFile }: { potentialRawRelatedPathToPublicFile: string; }): string =>
-        `Public file refers to '${ potentialRawRelatedPathToPublicFile }' was not found.`
+        `The path '${ potentialRawRelatedPathToPublicFile }' refers to unknown resource.`
     },
 
     fileStatisticsRetrievingFailure: "Unexpected error occurred during retrieving of the file statistics.",

@@ -1,0 +1,56 @@
+extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
+
+
+block append Requirements
+
+  include ../../../SharedAssets/Markup/Assets.russian.pug
+  include ../../../Components/Components.russian.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ru";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("Использование HTTPS");
+    HTML_PageMetaData = {
+      description: "",
+      author: HTML_PAGE_AUTHOR
+    };
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon";
+
+    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/TwoColumns/TwoColumnsLayout", "@Shared/ExternalComponents" ];
+    scriptsURIs.endOfBody = [ "@Common" ];
+
+    RoutingEmulator.setCurrentRoute("tutorials.HTTPS");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      [LanguageDropDownList__YDF_DK.supportedLanguages.english]: "./HTTPS.english.html",
+      [LanguageDropDownList__YDF_DK.supportedLanguages.japanese]: "./HTTPS.japanese.html"
+    });
+
+
+block append SpecificContent
+
+  article
+
+    h1.Article-Heading1 Использование HTTPS
+
+    p.Article-Paragraph.
+      В большинстве случаев относительно простого в обращении #[+Term--YDID протокола HTTP] достаточно
+        #[+Keyphrase--YDID для режима локальной разработки], однако использовать его на продакшене крайне не рекомендуется.
+      Передача данных (в том числе паролей, номеров кредитных карт и любой другой личной информации) с помощью
+        #[+Term--YDID Протокол HTTP] осуществляется в открытом (незашифрованном) виде, что делает её уязвимой для перехвата.
+      Но даже если Ваш сайт или Ваше веб-приложение не работает с личными данными, поисковые системы занизят его
+        рейтинг, если Вы используйте протокол #[+Term--YDID протокол HTTP].
+
+    p.Article-Paragraph.
+      Стандартным решением этой проблемы является HTTPS - расширение протокола HTTP, использующее криптографические
+        протоколы SSL/TLS для обеспечения конфиденциальности обмена данными.
+      Однако для того, чтобы эта магия работала, необходим цифровой сертификат - электронный документ, который
+        идентифицирует сервер.
+      В случае продакшена этот сертификат необходимо покупать.
+      Обычно такие сертификаты продают поставщики доменных имён и серверов.
+      Для режима локальной разработки сертификат можно выпустить самостоятельно с помощью утилиты OpenSSL, однако придётся
+        убедить браузер, что этот самовыпущенный сертификат безопасен.

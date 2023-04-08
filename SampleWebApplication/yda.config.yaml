@@ -23,6 +23,13 @@ projectBuilding:
 
         browserLiveReloadingSetupID: Application
 
+    publicDirectoriesRelativePaths:
+
+      LOCAL_DEVELOPMENT: 03-LocalDevelopmentBuild/public
+      TESTING: 04-TestingBuild/public
+      STAGING: 05-StagingBuild/public
+      PRODUCTION: 06-ProductionBuild/public
+
 
   markupProcessing:
 

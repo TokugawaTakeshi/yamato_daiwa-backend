@@ -7,16 +7,15 @@ import {
 } from "@yamato-daiwa/es-extensions";
 
 
-export interface FrontServerDependencies {
+export type FrontServerDependencies = Readonly<{
   gateways: FrontServerDependencies.Gateways;
-}
+}>;
 
 export namespace FrontServerDependencies {
-  export interface Gateways {
+  export type Gateways = Readonly<{
     category: CategoryGateway;
-  }
+  }>;
 }
-
 
 export default abstract class FrontServerDependenciesInjector {
 
@@ -46,4 +45,5 @@ export default abstract class FrontServerDependenciesInjector {
   public static get gateways(): FrontServerDependencies.Gateways {
     return FrontServerDependenciesInjector.getDependencies().gateways;
   }
+
 }

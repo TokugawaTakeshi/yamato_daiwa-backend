@@ -1,0 +1,7 @@
+/node_modules
+
+/02-StaticPreviewBuild/
+/03-LocalDevelopmentBuild/
+/04-TestingBuild/
+/05-StagingBuild/
+/06-ProductionBuild/
