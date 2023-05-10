@@ -1,0 +1,77 @@
+-
+
+  generatePageTableOfContents = localizedStrings => {
+
+    const PAGE_URI = localizedRouting.API.$children.Server.$URI;
+
+    const tableOfContents = {
+
+      publicStaticMethods: {
+
+        $heading: localizedStrings.publicStaticMethods.$heading,
+        $anchor: "PUBLIC_STATIC_METHODS--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+
+        $children: {
+
+          initializeAndStart: {
+
+            $heading: "<code>initializeAndStart</code>",
+            $anchor: "INITIALIZE_AND_START--SECTION",
+            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+
+            $children: {
+
+              parameter: {
+
+                $heading: localizedStrings.publicStaticMethods.initializeAndStart.parameter.$heading,
+                $anchor: "INITIALIZE_AND_START-PARAMETER--SECTION",
+                get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+
+                $children: {
+
+                  IP_Address: {
+
+                    $heading: "IP_Address",
+                    $anchor: "INITIALIZE_AND_START-PARAMETER-IP_ADDRESS--SECTION",
+                    get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      },
+
+      relatedTypes: {
+
+        $heading: localizedStrings.relatedTypes.$heading,
+        $anchor: "RELATED_TYPES--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+
+        $children: {
+
+          RawConfig: {
+
+            $heading: "<code>RawConfig</code>",
+            $anchor: "RAW_CONFIG--SECTION",
+            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+
+          }
+
+        }
+
+      }
+
+    };
+
+    return tableOfContents;
+
+  }

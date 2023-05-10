@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/01-Source" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/02-LocalDevelopmentBuild" />
       <excludeFolder url="file://$MODULE_DIR$/03-ProductionBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

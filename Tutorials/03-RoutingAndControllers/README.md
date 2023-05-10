@@ -141,7 +141,7 @@ Server.initializeAndStart({
 });
 ```
 
-We used HTTP protocol to avoid the waisting of hte tutorial's time for SLL certificates, but for the web-sites/web applications
+We used HTTP protocol to avoid the waisting of the tutorial's time for SLL certificates, but for the web-sites/web applications
 which will be published HTTPS is de facto required in 202X. You can switch to HTTPS in any stage of development until realize.
 
 The **routing** property accepts the array of the objects **RouteAndHandlerPair** or controllers (will be explained below):

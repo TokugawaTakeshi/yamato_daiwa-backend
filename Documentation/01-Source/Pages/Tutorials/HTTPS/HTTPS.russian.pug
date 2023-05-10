@@ -3,8 +3,15 @@ extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts
 
 block append Requirements
 
-  include ../../../SharedAssets/Markup/Assets.russian.pug
-  include ../../../Components/Components.russian.pug
+  include ../../../SharedAssets/Markup/SharedAssets.russian.pug
+  include ../../../SharedComponents/SharedComponents.russian.pug
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
 
 
 block append Metadata
@@ -20,14 +27,20 @@ block append Metadata
 
     FAVICON_URI = "@MustBeInPublicRoot/favicon";
 
-    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/TwoColumns/TwoColumnsLayout", "@Shared/ExternalComponents" ];
-    scriptsURIs.endOfBody = [ "@Common" ];
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
 
     RoutingEmulator.setCurrentRoute("tutorials.HTTPS");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      [LanguageDropDownList__YDF_DK.supportedLanguages.english]: "./HTTPS.english.html",
-      [LanguageDropDownList__YDF_DK.supportedLanguages.japanese]: "./HTTPS.japanese.html"
+      english: "./HTTPS.english.html",
+      japanese: "./HTTPS.japanese.html"
     });
 
 
@@ -38,19 +51,212 @@ block append SpecificContent
     h1.Article-Heading1 Использование HTTPS
 
     p.Article-Paragraph.
-      В большинстве случаев относительно простого в обращении #[+Term--YDID протокола HTTP] достаточно
-        #[+Keyphrase--YDID для режима локальной разработки], однако использовать его на продакшене крайне не рекомендуется.
+      #[+Keyphrase--YDID Для режима локальной разработки] #[+Term--YDID протокола HTTP] может быть
+        достаточно, однако #[+Keyphrase--YDID использовать его на продакшене крайне #[+Keyword--YDID не] рекомендуется].
       Передача данных (в том числе паролей, номеров кредитных карт и любой другой личной информации) с помощью
-        #[+Term--YDID Протокол HTTP] осуществляется в открытом (незашифрованном) виде, что делает её уязвимой для перехвата.
-      Но даже если Ваш сайт или Ваше веб-приложение не работает с личными данными, поисковые системы занизят его
-        рейтинг, если Вы используйте протокол #[+Term--YDID протокол HTTP].
+        #[+Term--YDID протокола HTTP] осуществляется в #[+Keyword--YDID открытом] (незашифрованном) виде, что делает
+        их уязвимыми к перехвату с помощью вредоносного программного обеспечения,
+        #[+Keyphrase--YDID обнаружить которое с вероятностью 100% не способен ни один антивирус].
+      Но даже у Ваc простой сайт, не работающий с личными данными, поисковые системы занизят его рейтинг,
+        если Вы используйте #[+Term--YDID протокол HTTP].
 
     p.Article-Paragraph.
-      Стандартным решением этой проблемы является HTTPS - расширение протокола HTTP, использующее криптографические
-        протоколы SSL/TLS для обеспечения конфиденциальности обмена данными.
-      Однако для того, чтобы эта магия работала, необходим цифровой сертификат - электронный документ, который
-        идентифицирует сервер.
-      В случае продакшена этот сертификат необходимо покупать.
-      Обычно такие сертификаты продают поставщики доменных имён и серверов.
-      Для режима локальной разработки сертификат можно выпустить самостоятельно с помощью утилиты OpenSSL, однако придётся
-        убедить браузер, что этот самовыпущенный сертификат безопасен.
+      Стандартным решением этой проблемы является #[+DefinableTerm--YDID протокол HTTPS] - #[+Keyword--YDID расширение]
+        #[+Term--YDID HTTP], использующее #[+Term--YDID криптографические протоколы] #[+ImportantEntity--YDID SSL/TLS]
+        для обеспечения конфиденциальности обмена данными.
+      Однако для того, чтобы эта магия работала, необходимо подготовить #[+ImportantEntity--YDID 2] вещи:
+
+
+    dl.Article-DescriptionList
+
+      dt Цифровой сертификат
+      dd.
+        #[+Term--YDID Электронный документ], который идентифицирует #[+Term--YDID сервер] и по которому браузер либо
+          другое программное обеспечение для отправки #[+Term--YDID HTTP-запросов] может судить о том, насколько
+          безопасно взаимодействие с #[+Term--YDID сервером].
+
+      dt Закрытый ключ
+      dd.
+        Большая #[+Term--YDID последовательность символов], с помощью которой #[+Term--YDID сервер] сможет расшифровать
+          входящие #[+Term--YDID запросы].
+
+    p.Article-Paragraph.
+      #[+Keyphrase--YDID В случае продакшена] #[+Term--YDID сертификат] необходимо
+        #[+Keyword--YDID приобретать] #[+Keyphrase--YDID на регулярной основе] в силу его ограниченного срока действия.
+      Обычно такие #[+Term--YDID сертификаты] можно приобрести у поставщиков услуг по сдаче #[+Term--YDID серверов] в
+        аренду, с которыми предстоит иметь дело (если, конечно, у Вас нет своего сервера, который работает 24 часа в
+        сутки и обслуживается должным образом).
+      Существуют как платные, так и бесплатные #[+Term--YDID сертификаты].
+
+    p.Article-Paragraph.
+      #[+Keyphrase--YDID Для режима локальной разработки] #[+Term--YDID сертификат] и #[+Term--YDID ключ] можно
+        выпустить самостоятельно.
+      Процесс выпуска этого сертификата прост, куда сложнее объясниться с браузером, что самовыпущенному
+        сертификату можно доверять.
+      Самовыпущенный #[+Term--YDID сертификат] даёт такой же уровень защиты, что приобретаемый, однако браузеры
+        учитывают, кем был выпущен #[+Term--YDID сертификат], и если уровень доверия окажется недостаточным, то
+        Вы увидите в браузере примерно такое сообщение:
+
+    +SingleImageViewer--YDF({
+      imageURI: "@AssociatedWithPages/Tutorials/HTTPS/Images/ConnectionIsNotPrivateBrowserError.russian",
+      imageAlternateText:
+          "Браузер сообщает: «Ваше подключение не защищено». " +
+          "Причиной этого может быть недоверие к выпущенному SLL-сертификату.",
+      autoAspectRatioByYDA: true
+    })
+
+    p.Article-Paragraph.
+      Странно получать подобные сообщения в отношение разработанного нами приложения, запущенного на
+        #[+SecondaryEntity__Code--YDID localhost] и недоступного в интернете, не правда ли?
+      Связано это с особенностями работы данной технологии безопасности, одна из которых которая заключается в том,
+        что доменное имя привязывается в контролируемому набору серверов, а localhost такой привязки не имеет и
+        не может иметь, так как на каждой машине свой сервер на localhost.
+      Кроме того, гипотетически можно локальный компьютер настроить так, чтобы localhost вёл на какой-нибудь другой домен
+        в интернете.
+      Едва ли Вы захотите этим заниматься, но это может сделать вредоносное программное обеспечение.
+      В итоге, для браузера неизвестно, что именно скрывается за localhost, а потому он не доверяет localhost наравне
+        с сайтами с недостоверными сертификатами, опубликованными в интернете.
+
+    p.Article-Paragraph.
+      Как же заставить браузеры доверять сертификатам?
+      Проще всего сделать это кроссплатформенно с помощью утилиты #[+ImportantEntity--YDID mkcert].
+      Хотя и она имеет ограничения (например, на момент весны 2024 года не поддерживался браузер Firefox для операционной
+        системы Windows), в целом можно выпускать сертификаты с высоким уровнем доверия для большинства популярынх
+        браузеров.
+
+
+    h2.Article-Heading2 Выпуск электронного сертификата и закрытого ключа для режима локальной разработки
+
+    ol.Article-OrderedList
+
+      li.
+        Если Вы используйте #[+ImportantEntity--YDID Windows], то подготовьте к работе утилиту #[+ImportantEntity--YDID OpenSSL].
+        В отличие от UNIX-подобных операционных систем, на #[+ImportantEntity--YDID Windows] данная утилита
+          #[+Keyword--YDID изначально] #[+Keyword__Contrast--YDID отсутствует], однако поставляется в комплекте с
+          #[+Link--YDF({ unendorsedExternalURI: "https://gitforwindows.org/" }).Article-Link системой контроля версий Git].
+        Если и другие способы установить эту утилиту, однако в современной разработке программного обеспечения и веб-продуктов
+          #[+Term--YDID система контроля версий] #[+ImportantEntity--YDID Git] #[+Keyword--YDID де-факто] является
+          #[+Keyword__Contrast--YDID обязательным] инструментом, даже если Вы работаете в одиночку и не храните код
+          в интернете.
+        Для того, чтобы использовать #[+ImportantEntity--YDID OpenSSL] через #[+ImportantEntity--YDID Git], откройте
+          входящий в комплект последней терминал #[+ImportantEntity--YDID Git Bash].
+
+      li.
+        Создайте в Вашем проекте папку для #[+Term--YDID сертификата] и #[+Term--YDID закрытого ключа]
+          (например, с именем #[+SecondaryEntity--YDID SSL]).
+        Можете использовать проект из предыдущего урока или создать новый.
+
+      li.
+        Откройте терминал, из которого доступна утилита #[+ImportantEntity--YDID OpenSSL] и перейдите в директорию,
+          созданную на предыдущем шаге.
+
+      li
+
+        p.Article-Paragraph.
+          Введите следующую команду:
+
+        +CodeViewer--YDF
+          +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash }).
+            openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
+
+        p.Article-Paragraph.
+          Будет задано несколько простых вопросов - введите ответы на них.
+          Хотя сертификат и будет самоподписанным, содержание его эквивалентно авторитетному, а нужны те же данные,
+            что и для выпуска авторитетного сертификата.
+
+    p.Article-Paragraph.
+      В результате эти действий будут созданы файлы в #[+Term--YDID сертификатом] и #[+Term--YDID закрытым ключом],
+        с помощью которых станет возможным интернет-соединение.
+
+
+    h2.Article-Heading2 Код приложения
+
+    p.Article-Paragraph.
+      #[+ImportantEntity--YDID YDB] поддерживает #[+ImportantEntity--YDID HTTPS] #[+Keyword--YDID без]&nbsp;плагинов.
+      Всё что нужно — указать пути к выпущенным ранее сертификату и ключу.
+
+    p.Article-Paragraph.
+      Оставим поддержку #[+Term--YDID протокола HTTP], но добавим в в #[+Term--YDID свойства инициализации] группу
+        #[+ImportantEntity__Code--YDID HTTPS]:
+
+    +CodeViewer--YDF.Article-CodeViewer
+      +CodeViewer-TabPanel--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript })
+
+        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
+          import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+          import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+          import Path from "path";
+
+
+          Server.initializeAndStart({
+            IP_Address: "127.0.0.1",
+            HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+            HTTPS: {
+              port: ProtocolDependentDefaultPorts.HTTPS,
+        +CodeViewer-Explanation--YDF
+          p.Article-Paragraph.
+            Для HTTPS портом по умолчанию является #[+ImportantEntity__Code--YDID 443].
+            Опять же, нет необходимости это запоминать - достаточно осознавать, будем ил мы использовать порт по умолчанию
+              или же какой-то другой.
+
+        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
+          &nbsp;&nbsp;&nbsp;&nbsp;SSL_CertificateFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/cert.pem"),
+              SSL_KeyFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/key.pem"),
+        +CodeViewer-Explanation--YDF
+          p.Article-Paragraph.
+            Указываем пути к сертификату и ключу, созданных ранее.
+            Относительные пути (#[+SecondaryEntity__Code--YDID SSL/cert.pem] и #[+SecondaryEntity__Code--YDID SSL/cert.pem]
+              соответственно) тоже #[+Keyphrase--YDID в данном случае] будут работать, но на продакшене у нас будут
+              и файлы разные в зависимости от среды, да и в стандартном случае у нас будет #[+Term--YDID выходной JavaScript-код],
+              причём в другой директории.
+
+        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
+          &nbsp;&nbsp;routing: [
+              {
+                route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+                async handler(_request: Request, response: Response): Promise<void> {
+                  return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+                }
+              }
+            ]
+          });
+
+
+    //- TODO 校閲済み ↑ ==================================================================================================
+    h2.Article-Heading2 Проверка реакции браузера на самоподисанный сертификат
+
+    p.Article-Paragraph.
+      Запустим приложение с помощью #[+SecondaryEntity__Code--YDID ts-node EntryPoint.ts].
+      На сей раз у нас будет два сообщения об успешном запуске сервера: для протокола HTTP и для протокола HTTPS.
+
+    //- TODO 画像
+
+    p.Article-Paragraph.
+      Последний запустился на #[+SecondaryEntity__Code--YDID https://127.0.0.1:443] - откроем этот адрес в браузере,
+        и получим странное (и в какой-то мере страшное) сообщение:
+
+    //- TODO 画像. В alt, понадобится полностью описать, что отображение на картинеке
+
+    p.Article-Paragraph.
+      Странно получать подобные сообщения в отношение разработанного нами приложения, запущенного на localhost и
+        не доступного в интернете, не правда ли?
+      Связано это с особенностями работы #[+Term--YDID электронных сертификатов], одна из которых которая заключается в том,
+        что доменное имя привязывается в контролируемому набору серверов, а localhost такой привязки не имеет и не может иметь,
+        так как на каждой машине свой сервер на localhost.
+      Потом, гипотетически можно локальный компьютер настроить так, чтобы localhost вёл на какой-нибудь другой домен
+        в интернете.
+      Едва ли Вы захотите этим заниматься, но это может сделать вредоносное программное обеспечение, и тогда сертификат
+        предотвратит.
+      В итоге, для браузера неизвестно, что именно скрывается за localhost, а потому он не доверяет localhost наравне
+        с сайтами с недостоверными сертификатами, опубликованными в интернете.
+
+
+    h2.Article-Heading2 Добавка сертификата в белый список
+
+    p.Article-Paragraph.
+      Этот процесс претендует на отдельную статью: понадобится большое количество картинок, а также описание под каждую
+        операционную систему.
+      Поскольку это не имеет отношение к YDB, приносим свои извинения за то, что ограничились набором ссылок, где
+        этот процесс описан.
+      Следуйте этим указаниями, и если что-то не будет работать - задавайте вопрос на форумах.
+      Как только получите то же отображение в браузере, что и в предыдущем уроке - поздравляем с завершением этого урока.

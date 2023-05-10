@@ -1,10 +1,27 @@
 extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
 
+block append Data
+
+  -
+
+    const serverInitializationPropertiesSpecification = {
+      IP_Address: {
+        localizedInterpretation: "IP-адрес",
+        type: "string",
+        required: true
+      },
+      HTTP: {
+        localizedInterpretation: "Настройки для протокола HTTP",
+        type: "RawConfig.HTTP",
+        required: false
+      }
+    };
+
 
 block append Requirements
 
-  include ../../../SharedAssets/Markup/Assets.russian.pug
-  include ../../../Components/Components.russian.pug
+  include ../../../SharedAssets/Markup/SharedAssets.russian.pug
+  include ../../../SharedComponents/SharedComponents.russian.pug
 
 
 block append Metadata
@@ -14,25 +31,133 @@ block append Metadata
     HTML_PAGE_LANGUAGE = "ru";
     HTML_PAGE_TITLE = buildHTML_PageTitle("Server");
     HTML_PageMetaData = {
-      description: "",
+      description:
+          "Класс «Server» Node.js-фреймворка «Yamato Daiwa Backend» обеспечивает функциональность инициализации " +
+          "серверного приложения, принимающего HTTP-запросы с поддержкой протокола HTTPS.",
       author: HTML_PAGE_AUTHOR
     };
 
     FAVICON_URI = "@MustBeInPublicRoot/favicon";
 
-    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/TwoColumns/TwoColumnsLayout", "@Shared/ExternalComponents" ];
-    scriptsURIs.endOfBody = [ "@Common" ];
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
 
     RoutingEmulator.setCurrentRoute("localizedRouting.API.Server");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      [LanguageDropDownList__YDF_DK.supportedLanguages.english]: "./Server.english.html",
-      [LanguageDropDownList__YDF_DK.supportedLanguages.japanese]: "./Server.japanese.html"
+      english: "./Server.english.html",
+      japanese: "./Server.japanese.html"
     });
+
+    const PAGE_TABLE_OF_CONTENTS = localizedRouting.API.$children.Server.$sectioning;
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
 
 
 block append SpecificContent
 
   article
 
-    h1 Класс "Server"
+    h1.Article-Heading1 Класс «Server»
+
+    +CompactTableOfContents--YDF_DK(PAGE_TABLE_OF_CONTENTS, { mustApplyAnchorsInsteadOfURIs: true })
+
+    p.Article-Paragraph.
+      Основной класс пакета, предоставляющий функциональность обработки #[+Term--YDID HTTP-запросов] включая поддержку
+        #[+Term--YDID протокола HTTPS].
+
+
+    //- ━━━ Открытые Статические Методы ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$heading,
+      HTML_ID: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$anchor
+    }).Article-Heading2
+
+    //- ─── initializeAndStart ─────────────────────────────────────────────────────────────────────────────────────────
+    +CallableExpressionScheme--YDF_DK({
+      technicalName: "initializeAndStart",
+      localizedDescriptiveHeading: "Инициализировать и запустить",
+      headingTag: "h3",
+      parametersSpecification: [
+        {
+          genericTechnicalName: "Конфигурация",
+          type: "Server.RawConfiguration",
+          required: true
+        }
+      ],
+      returnedValue: "Server"
+    })(
+      id=PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.initializeAndStart.$anchor
+    )
+
+    //- ━━━ Параметр ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 4,
+      text: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.initializeAndStart.$children.parameter.$heading,
+      HTML_ID: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.initializeAndStart.$children.parameter.$anchor
+    }).Article-Heading4
+
+    +ObjectTypeAbstract--YDF_DK({
+      typeName: "Server.RawConfiguration",
+      localizedDescriptiveHeading: "Конфигурация",
+      propertiesSpecification: serverInitializationPropertiesSpecification
+    })
+
+    p.Article-Paragraph.
+      Имеет #[+Keyword--YDID объектный] #[+Term--YDID тип], спроектированный таким образом, что обязательными
+        #[+Term--YDID свойствами] сделано всё то, о чем инженер обязан отдавать себе отчёт.
+
+
+    //- ━━━ IP_Address ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 5,
+      text: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.
+          initializeAndStart.$children.
+          parameter.$children.
+          IP_Address.$heading,
+      HTML_ID: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.
+          initializeAndStart.$children.
+          parameter.$children.
+          IP_Address.$anchor
+    }).Article-Heading5
+
+    +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.IP_Address)
+
+    p.Article-Paragraph.
+      #[+Keyword--YDID Обязательное] свойство, которое должно содержать валидный #[+Term--YDID IP-адрес], по которому
+        будет осуществляться прослушивание входящих #[+Term--YDID HTTP-запросов] после запуска приложения.
+      В простейшем случае с одним #[+Term--YDID обработчиком запросов] и #[+Keyword--YDID без] поддержки
+        #[+Term--YDID протокола HTTPS] #[+Keyword--YDID минимальный] пример будет:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :html_special_characters_to_html_entities
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });

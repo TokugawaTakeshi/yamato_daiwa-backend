@@ -1,0 +1,11 @@
+include HelloWorldTutorialPage.toc.pug
+
+
+-
+
+  localizedRouting.tutorials.$children.helloWorld.$sectioning = generatePageTableOfContents({
+    preRequirements: { $heading: "Pre-requirement Knowledge and Skills" },
+    projectRollout: { $heading: "Node.js-project Rollout" },
+    code: { $heading: "Code" },
+    testing: { $heading: "Testing" }
+  });

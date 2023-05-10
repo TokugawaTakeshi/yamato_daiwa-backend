@@ -158,7 +158,7 @@ const ServerLocalization__English: ServerLocalization = {
       title: "The serving of HTTPS requests started",
       description: "Waiting for the HTTPS requests on:\n" +
           `  IP address: ${ templateNamedParameters.IP_Address }\n` +
-          `  Port: ${ templateNamedParameters.HTTPS_Port }` +
+          `  Port: ${ templateNamedParameters.HTTPS_Port }\n` +
           `  Starting URI: https://${ templateNamedParameters.IP_Address }:${ templateNamedParameters.HTTPS_Port }`
     }),
 

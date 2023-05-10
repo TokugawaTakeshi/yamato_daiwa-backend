@@ -1,0 +1,16 @@
+include Server.toc.pug
+
+
+-
+
+  localizedRouting.API.$children.Server.$sectioning = generatePageTableOfContents({
+    publicStaticMethods: {
+      $heading: "Открытые статические методы",
+      initializeAndStart: {
+        parameter: { $heading: "Параметр" }
+      }
+    },
+    relatedTypes: {
+      $heading: "Связанные типы"
+    }
+  });

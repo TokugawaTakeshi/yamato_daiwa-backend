@@ -1,0 +1,37 @@
+-
+
+  generatePageTableOfContents = localizedStrings => {
+
+    const PAGE_URI = localizedRouting.API.$children.Server.$URI;
+
+    const tableOfContents = {
+
+      preRequirements: {
+        $heading: localizedStrings.preRequirements.$heading,
+        $anchor: "PRE_REQUIREMENT_KNOWLEDGE_AND_SKILLS--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+      },
+
+      projectRollout: {
+        $heading: localizedStrings.projectRollout.$heading,
+        $anchor: "PROJECT_ROLLOUT--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+      },
+
+      code: {
+        $heading: localizedStrings.code.$heading,
+        $anchor: "CODE--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+      },
+
+      testing: {
+        $heading: localizedStrings.testing.$heading,
+        $anchor: "TESTING--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+      }
+
+    };
+
+    return tableOfContents;
+
+  }

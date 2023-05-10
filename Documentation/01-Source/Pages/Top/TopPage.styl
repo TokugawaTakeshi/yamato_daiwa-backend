@@ -28,6 +28,87 @@
     Paddings({ horizontalSymmetric: 12px })
 
 
+  &-ImageAndTopHeadingGroup
+
+    display grid
+    grid-template-columns auto minmax(0, 1fr)
+    column-gap 12px
+    align-items center
+
+    width fit-content
+    centerHorizontallyWithoutWrapper({ targetElementType: HorizontalCenteringWithoutWrapper.TargetElementTypes.block })
+
+    margin-top 12px
+
+
+    &-Image
+
+      width 64px
+
+
+    &-Heading
+
+      display flex
+      flex-direction column
+
+      font-family Arial Black, Arial Bold, Gadget, sans-serif
+      font-weight bold
+      color: YDF_ColorPalette.deepPurple.mediumDark
+
+
+      &-FirstLine
+
+        font-size 24px
+
+
+      &-SecondLine
+
+        font-size 32px
+
+        margin-top 4px
+
+
+  &-ShortDescription
+
+    &-Heading
+
+      applyTextGeometryWithoutExtraSpaceCausedByLineHeight({ fontSize: 20px, lineSpacing: 6px })
+      text-align center
+
+      font-weight bold
+      color: YDF_ColorPalette.deepPurple.mediumDark
+
+      margin-top 12px
+
+
+    &-Paragraph
+
+      applyTextGeometryWithoutExtraSpaceCausedByLineHeight({ fontSize: 16px, lineSpacing: 4px })
+      text-align center
+
+      font-weight bold
+      color: YDF_ColorPalette.deepPurple.slightlyDark
+
+      margin-top 12px
+
+
+    &-UnorderedList
+
+      UnorderedList--YDF()
+
+
+      li
+
+        applyTextGeometryWithoutExtraSpaceCausedByLineHeight({ fontSize: 14px, lineSpacing: 4px })
+        list-style-type "■ "
+
+
+  &-Disclaimer
+
+    margin-top 12px
+
+
   &-TableOfContents
 
+    margin-top 16px
     margin-bottom 32px

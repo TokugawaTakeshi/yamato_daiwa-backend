@@ -23,7 +23,7 @@ import { ConfigNormalizerLocalizer } from "./ConfigNormalizerLocalization";
 
 export default class ConfigNormalizer {
 
-  public static normalize(rawConfig: Server.RawConfig): Server.NormalizedConfig {
+  public static normalize(rawConfig: Server.RawConfiguration): Server.NormalizedConfig {
 
     if (isUndefined(rawConfig.HTTP) && isUndefined(rawConfig.HTTPS)) {
       Logger.throwErrorAndLog({
@@ -55,7 +55,7 @@ export default class ConfigNormalizer {
   }
 
 
-  private static normalizeHTTP_Config(rawConfig: Server.RawConfig): { HTTP: Server.NormalizedConfig.HTTP; } | null {
+  private static normalizeHTTP_Config(rawConfig: Server.RawConfiguration): { HTTP: Server.NormalizedConfig.HTTP; } | null {
 
     const rawHTTP_Config: Server.RawConfig.HTTP | undefined = rawConfig.HTTP;
 
@@ -72,7 +72,7 @@ export default class ConfigNormalizer {
     };
   }
 
-  private static normalizeHTTPS_Config(rawConfig: Server.RawConfig): { HTTPS: Server.NormalizedConfig.HTTPS; } | null {
+  private static normalizeHTTPS_Config(rawConfig: Server.RawConfiguration): { HTTPS: Server.NormalizedConfig.HTTPS; } | null {
 
     const rawHTTPS_Config: Server.RawConfig.HTTPS | undefined = rawConfig.HTTPS;
 
@@ -109,7 +109,9 @@ export default class ConfigNormalizer {
     );
   }
 
-  private static normalizeSubdomainsConfig(rawConfig: Server.RawConfig): { subdomains: NormalizedConfig.Subdomains; } | null {
+  private static normalizeSubdomainsConfig(
+    rawConfig: Server.RawConfiguration
+  ): { subdomains: NormalizedConfig.Subdomains; } | null {
 
     if (isUndefined(rawConfig.subdomains) || Object.entries(rawConfig.subdomains).length === 0) {
       return null;
@@ -187,7 +189,7 @@ export default class ConfigNormalizer {
     return { subdomains: subdomainsNormalizedConfigWorkpiece };
   }
 
-  private static normalizeBasicDomains(rawConfig: Server.RawConfig): Array<string> {
+  private static normalizeBasicDomains(rawConfig: Server.RawConfiguration): Array<string> {
 
     const isSpecifiedIP_AddressTheLocalhost: boolean = isIPv4AddressLiesInRange({
       comparedIP_Address: rawConfig.IP_Address,

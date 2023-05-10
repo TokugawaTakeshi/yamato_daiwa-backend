@@ -10,6 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/04-TestingBuild" />
       <excludeFolder url="file://$MODULE_DIR$/05-StagingBuild" />
       <excludeFolder url="file://$MODULE_DIR$/06-ProductionBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

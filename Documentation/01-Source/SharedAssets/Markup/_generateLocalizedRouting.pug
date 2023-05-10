@@ -5,60 +5,44 @@
     const localizedRouting = {
 
       top: {
-        $tableOfContentsTitle: "Главная",
-        $URI: "@All/Top/TopPage.russian.pug"
-      },
-
-      API: {
-        $tableOfContentsTitle: "API",
-        $children: {
-
-          Server: {
-
-            $tableOfContentsTitle: "Класс &laquo;Server&raquo;",
-            $URI: "@All/API/Server/Server.russian",
-
-            $sectioning: {
-
-              associatedTypes: {
-
-                $tableOfContentsTitle: "Связанные типы",
-                $anchor: "ASSOCIATED_TYPES--SECTION",
-                get $URI() { return `${ localizedRouting.API.$children.Server.$URI }#${ this.$anchor }`; },
-
-                $children: {
-
-                  RawConfig: {
-
-                    $tableOfContentsTitle: "<code>RawConfig</code>",
-                    $anchor: "RAW_CONFIG--SECTION",
-                    get $URI() { return `${ localizedRouting.API.$children.Server.$URI }#${ this.$anchor }`; },
-
-                  }
-
-                }
-
-              }
-
-            }
-
-          }
-
-        }
+        $tableOfContentsTitle: localization.top.$tableOfContentsTitle,
+        $URI: localization.top.$URI
       },
 
       tutorials: {
-        $tableOfContentsTitle: "Уроки",
+
+        $tableOfContentsTitle: localization.tutorials.$tableOfContentsTitle,
+
         $children: {
 
           helloWorld: {
-            $tableOfContentsTitle: "Простейший пример &laquo;Привет, мир!&raquo;",
-            $URI: "@All/Tutorials/HelloWorld/HelloWorldTutorialPage.russian"
+            $tableOfContentsTitle: localization.tutorials.helloWorld.$tableOfContentsTitle,
+            $URI: `@All/Tutorials/HelloWorld/HelloWorldTutorialPage.${ localization.fileNameLocalizationExtension }`
           },
 
           HTTPS: {
-            $tableOfContentsTitle: "Использование &laquo;HTTPS&raquo;",
-            $URI: "@All/Tutorials/HTTPS/HTTPS.russian"
+            $tableOfContentsTitle: localization.tutorials.HTTPS.$tableOfContentsTitle,
+            $URI: `@All/Tutorials/HTTPS/HTTPS.${ localization.fileNameLocalizationExtension }`
+          },
+
+          routingAndControllers: {
+            $tableOfContentsTitle: localization.tutorials.routingAndControllers.$tableOfContentsTitle,
+            $URI: `@All/Tutorials/RoutingAndControllers/RoutingAndControllers.${ localization.fileNameLocalizationExtension }`
+          }
+
+        }
+
+      },
+
+      API: {
+
+        $tableOfContentsTitle: "API",
+
+        $children: {
+
+          Server: {
+            $tableOfContentsTitle: localization.API.Server.$tableOfContentsTitle,
+            $URI: `@All/API/Server/Server.${ localization.fileNameLocalizationExtension }`
           }
 
         }

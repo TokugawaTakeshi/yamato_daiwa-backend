@@ -3,8 +3,8 @@ extends ../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/Mi
 
 block append Requirements
 
-  include ../../Components/Components.japanese.pug
-  include ../../SharedAssets/Markup/Assets.japanese.pug
+  include ../../SharedAssets/Markup/SharedAssets.japanese.pug
+  include ../../SharedComponents/SharedComponents.japanese.pug
 
 
 block append Metadata
@@ -19,18 +19,55 @@ block append Metadata
 
     FAVICON_URI = "@MustBeInPublicRoot/favicon.ico";
 
-    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/Minimal/MinimalLayout", "@Shared/ExternalComponents", "@Pages/Top/TopPage" ];
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/Minimal/MinimalLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents",
+      "@Pages/Top/TopPage"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
 
     RoutingEmulator.setCurrentRoute("top");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      [LanguageDropDownList__YDF_DK.supportedLanguages.english]: "./../index.html",
-      [LanguageDropDownList__YDF_DK.supportedLanguages.russian]: "./TopPage.russian.html"
+      english: "./../index.html",
+      russian: "./TopPage.russian.html"
     });
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
 
 
 block append SpecificContent
 
   main.TopPage
+
+    .TopPage-ImageAndTopHeadingGroup
+
+      img.TopPage-ImageAndTopHeadingGroup-Image(
+        src="@Shared/Icons/YDB_Icon.svg"
+        alt="「Yamato Daiwa Backend」フレームワークのアイコン"
+      )
+
+      h1.TopPage-ImageAndTopHeadingGroup-Heading
+        span.TopPage-ImageAndTopHeadingGroup-Heading-FirstLine Yamato Daiwa
+        span.TopPage-ImageAndTopHeadingGroup-Heading-SecondLine Backend
+
+    p.TopPage-ShortDescription-Heading.
+      TypeScript言語での高品質サーバサイド開発専用フレームワーク
+
+    +AdmonitionBlock--YDF({
+      decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning,
+      SVG_Icon: true
+    }).TopPage-Disclaimer.
+      説明書（ウェブサイト）は現在開発中です。
+      高品質な資料の作製には開発よりも多くの時間を要しますが、新規機能の追加がライブラリに必要な為、そちらの作業を優先的に行っています。
+      何卒御了承下さい。
 
     +CompactTableOfContents--YDF_DK(localizedRouting).TopPage-TableOfContents

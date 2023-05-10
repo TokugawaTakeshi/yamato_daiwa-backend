@@ -1,0 +1,75 @@
+extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
+
+
+block append Requirements
+
+  include ../../../SharedAssets/Markup/SharedAssets.english.pug
+  include ../../../SharedComponents/SharedComponents.english.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "en";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("Routing and controllers");
+    HTML_PageMetaData = {
+      description: "",
+      author: HTML_PAGE_AUTHOR
+    };
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon";
+
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+
+    RoutingEmulator.setCurrentRoute("tutorials.routingAndControllers");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      japanese: "./RoutingAndControllers.japanese.html",
+      russian: "./RoutingAndControllers.russian.html",
+    });
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
+
+
+block append SpecificContent
+
+  article
+
+    h1 Routing and controllers
+
+    h2 Theoretical minimum
+
+    h3.Article-Heading3 URL, URN, URI
+
+    p.Article-Paragraph.
+
+      The separation between #[+Term--YDID URL] (#[+Term--YDID Unified Resource Locator]),
+        #[+Term--YDID URN (Unified Resource Name)] and #[+Term--YDID URI (Unified Resource Identifier)] and also
+        their decomposition is #[+Keyphrase--YDID could differ depending on information-source].
+      Although #[+Term--YDID URL]/#[+Term--YDID URN]/#[+Term--YDID URI] anatomy is the
+        #[+Keyphrase--YDID framework independent fundamental pre-required knowledge], we need to agree which
+        terminology is actual for #[+ImportantEntity--YDID YDB] framework.
+
+    p.Article-Paragraph.
+      First: we will #[+Keyword--YDID not] discuss differences between #[+Term--YDID URL] and #[+ImportantEntity--YDID URL],
+        just note that #[+Term--YDID URI] is the #[+Keyword--YDID fullest] entity including both of
+        #[+Term--YDID URL] and #[+Term--YDID URN] (#[+Keyphrase--YDID depending on information source],
+        #[+Term--YDID URL] and #[+Term--YDID URN] parts could intersect or not).
+
+    p.Article-Paragraph.
+      Second, besides the #[+Term--YDID web], the #[+Term--YDID URL]/#[+Term--YDID URN]/#[+Term--YDID URI] is applicable
+        to #[+Term--YDID local file system].
+      Although it has #[+Keyword--YDID single] conception, here #[+Keyphrase--YDID we are focused on web].

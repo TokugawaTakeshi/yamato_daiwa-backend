@@ -1,11 +1,10 @@
 import { ProtocolDependentDefaultPorts, Request, Response, Server } from "@yamato-daiwa/backend";
-import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
-import { ClientErrorsHTTP_StatusCodes } from "@yamato-daiwa/backend/Distributable/UtilsIncubator/HTTP_StatusCodes";  // TODO 移動
+import { HTTP_Methods, ClientErrorsHTTP_StatusCodes } from "@yamato-daiwa/es-extensions";
 import Path from "path";
 
 
 /* Running the test:
-*  npx nodemon EntryPoint.ts
+*  ts-node EntryPoint.ts
 * */
 Server.initializeAndStart({
   IP_Address: "127.0.0.1",
@@ -27,6 +26,7 @@ Server.initializeAndStart({
 
 
         return response.submitWithSuccess({ filePath: Path.join(__dirname, "SecretFile.png") })
+
       }
     }
   ]

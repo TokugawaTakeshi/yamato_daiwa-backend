@@ -1,6 +1,6 @@
 /*!
- * @yamato-daiwa/backend v0.1
- * (c) 2021 Sole proprietorship "Yamato Daiwa" Takeshi Tokugawa
+ * @yamato-daiwa/backend v0.2
+ * (c) 2023 Yamato Daiwa Co., Ltd.
  * Released under the MIT License.
  */
 

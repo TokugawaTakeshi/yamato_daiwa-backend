@@ -34,7 +34,7 @@ class Response {
       this.rawResponse.setHeader("Content-Type", "text/html");
       this.rawResponse.write(payload.HTML_Content);
     } else if ("JSON_Content" in payload) {
-      this.rawResponse.setHeader("Content-Type", "text/json");
+      this.rawResponse.setHeader("Content-Type", "application/json");
       this.rawResponse.write(JSON.stringify(payload.JSON_Content));
     } else if ("plainTextContent" in payload) {
       this.rawResponse.setHeader("Content-Type", "text/plain");
@@ -63,7 +63,7 @@ class Response {
       this.rawResponse.setHeader("Content-Type", "text/html");
       this.rawResponse.write(payload.HTML_Content);
     } else if (isNotUndefined(payload.JSON_Content)) {
-      this.rawResponse.setHeader("Content-Type", "text/json");
+      this.rawResponse.setHeader("Content-Type", "application/json");
       this.rawResponse.write(JSON.stringify(payload.JSON_Content));
     } else if (isNotUndefined(payload.plainTextContent)) {
       this.rawResponse.setHeader("Content-Type", "text/plain");

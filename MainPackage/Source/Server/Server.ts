@@ -65,17 +65,17 @@ class Server {
   private readonly localization: Localization = defaultLocalization;
 
 
-  public static initializeAndStart(configuration: Server.RawConfig): Server {
+  public static initializeAndStart(configuration: Server.RawConfiguration): Server {
     return new Server(configuration).start();
   }
 
-  public static initialize(configuration: Server.RawConfig): Server {
+  public static initialize(configuration: Server.RawConfiguration): Server {
     return new Server(configuration);
   }
 
 
-  private constructor(rawConfig: Server.RawConfig) {
-    this.config = ConfigNormalizer.normalize(rawConfig);
+  private constructor(configuration: Server.RawConfiguration) {
+    this.config = ConfigNormalizer.normalize(configuration);
   }
 
 
@@ -418,7 +418,7 @@ class Server {
     }
 
     const normalizedURI: URL = new URL(
-      URI_PathAndQuery, `${ protocol.toLocaleLowerCase() }://${ targetDomain }:${ port }/`
+      URI_PathAndQuery, `${ protocol.toLowerCase() }://${ targetDomain }:${ port }/`
     );
 
 
@@ -820,16 +820,16 @@ class Server {
 
 namespace Server {
 
-  export type RawConfig = {
-    readonly IP_Address: string;
-    readonly basicDomains?: ReadonlyArray<string>;
-    readonly HTTP?: RawConfig.HTTP;
-    readonly HTTPS?: RawConfig.HTTPS;
-    readonly routing?: Router.RawRouting;
-    readonly publicDirectoriesAbsoluteOrRelativePaths?: ReadonlyArray<string>;
-    readonly subdomains?: RawConfig.Subdomains;
-    readonly URI_QueryParametersMainDeserializer?: URI_QueryParametersDeserializer;
-  };
+  export type RawConfiguration = Readonly<{
+    IP_Address: string;
+    basicDomains?: ReadonlyArray<string>;
+    HTTP?: RawConfig.HTTP;
+    HTTPS?: RawConfig.HTTPS;
+    routing?: Router.RawRouting;
+    publicDirectoriesAbsoluteOrRelativePaths?: ReadonlyArray<string>;
+    subdomains?: RawConfig.Subdomains;
+    URI_QueryParametersMainDeserializer?: URI_QueryParametersDeserializer;
+  }>;
 
   export namespace RawConfig {
 

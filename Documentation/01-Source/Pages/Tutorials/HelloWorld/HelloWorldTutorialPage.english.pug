@@ -1,10 +1,22 @@
 extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
 
 
+block append Data
+
+  include _HelloWorldTutorialPage-Data.pug
+
+
 block append Requirements
 
-  include ../../../SharedAssets/Markup/Assets.english.pug
-  include ../../../Components/Components.english.pug
+  include ../../../SharedAssets/Markup/SharedAssets.english.pug
+  include ../../../SharedComponents/SharedComponents.english.pug
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
 
 
 block append Metadata
@@ -14,89 +26,139 @@ block append Metadata
     HTML_PAGE_LANGUAGE = "en";
     HTML_PAGE_TITLE = buildHTML_PageTitle("Hello, world!");
     HTML_PageMetaData = {
-      description: "The 'Hello, world!' tutorial for the Yamato-Daiwa Backend, the TypeScript and Node.js framework.",
+      description:
+          "The minimal example of the server application created by the \"Yamato Daiwa Backend\" " +
+          "(abbreviation: \"YDB\"), the Node.js-framework. ",
       author: HTML_PAGE_AUTHOR
     }
 
     FAVICON_URI = "@MustBeInPublicRoot/favicon"
 
-    styleSheetsURIs = [ "@Shared/CommonStyles", "@Layouts/TwoColumns/TwoColumnsLayout", "@Shared/ExternalComponents" ];
-    scriptsURIs.endOfBody = [ "@Common" ];
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+
+    RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      japanese: "./HelloWorldTutorialPage.japanese.html",
+      russian: "./HelloWorldTutorialPage.russian.html"
+    });
+
+    const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
 
 
 block append SpecificContent
 
   article
 
-    h1.Article-Heading1 "Hello, world!" - The simplest example
+    h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$tableOfContentsTitle
 
-    h2.Article-Heading2 Pre-requirement knowledge and skills
+    +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).
+      The project structure and the code introduced in this lesson is #[+Keyword--YDID extremely]
+        #[+Keyword__Contrast--YDID simplified] for the optimization to tutorial, thus
+        #[+Keyphrase--YDID #[+Keyword--YDID not]&nbsp;intended to be used in production].
+      To use the knowledge gained in practice, it is #[+Keyword--YDID required] understand the lesson material and
+        adapt the code examples to your tasks and style guides.
+
+    //- ━━━ Pre-requirement Knowledge and Skills ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.preRequirements.$heading,
+      HTML_ID: pageTableOfContents.preRequirements.$anchor
+    }).Article-Heading2
 
     p.Article-Paragraph.
-      It is implied that you are already can:
+      It is implied that you are already can/know:
 
     ul.Article-OrderedList
 
       li.
-        Create the #[+ImportantEntity--YDID Node.js] project and install #[+Term--YDID dependencies]
-          (if no, you should to learn the #[+ImportantEntity--YDID Node.js] #[+Keyword--YDID fundamentals] first).
+        Create the #[+ImportantEntity--YDID Node.js] project and install the #[+Keyword--YDID npm]
+          #[+Term--YDID dependencies] (if no, you should to learn the #[+ImportantEntity--YDID Node.js]
+          #[+Keyword--YDID fundamentals] first).
 
       li.
         Configure the #[+ImportantEntity--YDID TypeScript] compiler
-          (#[+ImportantEntity--YDID @yamato-daiwa/backend] is intended to be used with
-          #[+ImportantEntity__Code--YDID TypeScript], herewith without #[+ImportantEntity__Code--YDID any] type).
+          (#[+ImportantEntity--YDID Yamato Daiwa Backend] (from now: #[+ImportantEntity--YDID YDB]) is intended to be
+          used with #[+ImportantEntity__Code--YDID TypeScript], herewith
+          #[+Keyphrase--YDID without #[+ImportantEntity__Code--YDID any] #[+Term--YDID type]]).
 
       li.
-        Understand the #[+Term--YDID Object Orienting Programming] (#[+Term--YDID OOP]) fundamentals
-          (the suggested #[+ImportantEntity--YDID @yamato-daiwa/backend] architecture is #[+Term--YDID OOP]-based).
+        The #[+Term--YDID Object Orienting Programming] (#[+Term--YDID OOP]) fundamentals: the approaches suggested by
+          #[+ImportantEntity--YDID @yamato-daiwa/backend] is #[+Term--YDID OOP]-based).
+        Although #[+ImportantEntity--YDID YDB] #[+Keyword--YDID not]&nbsp;impose the specific architecture, the usage of
+          #[+Term--YDID OOP] is desirable, and therefore will be in the following lessons.
 
 
-    h2.Article-Heading2 Project initialization
+    //- ━━━ Node.js-project Rollout ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.projectRollout.$heading,
+      HTML_ID: pageTableOfContents.projectRollout.$anchor
+    }).Article-Heading2
 
     p.Article-Paragraph.
-      Create the new Node.js project and install the following #[+Term--YDID dependencies].
+      Create the new #[+Term--YDID Node.js project] and install the following #[+Term--YDID npm dependencies].
       #[+Keyphrase--YDID During this lesson] it is strongly recommended to install the versions specified inside the
-        square brackets to avoid the troubles caused by changing API with new versions of the #[+Term--YDID dependencies].
+        square brackets to avoid the troubles caused by changing of the #[+Term--YDID API] with new versions of these
+        #[+Term--YDID dependencies].
 
     dl.Article-DescriptionList
 
-      dt @yamato-daiwa/backend [0.2.0]
-      dd The main packages of this framework
+      dt= `@yamato-daiwa/backend [${ DependenciesVersions["@yamato-daiwa/backend"] }]`
+      dd The main #[+Term--YDID npm package] of this framework
 
-      dt @yamato-daiwa/es-extensions [1.6.9]
+      dt= `@yamato-daiwa/es-extensions [${ DependenciesVersions["@yamato-daiwa/es-extensions"] }]`
       dd.
         Auxiliaries actual for both #[+ImportantEntity--YDID Node.js] and #[+ImportantEntity--YDID Browser JavaScript].
         For this tutorial, we will need only #[+ImportantEntity--YDID HTTP_Methods] #[+Term--YDID enumeration] from this
           package, but much more in the future.
 
-      dt ts-node [10.9.1]
+      dt= `ts-node [${ DependenciesVersions["ts-node"] }]`
       dd.
-        The #[+Link--YDF({ unendorsedExternalURI: "https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop" }).Article-Link REPL]
-          for the #[+ImportantEntity--YDID TypeScript].
+        The #[+Link--YDF({ unendorsedExternalURI: "https://w.wiki/Hh8" }).Article-Link REPL] for the
+          #[+ImportantEntity--YDID TypeScript] language.
         Creating the effect such that #[+ImportantEntity--YDID TypeScript] has own #[+Term--YDID runtime],
-          thanks to what it will not spend our time to routines with output JavaScript files.
+          thanks to what we will not spend our time to routines with output #[+Term--YDID JavaScript files].
 
-      dt typescript [5.0.4]
+      dt= `typescript [${ DependenciesVersions.typescript }]`
       dd.
-        Them main package of the #[+ImportantEntity--YDID TypeScript] language.
-        #[+ImportantEntity__Code--YDID ts-node] requires this package been installed manually.
+        The #[+Term--YDID npm package] package of the #[+ImportantEntity--YDID TypeScript] language, the
+          #[+Term--YDID peer dependency] of #[+ImportantEntity__Code--YDID ts-node].
+        Although modern versions of #[+ImportantEntity--YDID npm] installs such dependencies automatically, we will
+          #[+Keyword--YDID consciously] install the specific version of this #[+Term--YDID package].
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash })
+        | #{ dependenciesInstalationConsoleCommand }
 
     +CodeViewer--YDF
       +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash }).
-        npm i @yamato-daiwa/backend@0.2.0 @yamato-daiwa/es-extensions@1.6.9 -E
-
-    +CodeViewer--YDF
-      +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash }).
-        npm i ts-node@10.9.1 typescript@5.0.4 -D -E
+        npm i ts-node@#{ DependenciesVersions["ts-node"] } typescript@#{ DependenciesVersions.typescript } -D
 
 
-    h2.Article-Heading2 Code
+    //- ━━━ Code ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.code.$heading,
+      HTML_ID: pageTableOfContents.code.$anchor
+    }).Article-Heading2
 
     p.Article-Paragraph.
-      Bellow server application will return the text #[+ImportantEntity__Code--YDID "Hello, world!"] wrapped by
-        #[+Term--YDID HTML tag] #[+ImportantEntity__Code--YDID h1] on #[+Term--YDID GET-type]
-        #[+Term__Contrast--YDID HTTP request] by #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/] address.
-      Before submit this request, let us analyze the source code of this simplest example.
+      Bellow server application will return the #[+Term--YDID HTML code], including the heading
+        #[+SecondaryEntity__Code--YDID h1] with text content #[+SecondaryEntity__Code--YDID "Hello, world!"] on
+        the #[+Term__Contrast--YDID HTTP request] of #[+Term--YDID GET-type] to
+        #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/] address.
+      Actually, such #[+Term--YDID HTML code] does&nbsp;#[+Keyword--YDID not]&nbsp;represent the valid
+        #[+Term--YDID HTML page], however for testing purposes the responding just with #[+Term--YDID HTML body] is
+        possible — modern browsers will display it.
+      Before submit this #[+Term--YDID request], let us analyze the source code of this simplest example.
 
     +CodeViewer--YDF
 
@@ -112,47 +174,60 @@ block append SpecificContent
 
 
           Server.initializeAndStart({
-        +CodeViewer-Explanation--YDF: p.Article-Paragraph.
-          The #[+Term--YDID static method] #[+SecondaryEntity__Code--YDID initializeAndStart] of
-            #[+SecondaryEntity__Code--YDID Server] #[+Term--YDID class] accepts the #[+Term--YDID configuration object]
-            as first and only parameter.
-          This method does things exactly according to its name, and only that's how it should be.
+        +CodeViewer-Explanation--YDF
+          | The #[+Term--YDID static method] #[+SecondaryEntity__Code--YDID initializeAndStart] of
+          |   #[+SecondaryEntity__Code--YDID Server] #[+Term--YDID class] accepts the
+          |
+          +Link--YDF({
+            internalURI: localizedRouting.API.$children.Server.$sectioning.relatedTypes.$children.RawConfig.$URI
+          }).Article-Link configuration object
+          |   as #[+Keyphrase--YDID first and only] #[+Term--YDID parameter].
+          | This #[+Term--YDID method] does things exactly according to its name, and only that's how it should be.
 
         +CodeViewer-PartialListing--YDF.
           &nbsp;&nbsp;IP_Address: "127.0.0.1",
-        +CodeViewer-Explanation--YDF: p.Article-Paragraph.
-          The #[+ImportantEntity__Code--YDID IP_Address] has been made to #[+Keyword--YDID required] property because
-            you as engineer #[+Keyword--YDID must] comprehend on which #[+Term--YDID IP address] your server server
-            application will run.
-          In the real project, it will be #[+Keyword--YDID environment-dependent] (local, staging, production, etc.).
-          We will discuss the conditional configuration in dedicated tutorials.
-          For now, let the value #[+SecondaryEntity--YDID 127.0.0.1] AKA
-            #[+Link--YDF({ unendorsedExternalURI: "https://en.wikipedia.org/wiki/Localhost" }).Article-Link the localhost].
+        +CodeViewer-Explanation--YDF
+          | The #[+ImportantEntity__Code--YDID IP_Address] has been made to #[+Keyword--YDID required]
+          |   #[+Term--YDID property] #[+Keyphrase--YDID not&nbsp;without reason]: you as engineer #[+Keyword--YDID must]
+          |   comprehend on which #[+Term--YDID IP address] your server application will run.
+          | In the real project, it will be #[+Keyword--YDID environment-dependent] (local, staging, production, etc.).
+          | We will discuss the conditional configuration in dedicated tutorials.
+          | For now, let the value #[+SecondaryEntity--YDID 127.0.0.1] AKA
+          |
+          +Link--YDF({ unendorsedExternalURI: "https://en.wikipedia.org/wiki/Localhost" }).Article-Link the localhost
+          | .
 
         +CodeViewer-PartialListing--YDF.
           &nbsp;&nbsp;HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
-        +CodeViewer-Explanation--YDF: p.Article-Paragraph.
-          The #[+ImportantEntity--YDID 80] - the value of #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts.HTTP] -
-            is the #[+Keyword--YDID default] #[+Term--YDID port] for #[+Term__Contrast--YDID HTTP protocol] case.
+        +CodeViewer-Explanation--YDF.
+          The #[+ImportantEntity--YDID 80] — the value of
+            #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts.HTTP] —
+            is the #[+Keyword--YDID default] #[+Term--YDID port]
+            #[+Keyphrase--YDID for #[+Term__Contrast--YDID HTTP protocol]].
           It must be specified explicitly by the same reason as #[+ImportantEntity__Code--YDID IP_Address], however
-            because rely to human's memory could be #[+Keyword--YDID dangerous], the default ports of various protocols
-            has been stored to #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts] #[+Term--YDID enumeration].
-          From you it is required only to comprehend on default port will be available the application or on some one else.
-
+            because rely to human's memory could be #[+Keyword--YDID dangerous], the default #[+Term--YDID ports] of
+            various #[+Term--YDID protocols] has been stored to
+            #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts] #[+Term--YDID enumeration].
+          From you it is required only to comprehend on default #[+Term--YDID port] will be available the application
+            or on some one else.
 
         +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
           &nbsp;&nbsp;routing: [
               {
                 route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
-        +CodeViewer-Explanation--YDF: p.Article-Paragraph.
-          The #[+ImportantEntity__Code--YDID routing], obviously and must be obviously for high quality naming,
-            allows to define the #[+DefinableTerm--YDID роутинг] -
-            #[+Keyphrase--YDID in the #[+Term--YDID server web development] context], the generating of various responses
-            depending on accordance of request to specifis templates of #[+Term--YDID URI/URL].
-          For this lesson, it is important what we are serving the #[+Keyword--YDID root] #[+Term--YDID route] only
-            (corresponding to #[+Term--YDID URI] #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/]).
-          For all other #[+Term--YDID routes], for example #[+SecondaryEntity__Code--YDID /foo] (corresponding to
-            #[+Term--YDID URI] #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo]) or
+        +CodeViewer-Explanation--YDF.
+          The #[+ImportantEntity__Code--YDID routing], as if obviously and must be obviously for high quality naming,
+            allows to define the #[+DefinableTerm--YDID routing] —
+            #[+Keyphrase--YDID in the #[+Term--YDID server web development] context], it is the generating of various
+            #[+Term--YDID responses] depending on accordance of #[+Term--YDID request] to specifies templates of
+            #[+Term--YDID URI].
+          We will consider the #[+Term--YDID routing] in details in subsequent lessons.
+          For now, it is important what we are serving the #[+Keyword--YDID root] #[+Term--YDID route]
+            (corresponding to #[+Term--YDID URI] #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/])
+            #[+Keyword--YDID only] .
+          For #[+Keyword--YDID all] #[+Keyword__Contrast--YDID other] #[+Term--YDID routes], for example
+            #[+SecondaryEntity__Code--YDID /foo] (corresponding to #[+Term--YDID URI]
+            #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo]) or
             #[+SecondaryEntity__Code--YDID /bar/baz] (corresponding to #[+Term--YDID URI]
             #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/bar/baz]), the server will respond with "not found" error.
 
@@ -161,11 +236,15 @@ block append SpecificContent
         +CodeViewer-Explanation--YDF
 
           p.Article-Paragraph.
-            The #[+DefinableTerm--YDID request handler] defines which actions must be executes when the submitted
-              request satisfying to the #[+Term--YDID route] specified above in #[+ImportantEntity__Code--YDID route].
-            This #[+Term--YDID function] is #[+Keyword--YDID a-priori] #[+Term--YDID asynchronous] (in the context of
-              #[+ImportantEntity--YDID ECMAScript] it means the it must either explicitly or implicitly return the
-              #[+ImportantEntity__Code--YDID Promise] instance) because the response submitting is #[+Term--YDID asynchronous].
+            The #[+DefinableTerm--YDID request handler] defines which actions must be executed when the submitted
+              #[+Term--YDID request] satisfying to the #[+Term--YDID route] specified above via
+              #[+ImportantEntity__Code--YDID route] #[+Term--YDID property].
+            This #[+Term--YDID function] is #[+Keyword--YDID a-priori] #[+Term--YDID asynchronous] (returns either
+              explicitly or implicitly the #[+Term--YDID instance] of #[+ImportantEntity__Code--YDID Promise],
+              but this is #[+Keyword--YDID not]&nbsp;exact definition from the viewpoint of
+              #[+ImportantEntity__Code--YDID ECMAScript], because the #[+Term--YDID functions] accepts the
+              #[+Term--YDID callbacks] via #[+Term__Contrast--YDID parameters] also being called «asynchronous»),
+             because the #[+Term--YDID response] submitting is #[+Term--YDID asynchronous] by its nature.
             In addition the #[+Term--YDID request handler] frequently includes other asynchronous operations such as
               #[+Term--YDID database transactions] or files reading/writing.
 
@@ -175,22 +254,24 @@ block append SpecificContent
               #[+Term--YDID conditional expression] is truthy.
 
           p.Article-Paragraph.
-            Usually the response is being generated depending on the request, which instance represented by
-              #[+Keyword--YDID first] #[+Term--YDID parameter].
+            Usually the #[+Term--YDID response] is being generated depending on the #[+Term--YDID request], which
+              instance represented by #[+Keyword--YDID first] #[+Term--YDID parameter].
             For example, in the #[+Term--YDID GET-request] case we may need to access to #[+Term--YDID query parameters]
-              (without #[+Term--YDID URI] context this term could be ambiguous), in the #[+Term--YDID POST-] or
-              #[+Term--YDID PUT-request] case - to access the data containing in the #[+Term--YDID request body].
-            However, we will postpone the manipulations with the instance of #[+ImportantEntity--YDID Response] class
-              to subsequent, more difficult lessons; for now let us ignore the first parameter and always submit
-              the same response.
-
+              (without #[+Term--YDID URI] context this term could be ambiguous), and in the #[+Term--YDID POST-] or
+              #[+Term--YDID PUT-request] case — to access the data containing in the #[+Term--YDID request body].
+            However, we will postpone the manipulations with the #[+Term--YDID instance] of
+              #[+ImportantEntity--YDID Response] #[+Term--YDID class] to subsequent, more difficult lessons;
+              for now let us ignore the #[+Keyword--YDID first] #[+Term--YDID parameter] and always submit the same
+              #[+Term--YDID response].
 
         +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
         +CodeViewer-Explanation--YDF
           p.Article-Paragraph.
-            As generally known, the #[+Term--YDID HTTP-response] has the status being abbreviated by 3-digits code.
-            Currently it is important that these statuses are being split to #[+ImportantEntity--YDID 5] groups:
+            As generally known, the #[+Term--YDID HTTP response] has the #[+Term--YDID status] being abbreviated by
+              #[+Keyword--YDID 3-digits] code.
+            Currently it is important that these #[+Term--YDID statuses] are being split to #[+ImportantEntity--YDID 5]
+              groups:
 
           ol.Article-OrderedList
             li Informational responses
@@ -200,12 +281,14 @@ block append SpecificContent
             li Server error responses
 
           p.Article-Paragraph.
-            Method #[+ImportantEntity__Code--YDID submitWithSuccess] of the class #[+ImportantEntity__Code--YDID Response]
-              submitting the code from the "successful" range (#[+ImportantEntity__Code--YDID 200] as default).
-            Specifying the #[+ImportantEntity__Code--YDID HTML_Content] property of first and only #[+Term--YDID parameter]
-              of #[+ImportantEntity__Code--YDID submitWithSuccess] #[+Term__Contrast--YDID method], we are expressing that
-              going to submit the #[+Term--YDID HTML-код], and the framework will automatically set the necessary
-              #[+Term--YDID HTTP-headers].
+            #[+Term--YDID Method] #[+ImportantEntity__Code--YDID submitWithSuccess] of the #[+Term--YDID class]
+              #[+ImportantEntity__Code--YDID Response] submitting the code from the "successful" range
+              (#[+ImportantEntity__Code--YDID 200] as default).
+            Specifying the #[+ImportantEntity__Code--YDID HTML_Content] #[+Term--YDID property] of the
+              #[+Keyphrase--YDID first and only] #[+Term--YDID parameter] of
+              #[+ImportantEntity__Code--YDID submitWithSuccess] #[+Term__Contrast--YDID method], we are expressing that
+              going to submit the #[+Term--YDID HTML code], and the framework will #[+Keyword--YDID automatically] set
+              the necessary #[+Term--YDID HTTP-headers].
         +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
                 }
               }
@@ -213,7 +296,12 @@ block append SpecificContent
           });
 
 
-    h2.Article-Heading2 Тестирование
+    //- ━━━ Testing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.testing.$heading,
+      HTML_ID: pageTableOfContents.testing.$anchor
+    }).Article-Heading2
 
     p.Article-Paragraph.
       Let us launch our application by #[+ImportantEntity--YDID ts-node].
@@ -224,64 +312,72 @@ block append SpecificContent
 
 
     p.Article-Paragraph.
-      If the code has not mistakes, you will be informed about application successful launching by the following
+      If the code has no mistakes, you will be informed about application successful launching by the following
         terminal output:
 
     +SingleImageViewer--YDF({
       imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/ServerStartedSuccessLog",
       imageAlternateText: "The log about successful starting of HTTP-server generated by the framework " +
           "&quot;Yamato Daiwa Backend&quot; (abbreviation: &quot;YDB&quot;)",
-      maximalWidth__anyValidCSS_Value: "400px"
+      autoAspectRatioByYDA: true
     })
 
 
     p.Article-Paragraph.
-      Open the displaying address in your browser.
+      Open the displaying #[+Term--YDID URI] in your browser.
       If your terminal can recognize the links, you can open it by mouse click.
-      At least one log will be displayed, about request to #[+Term--YDID root route]:
+      #[+Keyphrase--YDID At least] #[+Keyword--YDID one] log will be displayed, about #[+Term--YDID request] to
+        #[+Keyword--YDID root] #[+Term--YDID route]:
 
     +SingleImageViewer--YDF({
       imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/RootRouteRequestInfoLog",
       imageAlternateText: "The log about request to root route generated by the framework " +
           "&quot;Yamato Daiwa Backend&quot; (abbreviation: &quot;YDB&quot;)",
+      autoAspectRatioByYDA: true
     })
 
 
     p.Article-Paragraph.
-      Probably one more request will be logged - about #[+ImportantEntity__Code--YDID /favicon.ico] #[+Term--YDID route]:
+      Probably one more #[+Term--YDID request] will be logged — about
+        #[+ImportantEntity__Code--YDID /favicon.ico] #[+Term--YDID route]:
 
     +SingleImageViewer--YDF({
       imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/FaviconRequestInfoLog",
       imageAlternateText: "The log about requesting of the favicon, generated by the framework " +
           "&quot;Yamato Daiwa Backend&quot; (abbreviation: &quot;YDB&quot;)",
+      autoAspectRatioByYDA: true
     })
 
     p.Article-Paragraph.
       If such log presents, it has been occurred by the browser #[+Keyword--YDID automatically] to display
       #[+Link--YDF({ unendorsedExternalURI: "https://en.wikipedia.org/wiki/Favicon" }).Article-Link the favicon].
-      If the framework was not prepared to such request, it submitted the response with "not found" error
-        however the #[+ImportantEntity--YDID YDB] #[+Term--YDID framework] submitting own icon #[+Keyword--YDID as default].
+      If the framework was&nbsp;not&nbsp;prepared to such #[+Term--YDID request], it submitted the
+        #[+Term--YDID response] with "not found" error, however the #[+ImportantEntity--YDID YDB]
+        #[+Term--YDID framework] submitting the own icon #[+Keyword--YDID as default].
       Of course it could be replaced with another one, what we will do in one one of subsequent lessons.
 
     p.Article-Paragraph.
-      The #[+ImportantEntity--YDID localhost] is the "pronoun" for the #[+Term--YDID IP-address]
-        #[+ImportantEntity__Code--YDID 127.0.0.1], and #[+ImportantEntity--YDID 80] is the default #[+Term--YDID port]
-        for the #[+Term--YDID HTTP], besides #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/] we can submit the requests
+      As #[+ImportantEntity--YDID localhost] is the "pronoun" for the #[+Term--YDID IP-address]
+        #[+ImportantEntity__Code--YDID 127.0.0.1], and #[+ImportantEntity--YDID 80] is the #[+Keyword--YDID default]
+        #[+Term--YDID port] for the #[+Term--YDID HTTP protocol], besides
+        #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/] we can submit the #[+Term--YDID requests]
         to #[+SecondaryEntity__Code--YDID http://localhost], #[+SecondaryEntity__Code--YDID http://localhost:80] or
         #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/].
 
     p.Article-Paragraph.
-      Finally, let us se how the framework will behave when we will submit the request which has not the matching
-        in #[+ImportantEntity__Code--YDID routing].
-      For example, for the request #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo] the log will be:
+      Finally, let us see how the framework will behave when we will submit the #[+Term--YDID request] which has&nbsp;no
+        the matching in #[+ImportantEntity__Code--YDID routing].
+      For example, in the #[+Term--YDID request] to #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo] case, the
+        log will be:
 
     +SingleImageViewer--YDF({
       imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/ServerErrorLog",
       imageAlternateText: "The log about not found resource, generated by the framework " +
           "&quot;Yamato Daiwa Backend&quot; (abbreviation: &quot;YDB&quot;)",
+      autoAspectRatioByYDA: true
     })
 
     p.Article-Paragraph.
-      The frameworks logged that the requested resource not fond found.
+      The frameworks logged that the requested resource not&nbsp;found.
       The browser should display the similar message basing on #[+Term--YDID response status]
         #[+ImportantEntity--YDID 404 Not found].
