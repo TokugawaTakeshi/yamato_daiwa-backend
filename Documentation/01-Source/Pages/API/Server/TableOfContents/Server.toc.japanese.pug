@@ -3,14 +3,25 @@ include Server.toc.pug
 
 -
 
-  localizedRouting.API.$children.Server.$sectioning = generatePageTableOfContents({
-    publicStaticMethods: {
-      $heading: "パブリック静的メソッド",
-      initializeAndStart: {
-        parameter: { $heading: "単一引数" }
-      }
-    },
-    relatedTypes: {
-      $heading: "関連型"
-    }
-  });
+  localizedRouting.API.$children.Server.$sectioning =
+
+      generatePageTableOfContents(
+        (() => {
+
+          /* [ Maintainability ] Keep this constant to make able the copying of qualified names in IntelliJ IDEA IDEs. */
+          const localizedStrings = {
+            publicStaticMethods: {
+              $heading: "パブリック静的メソッド",
+              initializeAndStart: {
+                parameter: { $heading: "単一引数" }
+              }
+            },
+            relatedTypes: {
+              $heading: "関連型"
+            }
+          };
+
+          return localizedStrings;
+
+        })()
+      );

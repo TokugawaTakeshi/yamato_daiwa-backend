@@ -12,13 +12,6 @@ block append Requirements
   include ../../../SharedComponents/SharedComponents.russian.pug
 
 
-block append HeadScriptsLinks
-
-  if __IS_PRODUCTION_BUILDING_MODE__
-
-    +GoogleAnalyticsScript
-
-
 block append Metadata
 
   -
@@ -51,6 +44,13 @@ block append Metadata
     });
 
     const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
 
 
 block append SpecificContent
@@ -318,9 +318,12 @@ block append SpecificContent
       Если в коде нет ошибок, то Вы будете проинформированы об успешном запуске приложения следующим выводом в терминал:
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/ServerStartedSuccessLog",
-      imageAlternateText: "Сообщение об успешном старте HTTP-сервера, сгенерированное фреймворком " +
-          "«Yamato Daiwa Backend» (сокращённо: «YDB»)",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/ServerStartedSuccessLog",
+      imageAlternateText:
+          "В консоли зелёным цветом отображается сообщение об успешном запуске веб-приложения, озаглавленное " +
+            "«The serving of HTTP requests started» — «Обслуживание HTTP-запросов стартовало». " +
+          "Веб-приложение написано на Node.js/TypeScript с использованием фреймворка «Yamato Daiwa Backend» " +
+            "(сокращённо: «YDB»).",
       autoAspectRatioByYDA: true
     })
 
@@ -332,9 +335,12 @@ block append SpecificContent
         по #[+Keyword--YDID корневому] #[+Term--YDID маршруту]:
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/RootRouteRequestInfoLog",
-      imageAlternateText: "Сообщение об запросе по корневому маршруту, сгенерированное фреймворком " +
-          "«Yamato Daiwa Backend» (сокращённо: «YDB»)",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/RootRouteRequestInfoLog",
+      imageAlternateText:
+          "В консоли синим цветом отображается сообщение о регистрации get-запроса по корневому маршруту, озаглавленное " +
+            "«New request» — «Новый запрос». " +
+          "Веб-приложение написано на Node.js/TypeScript с использованием фреймворка «Yamato Daiwa Backend» " +
+            "(сокращённо: «YDB»).",
       autoAspectRatioByYDA: true
     })
 
@@ -344,9 +350,12 @@ block append SpecificContent
         #[+ImportantEntity__Code--YDID /favicon.ico]:
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/FaviconRequestInfoLog",
-      imageAlternateText: "Сообщение об запросе favicon, сгенерированное фреймворком " +
-          "«Yamato Daiwa Backend» (сокращённо: «YDB»)",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/FaviconRequestInfoLog",
+      imageAlternateText:
+          "В консоли синим цветом отображается сообщение о регистрации get-запроса по маршруту \"/favicon\", " +
+            "озаглавленное «New request» — «Новый запрос». " +
+          "Веб-приложение написано на Node.js/TypeScript с использованием фреймворка «Yamato Daiwa Backend» " +
+            "(сокращённо: «YDB»).",
       autoAspectRatioByYDA: true
     })
 
@@ -377,9 +386,14 @@ block append SpecificContent
       Например, для #[+Term--YDID запроса] #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo] лог будет таким:
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/ServerErrorLog",
-      imageAlternateText: "Сообщение об не найденном запрашиваемом ресурсе, сгенерированное фреймворком " +
-          "«Yamato Daiwa Backend» (сокращённо: «YDB»)",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/ServerErrorLog",
+      imageAlternateText:
+          "В консоли синим цветом отображается сообщение о регистрации get-запроса по маршруту \"/foo\", " +
+            "озаглавленное «New request» — «Новый запрос», а также красным цветом — сообщение о том, что данный " +
+            "запрос ссылается на неизвестный ресурс (озаглавлено «Requested resource not found» — «запрашиваемый ресурс " +
+            "не найден»). " +
+          "Веб-приложение написано на Node.js/TypeScript с использованием фреймворка «Yamato Daiwa Backend» " +
+            "(сокращённо: «YDB»).",
       autoAspectRatioByYDA: true
     })
 

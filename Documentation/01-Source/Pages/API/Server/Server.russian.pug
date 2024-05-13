@@ -55,7 +55,7 @@ block append Metadata
       japanese: "./Server.japanese.html"
     });
 
-    const PAGE_TABLE_OF_CONTENTS = localizedRouting.API.$children.Server.$sectioning;
+    const pageTableOfContents = localizedRouting.API.$children.Server.$sectioning;
 
 
 block append HeadScriptsLinks
@@ -71,18 +71,18 @@ block append SpecificContent
 
     h1.Article-Heading1 Класс «Server»
 
-    +CompactTableOfContents--YDF_DK(PAGE_TABLE_OF_CONTENTS, { mustApplyAnchorsInsteadOfURIs: true })
+    +CompactTableOfContents--YDF_DK(pageTableOfContents, { mustApplyAnchorsInsteadOfURIs: true })
 
     p.Article-Paragraph.
-      Основной класс пакета, предоставляющий функциональность обработки #[+Term--YDID HTTP-запросов] включая поддержку
-        #[+Term--YDID протокола HTTPS].
+      Основной класс фреймворка, предоставляющий функциональность для обработки #[+Term--YDID HTTP-запросов] включая
+        поддержку #[+Term--YDID протокола HTTPS].
 
 
     //- ━━━ Открытые Статические Методы ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$heading,
-      HTML_ID: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$anchor
+      text: pageTableOfContents.publicStaticMethods.$heading,
+      HTML_ID: pageTableOfContents.publicStaticMethods.$anchor
     }).Article-Heading2
 
     //- ─── initializeAndStart ─────────────────────────────────────────────────────────────────────────────────────────
@@ -99,19 +99,65 @@ block append SpecificContent
       ],
       returnedValue: "Server"
     })(
-      id=PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.initializeAndStart.$anchor
+      id=pageTableOfContents.publicStaticMethods.$children.initializeAndStart.$anchor
     )
+      +ObjectTypeAbstract--YDF_DK({
+        typeName: "Server.RawConfiguration",
+        localizedDescriptiveHeading: "Конфигурация сервера",
+        propertiesSpecification: serverInitializationPropertiesSpecification
+      })
 
-    //- ━━━ Параметр ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    p.Article-Paragraph.
+      Инициализирует серверное приложение настройками, передаваемыми через #[+Keyword--YDID единственный]
+        #[+Term--YDID параметр], затем запускает его.
+
+
+    //- ─── initialize ─────────────────────────────────────────────────────────────────────────────────────────
+    +CallableExpressionScheme--YDF_DK({
+      technicalName: "initialize",
+      localizedDescriptiveHeading: "Инициализировать",
+      headingTag: "h3",
+      parametersSpecification: [
+        {
+          genericTechnicalName: "Конфигурация",
+          type: "Server.RawConfiguration",
+          required: true
+        }
+      ],
+      returnedValue: "Server"
+    })(
+      id=pageTableOfContents.publicStaticMethods.$children.initialize.$anchor
+    )
+      +ObjectTypeAbstract--YDF_DK({
+        typeName: "Server.RawConfiguration",
+        localizedDescriptiveHeading: "Конфигурация сервера",
+        propertiesSpecification: serverInitializationPropertiesSpecification
+      })
+
+    p.Article-Paragraph.
+      Инициализирует серверное приложение настройками, передаваемыми через #[+Keyword--YDID единственный]
+        #[+Term--YDID параметр], при этом #[+Keyword--YDID не]&nbsp;запускает его.
+      Запуск можно осуществить позднее с помощью #[+Keyword--YDID нестатического] #[+Term--YDID метода]
+        #[+ImportantEntity__Code--YDID start].
+
+
+    //- ━━━ Связанные типы ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
-      level: 4,
-      text: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.initializeAndStart.$children.parameter.$heading,
-      HTML_ID: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.initializeAndStart.$children.parameter.$anchor
-    }).Article-Heading4
+      level: 2,
+      text: pageTableOfContents.relatedTypes.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$anchor
+    }).Article-Heading2
+
+    //- ─── Server.RawConfig ───────────────────────────────────────────────────────────────────────────────────────────
+    +Heading--YDF({
+      level: 3,
+      text: pageTableOfContents.relatedTypes.$children.RawConfig.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$anchor
+    }).Article-Heading3
 
     +ObjectTypeAbstract--YDF_DK({
       typeName: "Server.RawConfiguration",
-      localizedDescriptiveHeading: "Конфигурация",
+      localizedDescriptiveHeading: "Конфигурация сервера",
       propertiesSpecification: serverInitializationPropertiesSpecification
     })
 
@@ -120,26 +166,69 @@ block append SpecificContent
         #[+Term--YDID свойствами] сделано всё то, о чем инженер обязан отдавать себе отчёт.
 
 
-    //- ━━━ IP_Address ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //- ─── IP_Address ─────────────────────────────────────────────────────────────────────────────────────────────────
     +Heading--YDF({
-      level: 5,
-      text: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.
-          initializeAndStart.$children.
-          parameter.$children.
-          IP_Address.$heading,
-      HTML_ID: PAGE_TABLE_OF_CONTENTS.publicStaticMethods.$children.
-          initializeAndStart.$children.
-          parameter.$children.
-          IP_Address.$anchor
-    }).Article-Heading5
+      level: 4,
+      text: pageTableOfContents.relatedTypes.$children.RawConfig.$children.IP_Address.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.IP_Address.$anchor
+    }).Article-Heading4
 
     +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.IP_Address)
 
     p.Article-Paragraph.
-      #[+Keyword--YDID Обязательное] свойство, которое должно содержать валидный #[+Term--YDID IP-адрес], по которому
-        будет осуществляться прослушивание входящих #[+Term--YDID HTTP-запросов] после запуска приложения.
-      В простейшем случае с одним #[+Term--YDID обработчиком запросов] и #[+Keyword--YDID без] поддержки
-        #[+Term--YDID протокола HTTPS] #[+Keyword--YDID минимальный] пример будет:
+      #[+Keyword--YDID Обязательное] свойство, которое #[+Keyword--YDID должно] содержать валидный
+        #[+Term--YDID IP-адрес], по которому будет осуществляться прослушивание входящих #[+Term--YDID HTTP-запросов]
+        после запуска приложения.
+      #[+Keyphrase--YDID В простейшем случае] с одним #[+Term--YDID обработчиком запросов] и #[+Keyword--YDID без]
+        поддержки #[+Term--YDID протокола HTTPS] #[+Keyword--YDID минимальный] пример будет:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :html_special_characters_to_html_entities
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+
+    //- ─── HTTP ───────────────────────────────────────────────────────────────────────────────────────────────────────
+    +Heading--YDF({
+      level: 4,
+      text: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTP.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTP.$anchor
+    }).Article-Heading4
+
+    +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.HTTP)
+
+    p.Article-Paragraph.
+      Настройки для #[+Term--YDID протокола HTTP].
+
+    +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).
+      Современные требования к кибербезопасности предполагают использование протокола #[+ImportantEntity--YDID HTTPS],
+        а #[+ImportantEntity--YDID HTTP] считается #[+Keyword--YDID небезопасными] ввиду передачи данных в открытом виде,
+        потому использование протокола #[+ImportantEntity--YDID HTTP] следует по возможности избегать даже на этапе
+        локальной разработки.
+
+    p.Article-Paragraph.
+      На данный момент единственной настройкой этой группы является #[+Term--YDID HTTP-порт]
+        (свойство #[+ImportantEntity__Code--YDID port]).
+      Оно сделано #[+Keyword--YDID обязательным], чтобы инженер осознавал, по какому #[+Term--YDID порту] будут
+        прослушиваться входящие #[+Term--YDID HTTP-запросы].
+      Если Вас устраивает #[+Term--YDID порт] по умолчанию (для #[+Term--YDID протокола HTTP]), то можете воспользоваться
+        #[+Term--YDID перечислением] #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts]:
 
     +CodeViewer--YDF
       +CodeViewer-Listing--YDF({

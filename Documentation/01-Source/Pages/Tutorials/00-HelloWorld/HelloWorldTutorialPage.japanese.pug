@@ -12,13 +12,6 @@ block append Requirements
   include ../../../SharedComponents/SharedComponents.japanese.pug
 
 
-block append HeadScriptsLinks
-
-  if __IS_PRODUCTION_BUILDING_MODE__
-
-    +GoogleAnalyticsScript
-
-
 block append Metadata
 
   -
@@ -52,11 +45,20 @@ block append Metadata
     const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
 
 
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
+
+
 block append SpecificContent
 
   article.Article.DocumentationPage-Article
 
     h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$tableOfContentsTitle
+
+    +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning
 
     +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).
       当授業で提示されたプロジェクト構成・コードは教材への最適化として#[+Keyphrase--YDID 可能な限り]#[+Keyword--YDID 簡素化]されたので、
@@ -289,8 +291,12 @@ block append SpecificContent
       コードに間違いが無い場合、成功起動に関する下記の通知はターミナルに表示。
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/ServerStartedSuccessLog",
-      imageAlternateText: "やまとダイワバックエンド（略：「YDB」に生成されたHTTPサーバ起動について成功メッセージ）",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/ServerStartedSuccessLog",
+      imageAlternateText:
+          "「The serving of HTTP requests started」（直訳：「HTTPリクエストの受付が始まった」）と言う見出しのメッセージがコンソールで緑色で表示" +
+            "されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            "使われている。",
       autoAspectRatioByYDA: true
     })
 
@@ -302,8 +308,11 @@ block append SpecificContent
         （#[+Keyword--YDID 根]#[+Term--YDID ルート]）に就いて記録が残る。
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/RootRouteRequestInfoLog",
-      imageAlternateText: "やまとダイワバックエンド（略：「YDB」に生成された本ルートへのリクエストについて記録）",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/RootRouteRequestInfoLog",
+      imageAlternateText:
+          "根ルートのGetリクエストについて、「New request」（直訳：「新規リクエスト」）と言う見出しのメッセージがコンソールで青色で表示されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            "使われている。",
       autoAspectRatioByYDA: true
     })
 
@@ -312,8 +321,11 @@ block append SpecificContent
       #[+Term--YDID ルート]#[+ImportantEntity__Code--YDID /favicon.ico]に就いても記録が残る事が有る。
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/FaviconRequestInfoLog",
-      imageAlternateText: "やまとダイワバックエンド（略：「YDB」に生成された「favicon」ルートのリクエストについて記録）",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/FaviconRequestInfoLog",
+      imageAlternateText:
+          "「/favicon」ルートのGetリクエストについて、「New request」（直訳：「新規リクエスト」）と言う見出しのメッセージがコンソールで青色で表示されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            "使われている。",
       autoAspectRatioByYDA: true
     })
 
@@ -338,8 +350,13 @@ block append SpecificContent
       例えば、#[+Term--YDID リクエスト]#[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo]の場合記録は下記の様に成る。
 
     +SingleImageViewer--YDF({
-      imageURI: "@AssociatedWithPages/Tutorials/HelloWorld/Images/ServerErrorLog",
-      imageAlternateText: "やまとダイワバックエンド（略：「YDB」に生成された「みつからなかった」エラーについて記録）",
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/ServerErrorLog",
+      imageAlternateText:
+          "「/foo」ルートのGetリクエストについて、「New request」（直訳：「新規リクエスト」）と言う見出しのメッセージがコンソールで青色で表示されている。" +
+          "その後、不明なリソースへの参照について、「Requested resource not found」（直訳：「要求されたリソースが見つからなかった」）と言う見出しの" +
+            "メッセージがコンソールで赤色で表示されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            " 使われている。",
       autoAspectRatioByYDA: true
     })
 
