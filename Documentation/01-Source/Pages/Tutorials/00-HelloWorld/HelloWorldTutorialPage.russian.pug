@@ -57,7 +57,7 @@ block append SpecificContent
 
   article
 
-    h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$tableOfContentsTitle
+    h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$heading
 
     +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).
       Структура проекта и код, представленные в этом уроке #[+Keyword--YDID предельно]
@@ -169,7 +169,7 @@ block append SpecificContent
         fileLabel: "Source code"
       })
 
-        +CodeViewer-PartialListing--YDF.
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
           import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
           import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
@@ -187,8 +187,8 @@ block append SpecificContent
           |   #[+SecondaryEntity__Code--YDID Server] («сервер») не&nbsp;должен оставлять вопросов о том, что этот
           | метод делает.
 
-        +CodeViewer-PartialListing--YDF.
-          &nbsp;&nbsp;IP_Address: "127.0.0.1",
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          IP_Address: "127.0.0.1",
         +CodeViewer-Explanation--YDF
           | #[+Term--YDID Свойство] #[+ImportantEntity__Code--YDID IP_Address] сделано #[+Keyword--YDID обязательным]
           |   #[+Keyword--YDID не]&nbsp;случайно, потому что Вы как инженер #[+Keyword--YDID обязаны] понимать,
@@ -203,8 +203,8 @@ block append SpecificContent
           }).Article-Link частных IP-адресов
           | .
 
-        +CodeViewer-PartialListing--YDF.
-          &nbsp;&nbsp;HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
         +CodeViewer-Explanation--YDF.
           #[+ImportantEntity--YDID 80] — значение #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts.HTTP] —
             это номер #[+Term--YDID порта] #[+Keyword--YDID по умолчанию] #[+Keyphrase--YDID для #[+Term--YDID протокола HTTP]].
@@ -214,10 +214,10 @@ block append SpecificContent
             #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts], а от Вас лишь требуется осознавать,
             на #[+Term--YDID порту] по умолчанию будет доступно приложение или же на каком-то другом.
 
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
-          &nbsp;&nbsp;routing: [
-              {
-                route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
         +CodeViewer-Explanation--YDF.
           Свойство #[+ImportantEntity__Code--YDID routing], как это очевидно и должно быть очевидно при качественном
             именовании, позволяет определить #[+DefinableTerm--YDID роутинг] —
@@ -234,8 +234,8 @@ block append SpecificContent
             (соответствует #[+Term--YDID URI] #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/bar/baz]),
             сервер отправит #[+Term--YDID ответ] с ошибкой «не найдено».
 
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;async handler(request: Request, response: Response): Promise＜void＞ {
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="4" indentationString="  ")
+          async handler(request: Request, response: Response): Promise＜void＞ {
         +CodeViewer-Explanation--YDF
 
           p.Article-Paragraph.
@@ -268,8 +268,8 @@ block append SpecificContent
               тот же #[+Term--YDID ответ], потому #[+Keyword--YDID первый] #[+Term--YDID параметр]
               #[+Keyword--YDID не]&nbsp;будет использован.
 
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="5" indentationString="  ")
+          return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
         +CodeViewer-Explanation--YDF
           p.Article-Paragraph.
             Как известно, #[+Term--YDID HTTP-ответ] имеет #[+Term__Contrast--YDID статус], идентифицируемый
@@ -292,7 +292,7 @@ block append SpecificContent
               #[+ImportantEntity__Code--YDID submitWithSuccess], мы сообщаем, что хотим
               отправить #[+Term--YDID HTML-код], в связи с чем фреймворк #[+Keyword--YDID автоматически] установит
               нужные #[+Term--YDID HTTP-заголовки].
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
                 }
               }
             ]

@@ -56,7 +56,7 @@ block append SpecificContent
 
   article.Article.DocumentationPage-Article
 
-    h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$tableOfContentsTitle
+    h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$heading
 
     +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning
 
@@ -161,7 +161,7 @@ block append SpecificContent
         fileLabel: "Source code"
       })
 
-        +CodeViewer-PartialListing--YDF.
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
           import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
           import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
@@ -177,8 +177,8 @@ block append SpecificContent
           | #[+SecondaryEntity__Code--YDID Server]（「サーバ」）と言う文脈に合わせて「初期化して起動」と言う#[+Term--YDID メソッド]名の直訳は、
           |   #[+Term--YDID 当メソッド]が何をしているか、不明点が残るべきではない。
 
-        +CodeViewer-PartialListing--YDF.
-          &nbsp;&nbsp;IP_Address: "127.0.0.1",
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+            IP_Address: "127.0.0.1",
         +CodeViewer-Explanation--YDF
           | #[+ImportantEntity__Code--YDID IP_Address]と言う#[+Term--YDID プロパティ]は只単に#[+Keyword--YDID 必須]に成っている訳では
           |   #[+Keyword--YDID なく]、エンジニアとしてどれの#[+Term--YDID IPアドレス]でサーバアプリケーションを実行するか、意識
@@ -191,8 +191,8 @@ block append SpecificContent
           }).Article-Link プライベートIPアドレス範囲内
           | の一番最初のものにしておこう。
 
-        +CodeViewer-PartialListing--YDF.
-          &nbsp;&nbsp;HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
         +CodeViewer-Explanation--YDF.
           #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts.HTTP]の値である#[+ImportantEntity--YDID 80]は
             #[+Term--YDID HTTPプロトコル]専用#[+Keyword--YDID 規定の]#[+Term--YDID ポート]番号だ。
@@ -201,10 +201,10 @@ block append SpecificContent
             #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts]#[+Term--YDID 列挙]が用意してある。
           エンジニアの貴方からは、規定の#[+Term--YDID ポート]か、其の他の#[+Term--YDID ポート]が使わ定るか、意識してなければならない。
 
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
-          &nbsp;&nbsp;routing: [
-              {
-                route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
         +CodeViewer-Explanation--YDF.
           和訳から自明的に成ってもいて、良質の名付けの場合自明的ではなければいけないのだが、#[+ImportantEntity__Code--YDID routing]
             #[+Term--YDID プロパティ]は#[+DefinableTerm--YDID ルーチング]
@@ -219,8 +219,8 @@ block append SpecificContent
             （#[+Term--YDID URI]の#[+SecondaryEntity__Code--YDID http://127.0.0.1:80/bar/baz]に該当）、サーバが
             「見つからなかった」と言うエラーを含む#[+Term--YDID レスポンス]を返す。
 
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;async handler(request: Request, response: Response): Promise＜void＞ {
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="4" indentationString="  ")
+          async handler(request: Request, response: Response): Promise＜void＞ {
         +CodeViewer-Explanation--YDF
 
           p.Article-Paragraph.
@@ -245,8 +245,8 @@ block append SpecificContent
             だが、今は#[+ImportantEntity--YDID Response]#[+Term--YDID インスタンス]の取り扱いを次以降の授業にし、此の最初の授業に相応しい
               可能な限り簡単な例ではずっと同じ#[+Term--YDID レスポンス]を送る事に成るので、第一引数が未使用で良い。
 
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="5" indentationString="  ")
+          return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
         +CodeViewer-Explanation--YDF
           p.Article-Paragraph.
             汎用な知識ではあるが、#[+Term--YDID HTTPレスポンス]は#[+Keyword--YDID ３桁の]暗号に表現される#[+Term--YDID ステータス]が有る。
@@ -266,7 +266,7 @@ block append SpecificContent
             #[+ImportantEntity__Code--YDID HTML_Content]と言う#[+Keyword--YDID 単一の]#[+Term--YDID 引数]の
               #[+Term--YDID プロパティ]を指定する事で、フレームワークに#[+Term--YDID HTMLコード]を送りたい意図を伝え、フレームワークは
               適切な#[+Term--YDID HTTPヘッダー]を設定してくれる。
-        +CodeViewer-PartialListing--YDF: :html_special_characters_to_html_entities
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
                 }
               }
             ]

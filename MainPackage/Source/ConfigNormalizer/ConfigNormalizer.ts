@@ -37,7 +37,6 @@ export default class ConfigNormalizer {
 
 
     return {
-
       IP_Address: rawConfig.IP_Address,
       ...ConfigNormalizer.normalizeHTTP_Config(rawConfig),
       ...ConfigNormalizer.normalizeHTTPS_Config(rawConfig),
@@ -226,4 +225,5 @@ export default class ConfigNormalizer {
   private static extractDynamicSubdomainLabelName(dynamicSubdomainNotation: string): string {
     return removeAllSpecifiedCharacters(dynamicSubdomainNotation, [ ":", "?" ]);
   }
+
 }

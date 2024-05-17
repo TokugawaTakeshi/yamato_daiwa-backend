@@ -16,35 +16,33 @@
         $children: {
 
           initializeAndStart: {
-
             $heading: "<code>initializeAndStart</code>",
-            $anchor: "INITIALIZE_AND_START--SECTION",
-            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+            $anchor: "PUBLIC_STATIC_METHODS-INITIALIZE_AND_START--SECTION",
+            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+          },
 
-            $children: {
+          initialize: {
+            $heading: "<code>initialize</code>",
+            $anchor: "PUBLIC_STATIC_METHODS-INITIALIZE--SECTION",
+            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+          }
 
-              parameter: {
+        }
 
-                $heading: localizedStrings.publicStaticMethods.initializeAndStart.parameter.$heading,
-                $anchor: "INITIALIZE_AND_START-PARAMETER--SECTION",
-                get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+      },
 
-                $children: {
+      publicInstanceMethods: {
 
-                  IP_Address: {
+        $heading: localizedStrings.publicInstanceMethods.$heading,
+        $anchor: "PUBLIC_INSTANCE_METHODS--SECTION",
+        get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
 
-                    $heading: "IP_Address",
-                    $anchor: "INITIALIZE_AND_START-PARAMETER-IP_ADDRESS--SECTION",
-                    get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+        $children: {
 
-                  }
-
-                }
-
-              }
-
-            }
-
+          start: {
+            $heading: "<code>start</code>",
+            $anchor: "PUBLIC_INSTANCE_METHODS-START--SECTION",
+            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
           }
 
         }
@@ -61,9 +59,37 @@
 
           RawConfig: {
 
-            $heading: "<code>RawConfig</code>",
+            $heading: "<code>Server.RawConfig</code>",
             $anchor: "RAW_CONFIG--SECTION",
-            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+            get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; },
+
+            $children: {
+
+              IP_Address: {
+                $heading: "<code>IP_Address</code>",
+                $anchor: "RAW_CONFIG-IP_ADDRESS--SECTION",
+                get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+              },
+
+              HTTP: {
+                $heading: "<code>HTTP</code>",
+                $anchor: "RAW_CONFIG-HTTP--SECTION",
+                get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+              },
+
+              HTTPS: {
+                $heading: "<code>HTTPS</code>",
+                $anchor: "RAW_CONFIG-HTTPS--SECTION",
+                get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+              }
+
+              // routing: {
+              //   $heading: "<code>routing</code>",
+              //   $anchor: "RAW_CONFIG-ROUTING--SECTION",
+              //   get $URI() { return `${ PAGE_URI }#${ this.$anchor }`; }
+              // }
+
+            }
 
           }
 
