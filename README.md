@@ -48,7 +48,7 @@ Server.initializeAndStart({
 });
 ```
 
-See the ["Hello, world!"](https://es-extensions.yamatodaiwa.com/Tutorials/HelloWorld/HelloWorldTutorialPage.english.html) tutorial for the details.
+See the ["Hello, world!"](https://backend-es.yamato-daiwa.com/Tutorials/00-HelloWorld/HelloWorldTutorialPage.english.html) tutorial for the details.
 
 
 ### HTTPS support
