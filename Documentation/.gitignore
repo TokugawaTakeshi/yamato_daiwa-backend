@@ -1,5 +1,10 @@
+02-LocalDevelopmentBuild/
+03-ProductionBuild/
+
 node_modules/
 
 **/.DS_Store
 
-/Tutorials/02-HTTPS_Support/Example/SSL/
+
+# Temporary
+.yda/

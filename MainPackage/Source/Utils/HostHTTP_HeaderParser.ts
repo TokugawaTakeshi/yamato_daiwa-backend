@@ -8,6 +8,7 @@ import {
   hasStringOnlySpecificCharacters
 } from "@yamato-daiwa/es-extensions";
 
+
 class HostHTTP_HeaderParser {
 
   public static parse(

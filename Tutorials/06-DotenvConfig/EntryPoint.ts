@@ -12,7 +12,6 @@ import { ObjectDataFilesProcessor } from "@yamato-daiwa/es-extensions-nodejs";
 
 const configFromDotEnvFile: ConfigFromDotEnvFile = ObjectDataFilesProcessor.processFile({
   filePath: ".env",
-  schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
   validDataSpecification: {
     nameForLogging: "ConfigurationFromDotenv",
     subtype: RawObjectDataProcessor.ObjectSubtypes.fixedKeyAndValuePairsObject,
@@ -28,7 +27,8 @@ const configFromDotEnvFile: ConfigFromDotEnvFile = ObjectDataFilesProcessor.proc
         required: false
       }
     }
-  }
+  },
+  synchronously: true
 });
 
 
@@ -36,7 +36,7 @@ ConfigRepresentative.initialize(configFromDotEnvFile);
 
 
 /* Running the test:
-*  npx nodemon EntryPoint.ts
+*  ts-node EntryPoint.ts
 * */
 Server.initializeAndStart({
   IP_Address: ConfigRepresentative.IP_Address,

@@ -1,16 +1,26 @@
 {
   "compilerOptions": {
 
-    "target": "ES2020",
-    "module": "CommonJS",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
 
     "strict": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "experimentalDecorators": true
+
+    "baseUrl": "./",
+    "paths": {}
+
+  },
+
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
   }
+
 }

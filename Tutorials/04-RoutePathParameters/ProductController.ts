@@ -38,4 +38,5 @@ export default class ProductController extends Controller {
       HTML_Content: `<h1>Product with ID: ${targetProductID}</h1>`
     });
   }
+
 }

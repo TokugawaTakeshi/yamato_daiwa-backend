@@ -1,0 +1,58 @@
+{
+  "node_modules/@yamato-daiwa/frontend/Components.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-02-05T04:50:57.356Z"
+  },
+  "node_modules/@yamato-daiwa/frontend/Functionality.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2023-01-06T02:46:23.397Z"
+  },
+  "01-Source/Implementation/Elements/Client/index.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-06-13T01:03:56.017Z"
+  },
+  "01-Source/Implementation/Elements/Client/StaticPreview/StaticPreviewAnywherePage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-26T06:12:08.283Z"
+  },
+  "01-Source/Implementation/Elements/Client/StaticPreview/_CommonRequirements.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-16T00:41:39.649Z"
+  },
+  "01-Source/Implementation/Elements/Client/Layouts/Main/MainLayout.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-26T05:45:07.199Z"
+  },
+  "01-Source/Implementation/Elements/Client/Pages/Top/TopPage.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-26T08:27:40.860Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedSingletons/Header/Header.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-03T03:46:04.973Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedReusable/NavigationMenu/NavigationMenu.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-03T03:52:06.410Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedReusable/Cards/Category/CategoryCard.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-26T05:59:40.502Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedReusable/Controls/SearchBox/SearchBox.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-06-18T02:55:02.368Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedReusable/Cards/Category/LoadingPlaceholder/CategoryCard-LoadingPlaceholder.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-11-26T06:01:02.943Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedReusable/Controls/Managers/Products/ProductsManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-06-18T02:55:02.265Z"
+  },
+  "01-Source/Implementation/Elements/Client/Components/SharedReusable/Controls/Managers/Categories/CategoriesManager.pug": {
+    "issues": [],
+    "modificationDatetime__ISO_8601": "2022-12-16T00:41:39.677Z"
+  }
+}

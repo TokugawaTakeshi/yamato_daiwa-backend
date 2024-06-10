@@ -1,5 +1,8 @@
-/02-DevelopmentBuild/
-/03-ProductionBuild/
+/02-StaticPreviewBuild/
+/03-LocalDevelopmentBuild/
+/04-TestingBuild/
+/05-StagingBuild/
+/06-ProductionBuild/
 
 /node_modules/
 

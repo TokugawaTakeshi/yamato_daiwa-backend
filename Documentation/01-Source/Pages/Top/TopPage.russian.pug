@@ -1,0 +1,82 @@
+extends ../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/Minimal/MinimalLayout.pug
+
+
+block append Requirements
+
+  include ../../SharedAssets/Markup/SharedAssets.russian.pug
+  include ../../SharedComponents/SharedComponents.russian.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ru";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("Главная страница");
+    HTML_PageMetaData = {
+      description:
+          "Бэкенд-фреймворк &quot;Yamato Daiwa Backend&quot; (сокращённо: &quot;YDB&quot;) предназначен " +
+            "для серверной разработки на языке TypeScript и сочетает в себе высокооуровневость, минималистичность и " +
+            "объектно-ориентированный подход. " +
+          "Фреймворк не навязывает конкретной архитектуры и структуры проекта, кроме того при его проектировании " +
+            "не ставилось задачи обернуть в свои плагины всевозможные вспомогательные библиотеки, такие как " +
+            "&quot;TypeORM&quot; или &quot;Mongoose&quot;.",
+      author: HTML_PAGE_AUTHOR
+    };
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon.ico"
+
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/Minimal/MinimalLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents",
+      "@Pages/Top/TopPage"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+
+    RoutingEmulator.setCurrentRoute("top");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      english: "./../index.html",
+      japanese: "./TopPage.japanese.html"
+    });
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
+
+
+block append SpecificContent
+
+  main.TopPage
+
+    .TopPage-ImageAndTopHeadingGroup
+
+      img.TopPage-ImageAndTopHeadingGroup-Image(
+        src="@Shared/Icons/YDB_Icon.svg"
+        alt="Иконка фреймворка «Yamato Daiwa Backend»"
+      )
+
+      h1.TopPage-ImageAndTopHeadingGroup-Heading
+        span.TopPage-ImageAndTopHeadingGroup-Heading-FirstLine Yamato Daiwa
+        span.TopPage-ImageAndTopHeadingGroup-Heading-SecondLine Backend
+
+    p.TopPage-ShortDescription-Heading.
+      Фреймворк для высококачественной серверной разработки на языке TypeScript
+
+    +AdmonitionBlock--YDF({
+      decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning,
+      SVG_Icon: true
+    }).TopPage-Disclaimer.
+
+      Сайт документации находится на стадии разработки разработки.
+      Просим Вас понять, что качественное документирование требует больше времени, чем разработка, а библиотека
+        нуждается в новой функциональности, а потому разработка новой функциональности будет осуществляться с большим
+        приоритетом.
+
+    +CompactTableOfContents--YDF_DK(localizedRouting).TopPage-TableOfContents

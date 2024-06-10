@@ -1,0 +1,365 @@
+extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
+
+
+block append Data
+
+  include _HelloWorldTutorialPage-Data.pug
+
+
+block append Requirements
+
+  include ../../../SharedAssets/Markup/SharedAssets.japanese.pug
+  include ../../../SharedComponents/SharedComponents.japanese.pug
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "ja";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("Hello, world!");
+    HTML_PageMetaData = {
+      description:
+          "「やまとダイワバックエンド」（技術名：「Yamato Daiwa Backend」、略：「YDB」）というNode.jsフレームワークで作られた最小のサーバアプリケーションの例",
+      author: HTML_PAGE_AUTHOR
+    }
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon"
+
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+
+    RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      english: "./HelloWorldTutorialPage.english.html",
+      russian: "./HelloWorldTutorialPage.russian.html"
+    });
+
+    const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
+
+
+block append SpecificContent
+
+  article.Article.DocumentationPage-Article
+
+    h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$heading
+
+    +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning
+
+    +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).
+      当授業で提示されたプロジェクト構成・コードは教材への最適化として#[+Keyphrase--YDID 可能な限り]#[+Keyword--YDID 簡素化]されたので、
+        此れに#[+Keyphrase--YDID 真似し本物の営利的なウェブサイト・ウェブアプリケーションのコードを書いてはならない]。
+      此の授業で習った知識を実践に活用するには、授業の内容を理解した上でコードサンプルを貴方の課題・スタイルガイドに適応する事。
+
+    //- ━━━ 事前に必要な知識・熟練 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.preRequirements.$heading,
+      HTML_ID: pageTableOfContents.preRequirements.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph.
+      下記の知識・熟練が習得済み前提で今以降の授業を論述。
+
+    ul.Article-UnorderedList
+
+      li.
+        #[+ImportantEntity--YDID Node.js]プロジェクトを展開し、#[+Term--YDID npm依存性]を導入。
+        未習得の場合先ず#[+ImportantEntity--YDID Node.js]の#[+Keyword--YDID 基本]を学ぶ事。
+
+      li.
+        #[+ImportantEntity--YDID TypeScript]言語のコンパイラを設定。
+        #[+ImportantEntity--YDID やまとダイワバックエンド]（以下#[+ImportantEntity--YDID YDB]）#[+Term--YDID フレームワーク]は
+        #[+ImportantEntity--YDID TypeScript]優先のフレームワークで、但し#
+        [+Keyphrase--YDID #[+ImportantEntity__Code--YDID any]#[+Term--YDID 型]が一切使われていない規律]。
+
+      li.
+        #[+Term--YDID オブジェクト指向プログラミング]の基本。
+        #[+ImportantEntity--YDID YDB]に提供される方法論は#[+Term--YDID オブジェクト指向プログラミング]#[+Keyword--YDID 中心]。
+        当フレームワークは特定のアーキテクチャを強いてはいないが、#[+Term--YDID オブジェクト指向プログラミング]の利用は好ましく、次の授業以降必ず出る。
+
+
+    //- ━━━ Node.jsプロジェクトの展開 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.projectRollout.$heading,
+      HTML_ID: pageTableOfContents.projectRollout.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph.
+      新規#[+Term--YDID Node.jsプロジェクト]を展開し、下記の#[+Term--YDID npm依存性]を導入しよう。
+      バージョンと共に変化している#[+Term--YDID API]関連問題を避ける為に、#[+Keyphrase--YDID 此の従業無い]#[+Term--YDID 角括弧指]に示された
+        バージョンを導入する超推薦。
+
+    dl.Article-DescriptionList
+
+      dt= `@yamato-daiwa/backend [${ DependenciesVersions["@yamato-daiwa/backend"] }]`
+      dd 当フレームワークの主要な#[+Term--YDID npmパッケージ]
+
+      dt= `@yamato-daiwa/es-extensions [${ DependenciesVersions["@yamato-daiwa/es-extensions"] }]`
+      dd.
+        #[+ImportantEntity--YDID Node.js]・#[+ImportantEntity--YDID ブラウザー専用JavaScript]不問の補助機能。
+        当授業内、#[+ImportantEntity--YDID HTTP_Methods]#[+Term--YDID 列挙]のみ必要に成るが、プロジェクトの拡大と共にもっと必要に成る予定。
+
+      dt= `ts-node [${ DependenciesVersions["ts-node"] }]`
+      dd.
+        #[+ImportantEntity--YDID TypeScript]言語専用の
+          #[+Link--YDF({ unendorsedExternalURI: "https://ja.wikipedia.org/wiki/REPL" }).Article-Link REPL]。
+        #[+ImportantEntity--YDID TypeScript]は自分の#[+Term--YDID ランタイム]を持っている効果を作り、
+          当授業内コンパイル済みの#[+Term--YDID JavaScriptファイル]関連面倒を避ける。
+
+      dt= `typescript [${ DependenciesVersions.typescript }]`
+      dd.
+        #[+ImportantEntity--YDID TypeScript]言語の主要#[+Term--YDID npmパッケージ]。
+        #[+ImportantEntity--YDID ts-node]は当パッケージの導入を求める
+          （#[+ImportantEntity--YDID npm]の用語を使って言い換えると、#[+ImportantEntity--YDID typescript]は
+          #[+ImportantEntity--YDID ts-node]に対する#[+Term--YDID peer dependency]である）。
+        現在の#[+ImportantEntity--YDID npm]は#[+Term--YDID ピア依存性]を自動的に導入しているが、我々は此の#[+Term--YDID パッケージ]の
+          特定バージョンを#[+Term--YDID 意識的に]導入する。
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash })
+        | #{ dependenciesInstalationConsoleCommand }
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash }).
+        npm i ts-node@#{ DependenciesVersions["ts-node"] } typescript@#{ DependenciesVersions.typescript } -D
+
+
+    //- ━━━ コード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.code.$heading,
+      HTML_ID: pageTableOfContents.code.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph.
+      当アプリケーションは#[+SecondaryEntity__Code--YDID http://127.0.0.1:80/]アドレス宛ての#[+Term__Contrast--YDID GET]型の
+        #[+Term--YDID HTTPリクエスト]への返事として#[+SecondaryEntity__Code--YDID 「Hello, world!」]と言う本文を含んでいる
+        #[+SecondaryEntity__Code--YDID h1]見出しから成り立っている#[+Term--YDID HTMLコード]を返す。
+      実は、妥当な#[+Term--YDID HTMLページ]を代表しているコードには成っていないが、テスト目的の為に送信しても現在のブラウザーなら表示させる。
+      此の#[+Term--YDID リクエスト]を送る前に当単純な例のコードを考察しておこう。
+
+    +CodeViewer--YDF
+
+      +CodeViewer-TabPanel--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript,
+        fileLabel: "Source code"
+      })
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
+          import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+          import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+          Server.initializeAndStart({
+        +CodeViewer-Explanation--YDF
+          | #[+SecondaryEntity__Code--YDID Server]#[+Term--YDID クラス]の#[+SecondaryEntity__Code--YDID initializeAndStart]
+          |   #[+Term--YDID 静的メソッド]は
+          +Link--YDF({
+            internalURI: localizedRouting.API.$children.Server.$sectioning.relatedTypes.$children.RawConfig.$URI
+          }).Article-Link 設定オブジェクト
+          |   を#[+Keyword--YDID 単一の]#[+Term--YDID 引数]として受け取っている。
+          | #[+SecondaryEntity__Code--YDID Server]（「サーバ」）と言う文脈に合わせて「初期化して起動」と言う#[+Term--YDID メソッド]名の直訳は、
+          |   #[+Term--YDID 当メソッド]が何をしているか、不明点が残るべきではない。
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+            IP_Address: "127.0.0.1",
+        +CodeViewer-Explanation--YDF
+          | #[+ImportantEntity__Code--YDID IP_Address]と言う#[+Term--YDID プロパティ]は只単に#[+Keyword--YDID 必須]に成っている訳では
+          |   #[+Keyword--YDID なく]、エンジニアとしてどれの#[+Term--YDID IPアドレス]でサーバアプリケーションを実行するか、意識
+          |   #[+Keyword--YDID していなければいけない]。
+          | 実際のプロジェクトの場合、#[+Term--YDID IPアドレス]はモード（ローカル開発、ステージング、本番）に依存。
+          | 将来の授業、どうやって此の#[+Term--YDID オプション]をモードに依って条件的に設定すればいいか教えられるが、今は
+          |   #[+SecondaryEntity--YDID 127.0.0.1]と言う
+          +Link--YDF({
+            unendorsedExternalURI: "https://ru.wikipedia.org/wiki/Localhost"
+          }).Article-Link プライベートIPアドレス範囲内
+          | の一番最初のものにしておこう。
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+        +CodeViewer-Explanation--YDF.
+          #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts.HTTP]の値である#[+ImportantEntity--YDID 80]は
+            #[+Term--YDID HTTPプロトコル]専用#[+Keyword--YDID 規定の]#[+Term--YDID ポート]番号だ。
+          #[+ImportantEntity__Code--YDID IP_Address]と同じ理由で#[+Keyword--YDID 明示的に]していしなければいけないが、
+            人間の暗記力に頼る事が#[+Keyword--YDID 危険]なので、
+            #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts]#[+Term--YDID 列挙]が用意してある。
+          エンジニアの貴方からは、規定の#[+Term--YDID ポート]か、其の他の#[+Term--YDID ポート]が使わ定るか、意識してなければならない。
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+        +CodeViewer-Explanation--YDF.
+          和訳から自明的に成ってもいて、良質の名付けの場合自明的ではなければいけないのだが、#[+ImportantEntity__Code--YDID routing]
+            #[+Term--YDID プロパティ]は#[+DefinableTerm--YDID ルーチング]
+            （#[+Keyphrase--YDID #[+Term--YDID サーバ向けウェブ開発]の文脈に於いて]#[+Term--YDID URI]の原型に依り異なる返事の生成）に該当。
+          これからの授業の際[+DefinableTerm--YDID ルーチング]を詳しく考察するのだが、今にとって大切な事は
+            #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/]#[+Term--YDID URI]に該当している
+            #[+Keyword--YDID 単一の]#[+Keyword__Contrast--YDID 根の]#[+Term--YDID ルート]
+            （#[+Term--YDID 片仮名]上、「root」と「route」は何方でも「ルート」だが、本題に両方出ている）専用#[+Keyword--YDID のみ]返事が生成される
+            事に成る。
+          其れ#[+Keyword--YDID 以外の]ルートの場合例えば#[+SecondaryEntity__Code--YDID /foo]（#[+Term--YDID URI]の
+            #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo]に該当）又は#[+SecondaryEntity__Code--YDID /bar/baz]
+            （#[+Term--YDID URI]の#[+SecondaryEntity__Code--YDID http://127.0.0.1:80/bar/baz]に該当）、サーバが
+            「見つからなかった」と言うエラーを含む#[+Term--YDID レスポンス]を返す。
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="4" indentationString="  ")
+          async handler(request: Request, response: Response): Promise＜void＞ {
+        +CodeViewer-Explanation--YDF
+
+          p.Article-Paragraph.
+            #[+DefinableTerm--YDID handler]は送信された#[+Term--YDID リクエスト]が#[+ImportantEntity__Code--YDID route]で指定された
+              #[+Term--YDID ルート]を満たしている時、何方の行動をすれば良いか、定義する#[+Term--YDID 関数]である。
+            #[+Term--YDID レスポンス]の送信は一瞬で感じられる事が有っても#[+Keyword--YDID 事実上]一瞬では#[+Keyword--YDID ない]ので、
+              此の#[+Term--YDID 関数]は#[+Keyword--YDID アプリオリ]#[+Keyphrase--YDID 非同期]（
+              此処では明示的か、暗黙的で#[+ImportantEntity__Code--YDID Promise]の#[+Term--YDID インスタンス]を返す
+              #[+Term__Contrast--YDID 関数]と意味するが、#[+Keyphrase--YDID #[+ImportantEntity--YDID ECMAScript]上]
+              正式的な定義には#[+Keyword--YDID 成っていなく]、#[+Term--YDID コールバック]を#[+Term--YDID 引数]で受けている
+              #[+Term--YDID 関数]も「非同期」と呼ばれる）。
+            然も、#[+Term--YDID リクエスト]の#[+Term__Contrast--YDID ハンドラ]によく其の他の非同期処理が行われる事が多い
+              （例えば、#[+Term--YDID データベース]との取り引き又は#[+Term--YDID ファイル]のへのアクセス）。
+            実質として、#[+ImportantEntity__Code--YDID route]と#[+ImportantEntity__Code--YDID handler]は#[+Term--YDID 条件文]
+              も#[+Keyword--YDID 同然]。
+
+          p.Article-Paragraph.
+            普通だと、#[+Term--YDID レスポンス]は#[+ImportantEntity--YDID 一引数目]で渡された#[+Term--YDID リクエスト]の
+              #[+Term__Contrast--YDID インスタンス]に依る生成。
+            例えば#[+Term--YDID GET-リクエスト]の場合#[+Term--YDID クエリパラメータ]に依って返事が変わり、#[+Term--YDID POST-リクエスト]又は
+              #[+Term--YDID PUT-リクエスト]の場合は#[+Term--YDID リクエストボディ]に有るデータがアクセスされう。
+            だが、今は#[+ImportantEntity--YDID Response]#[+Term--YDID インスタンス]の取り扱いを次以降の授業にし、此の最初の授業に相応しい
+              可能な限り簡単な例ではずっと同じ#[+Term--YDID レスポンス]を送る事に成るので、第一引数が未使用で良い。
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="5" indentationString="  ")
+          return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+        +CodeViewer-Explanation--YDF
+          p.Article-Paragraph.
+            汎用な知識ではあるが、#[+Term--YDID HTTPレスポンス]は#[+Keyword--YDID ３桁の]暗号に表現される#[+Term--YDID ステータス]が有る。
+            今大切な事は、此れ等は#[+ImportantEntity--YDID 5種類]が存在している。
+
+          ol.Article-OrderedList
+            li 情報レスポンス
+            li 成功レスポンス
+            li リダイレクトメッセージ
+            li クライアントエラーレスポンス
+            li サーバーエラーレスポンス
+
+          p.Article-Paragraph.
+            #[+Term--YDID クラス]#[+ImportantEntity__Code--YDID Response]の#[+ImportantEntity__Code--YDID submitWithSuccess]
+              #[+Term--YDID メソッド]は「成功の」範囲のコード付きの#[+Term--YDID レスポンス]を返す
+              （規定は#[+ImportantEntity__Code--YDID 200]）。
+            #[+ImportantEntity__Code--YDID HTML_Content]と言う#[+Keyword--YDID 単一の]#[+Term--YDID 引数]の
+              #[+Term--YDID プロパティ]を指定する事で、フレームワークに#[+Term--YDID HTMLコード]を送りたい意図を伝え、フレームワークは
+              適切な#[+Term--YDID HTTPヘッダー]を設定してくれる。
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
+                }
+              }
+            ]
+          });
+
+
+    //- ━━━ テスティング ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.testing.$heading,
+      HTML_ID: pageTableOfContents.testing.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph.
+      #[+ImportantEntity--YDID ts-node]でアプリケーションを起動しよう。
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash }).
+        ts-node EntryPoint.ts
+
+    p.Article-Paragraph.
+      コードに間違いが無い場合、成功起動に関する下記の通知はターミナルに表示。
+
+    +SingleImageViewer--YDF({
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/ServerStartedSuccessLog",
+      imageAlternateText:
+          "「The serving of HTTP requests started」（直訳：「HTTPリクエストの受付が始まった」）と言う見出しのメッセージがコンソールで緑色で表示" +
+            "されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            "使われている。",
+      autoAspectRatioByYDA: true
+    })
+
+
+    p.Article-Paragraph.
+      表示されている#[+Term--YDID URI]をウェブブラザーで開く。
+      貴方のターミナルはリンクを認識している場合は、マウスクリックで開く事も出来る。
+      結果として、ターミナルで#[+Keyword--YDID 少なくとも]#[+Keyword--YDID 一件]の#[+Term--YDID リクエスト]
+        （#[+Keyword--YDID 根]#[+Term--YDID ルート]）に就いて記録が残る。
+
+    +SingleImageViewer--YDF({
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/RootRouteRequestInfoLog",
+      imageAlternateText:
+          "根ルートのGetリクエストについて、「New request」（直訳：「新規リクエスト」）と言う見出しのメッセージがコンソールで青色で表示されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            "使われている。",
+      autoAspectRatioByYDA: true
+    })
+
+
+    p.Article-Paragraph.
+      #[+Term--YDID ルート]#[+ImportantEntity__Code--YDID /favicon.ico]に就いても記録が残る事が有る。
+
+    +SingleImageViewer--YDF({
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/FaviconRequestInfoLog",
+      imageAlternateText:
+          "「/favicon」ルートのGetリクエストについて、「New request」（直訳：「新規リクエスト」）と言う見出しのメッセージがコンソールで青色で表示されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            "使われている。",
+      autoAspectRatioByYDA: true
+    })
+
+    p.Article-Paragraph.
+      当記録が在れば、
+        #[+Link--YDF({ unendorsedExternalURI: "https://ja.wikipedia.org/wiki/Favicon" }).Article-Link ファビコン]を表示させる為に、
+        ブラウザーに依り当#[+Term--YDID リクエスト]#[+Keyword--YDID 自動的に]送信された訳。
+      仮にフレームワークは此の#[+Term--YDID リクエスト]に備えられなかったとしたら、「見つからなかった」と言うエラー付き#[+Term--YDID レスポンス]を送信したが、
+        #[+ImportantEntity--YDID YDB]フレームワークなら、#[+Keyword--YDID 規定で]自分のアイコンを返している。
+      無論、別のアイコンに置き換える事も出来るが、以降の授業にしておこう。
+
+    p.Article-Paragraph.
+      #[+ImportantEntity--YDID localhost]は#[+Term--YDID IPアドレス]#[+ImportantEntity__Code--YDID 127.0.0.1]に対して「代名詞」で、
+        #[+ImportantEntity--YDID 80]は#[+Term--YDID プロトコルHTTP]にとって規定の#[+Term--YDID ポート]なので、
+        #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/]と他に
+        #[+SecondaryEntity__Code--YDID http://localhost]や#[+SecondaryEntity__Code--YDID http://localhost:80]や
+        #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/]にも#[+Term--YDID リクエスト]を送る事も出来る。
+
+    p.Article-Paragraph.
+      最後に[+ImportantEntity__Code--YDID routing]に登録されていない#[+Term--YDID ルート]に#[+Term--YDID リクエスト]を送信すればどうなるか、
+        見てみよう。
+      例えば、#[+Term--YDID リクエスト]#[+SecondaryEntity__Code--YDID http://127.0.0.1:80/foo]の場合記録は下記の様に成る。
+
+    +SingleImageViewer--YDF({
+      imageURI: "@AssociatedWithPages/Tutorials/00-HelloWorld/Images/ServerErrorLog",
+      imageAlternateText:
+          "「/foo」ルートのGetリクエストについて、「New request」（直訳：「新規リクエスト」）と言う見出しのメッセージがコンソールで青色で表示されている。" +
+          "その後、不明なリソースへの参照について、「Requested resource not found」（直訳：「要求されたリソースが見つからなかった」）と言う見出しの" +
+            "メッセージがコンソールで赤色で表示されている。" +
+          "ウェブアプリケーションはNode.js/・TypeScriptで書かれ、「やまとダイワバックエンドの」（技術名：「Yamato Daiwa Backend」、省略：「YDB」）が" +
+            " 使われている。",
+      autoAspectRatioByYDA: true
+    })
+
+    p.Article-Paragraph.
+      フレームワークは、望ましいリソース（#[+Term--YDID レスポンス]で取得したいもの）が見つからなかったと。
+      #[+Term--YDID ステータス]#[+ImportantEntity--YDID 404 Not found]を元にし、#[+Term--YDID ブラウザー]が同じ様なメッセージを表示。

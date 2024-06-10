@@ -8,8 +8,8 @@ projectBuilding:
 
         tasksAndSourceFilesSelection:
 
-          markupProcessing: [ StaticPreview ]
-          stylesProcessing: [ StaticPreview, AllStylesForStaticPreview ]
+          markupProcessing: [ StaticPreview, Pages ]
+          stylesProcessing: [ AllStylesForStaticPreview ]
 
         browserLiveReloadingSetupID: StaticPreview
 
@@ -18,36 +18,66 @@ projectBuilding:
         tasksAndSourceFilesSelection:
 
           markupProcessing: [ SingePageApplicationEntryPoint ]
-          stylesProcessing: [ ApplicationSharedStyles ]
+          stylesProcessing: [ SharedStylesForApplication ]
           ECMA_ScriptLogicProcessing: [ ClientEntryPoint, FrontServerEntryPoint ]
-          imagesProcessing: [ ApplicationIcons ]
 
         browserLiveReloadingSetupID: Application
 
+    publicDirectoriesRelativePaths:
+
+      LOCAL_DEVELOPMENT: 03-LocalDevelopmentBuild/public
+      TESTING: 04-TestingBuild/public
+      STAGING: 05-StagingBuild/public
+      PRODUCTION: 06-ProductionBuild/public
+
 
   markupProcessing:
+
+    staticPreview:
+
+      stateDependentPagesVariationsSpecificationFileRelativePath: 01-Source/Implementation/Elements/Client/StaticPreview/PagesStateDependentVariations.yaml
+
+      importsFromCompiledTypeScript:
+
+        files:
+          - importedNamespace: MockData
+            sourceFileRelativePath: 01-Source/Implementation/Elements/Client/StaticPreview/_MockData/MockData.ts
+            outputDirectoryRelativePath: 01-Source/Implementation/Elements/Client/StaticPreview/_MockData
+
 
     entryPointsGroups:
 
       StaticPreview:
 
-        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/StaticPreview
+        topDirectoryRelativePath: 01-Source/Implementation/Elements/Client/StaticPreview
         partialsRecognition:
           excludeSubdirectoriesWithPrefixes: "_"
           excludeFilesWithPrefixes: "_"
 
         buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: 02-StaticPreviewBuild
+
+      Pages:
+
+        topDirectoryRelativePath: 01-Source/Implementation/Elements/Client/Pages
+        partialsRecognition:
+          excludeSubdirectoriesWithPrefixes: "_"
+          excludeFilesWithPrefixes: "_"
+
+        buildingModeDependent:
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: 02-StaticPreviewBuild
 
       SingePageApplicationEntryPoint:
 
-        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/index.pug
+        singleEntryPointRelativePath: 01-Source/Implementation/Elements/Client/index.pug
         buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          LOCAL_DEVELOPMENT:
+            outputTopDirectoryRelativePath: 03-LocalDevelopmentBuild/public
           PRODUCTION:
-            outputBaseDirectoryRelativePath: 03-ProductionBuild/public
+            outputTopDirectoryRelativePath: 06-ProductionBuild/public
+
 
   stylesProcessing:
 
@@ -55,52 +85,43 @@ projectBuilding:
 
       AllStylesForStaticPreview:
 
-        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/StaticPreview/AllStyles.styl
+        singleEntryPointRelativePath: 01-Source/Implementation/Elements/Client/StaticPreview/AllStyles.styl
         buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
+          STATIC_PREVIEW:
+            outputTopDirectoryRelativePath: 02-StaticPreviewBuild
 
       SharedStylesForApplication:
 
-        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/SharedAssets/Styles/SharedStyles.styl
+        singleEntryPointRelativePath: 01-Source/Implementation/Elements/Client/SharedAssets/Styles/SharedStyles.styl
         buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          LOCAL_DEVELOPMENT:
+            outputTopDirectoryRelativePath: 03-LocalDevelopmentBuild/public
           PRODUCTION:
-            outputBaseDirectoryRelativePath: 03-ProductionBuild/public
+            outputTopDirectoryRelativePath: 06-ProductionBuild/public
 
   ECMA_ScriptLogicProcessing:
 
     common:
 
-      directoriesRelativePathsAliases:
-
-        "@EnterpriseBusinessRules": "01-Source/BusinessRules/Enterprise"
-        "@ApplicationBusinessRules": "01-Source/BusinessRules/Application"
-        "@Gateways": "01-Source/Gateways"
-        "@Interactions": "01-Source/Infrastructure/Interactions"
-        "@Utils": "01-Source/Utils"
-        "@MockDataSource": "01-Source/Infrastructure/Elements/MockDataSource"
-
     entryPointsGroups:
 
       ClientEntryPoint:
 
-        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/Client/ClientEntryPoint.ts
+        singleEntryPointRelativePath: 01-Source/Implementation/Elements/Client/ClientEntryPoint.ts
 
         targetRuntime:
           type: BROWSER
 
         associatedMarkupEntryPointsGroupID_ForModulesDynamicLoadingWithoutDevelopmentServer: SingePageApplicationEntryPoint
         buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
+          LOCAL_DEVELOPMENT:
+            outputTopDirectoryRelativePath: 03-LocalDevelopmentBuild/public
           PRODUCTION:
-            outputBaseDirectoryRelativePath: 03-ProductionBuild/public
+            outputTopDirectoryRelativePath: 06-ProductionBuild/public
 
       FrontServerEntryPoint:
 
-        entryPointsSourceFilesTopDirectoryOrSingleFileRelativePath: 01-Source/Infrastructure/Elements/FrontServer/FrontServerEntryPoint.ts
+        singleEntryPointRelativePath: 01-Source/Implementation/Elements/FrontServer/FrontServerEntryPoint.ts
 
         targetRuntime:
           type: NODEJS
@@ -108,33 +129,26 @@ projectBuilding:
             major: 16
 
         buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application
+          LOCAL_DEVELOPMENT:
+            outputTopDirectoryRelativePath: 03-LocalDevelopmentBuild
           PRODUCTION:
-            outputBaseDirectoryRelativePath: 03-ProductionBuild
-
-  imagesProcessing:
-
-    assetsGroups:
-
-      ApplicationIcons:
-
-        sourceFilesTopDirectoryRelativePath: 01-Source/Infrastructure/Elements/Client/SharedAssets/Images/ApplicationIcons
-        buildingModeDependent:
-          DEVELOPMENT:
-            outputBaseDirectoryRelativePath: 02-DevelopmentBuild/Application/public
-          PRODUCTION:
-            outputBaseDirectoryRelativePath: 03-ProductionBuild/Application/public
+            outputTopDirectoryRelativePath: 06-ProductionBuild
 
 
   browserLiveReloading:
 
-    StaticPreview:
+    setups:
 
-      targetFilesRootDirectoryRelativePath: 02-DevelopmentBuild/StaticPreview
-      customStartingFilenameWithExtension: StaticPreviewAnywherePage.html
+      StaticPreview:
 
-    Application:
+        localServer:
 
-      targetFilesRootDirectoryRelativePath: 02-DevelopmentBuild/Application/public
-      customStartingFilenameWithExtension: index.html
+          rootDirectoryRelativePath: 02-StaticPreviewBuild
+          customStartingFileNameWithExtension: StaticPreviewAnywherePage.html
+
+      Application:
+
+        localServer:
+
+          rootDirectoryRelativePath: 03-LocalDevelopmentBuild/public
+          customStartingFileNameWithExtension: index.html

@@ -1,10 +1,12 @@
 # Yamato Daiwa Backend 〔YDB〕
 
-Back-end framework with build-in TypeScript type safety.
+Back-end framework with built-in TypeScript type safety.
+Clean API, no husk.
 Intended to be used in full-stack applications where both client and server part written in TypeScript.
 
 ![Main visual of Yamato Daiwa Backend framework](https://user-images.githubusercontent.com/41653501/168190921-78edc07d-58cc-4298-8b59-182468cf280a.png)
 
+* [Official documentation (Under construction)](https://ydb-ee.yamato-daiwa.com/)
 * [Main package](MainPackage/README.md)
 * [🌎 Issues](https://github.com/TokugawaTakeshi/yamato_daiwa-backend/issues)
 
@@ -46,7 +48,7 @@ Server.initializeAndStart({
 });
 ```
 
-See the ["Hello, world!"](Tutorials/01-HelloWorld/README.md) tutorial for the details.
+See the ["Hello, world!"](https://backend-es.yamato-daiwa.com/Tutorials/00-HelloWorld/HelloWorldTutorialPage.english.html) tutorial for the details.
 
 
 ### HTTPS support
@@ -344,10 +346,10 @@ IP_ADDRESS=127.0.0.1
 HTTP_PORT=80
 ```
 
-See the [Dotenv config tutorial](Tutorials/06-DotenvConfig/README.md) for the details.
+See the [Dotenv configuration tutorial](Tutorials/06-DotenvConfig/README.md) for the details.
 
 
-## Console Line Interface (CLI) config
+## Console Line Interface (CLI) configuration
 
 Because the console commands parsing is actual for the console applications, not just for server applications,
 the [ConsoleCommandsParser](https://github.com/TokugawaTakeshi/Yamato-Daiwa-ES-Extensions/blob/master/NodeJS/Package/Documentation/ConsoleCommandsParser/ConsoleCommandsParser.md)
@@ -425,7 +427,7 @@ Please take the tutorials in following order.
   <dt><a href="Tutorials/05-RouteQueryParameters/README.md">Strongly typed route query parameters</a></dt>
   <dd>Processing and type-safe accessing to route query parameters</dd>
 
-  <dt><a href="Tutorials/06-DotenvConfig/README.md">Dotenv config</a></dt>
+  <dt><a href="Tutorials/06-DotenvConfig/README.md">Dotenv configuration</a></dt>
   <dd>The retrieving of the configuration from the Dotenv files</dd>
 
   <dt><a href="Tutorials/07-ConsoleLineInterface/README.md">Console Line Interface configuration</a></dt>

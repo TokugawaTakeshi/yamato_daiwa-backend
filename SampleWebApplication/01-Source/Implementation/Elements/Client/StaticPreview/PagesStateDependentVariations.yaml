@@ -1,0 +1,9 @@
+01-Source/Implementation/Elements/Client/Pages/Top/TopPage:
+
+  stateObjectTypeVariableName: "TopPageStatesSimulations"
+
+  variations:
+
+    __Loading: { loading: true }
+    __Error: { error: true }
+    __NoSearchResults: { noSearchResults: true }

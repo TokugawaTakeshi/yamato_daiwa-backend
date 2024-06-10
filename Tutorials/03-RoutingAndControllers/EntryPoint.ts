@@ -5,7 +5,7 @@ import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
 
 /* Running the test:
-*  npx nodemon EntryPoint.ts
+*  ts-node EntryPoint.ts
 * */
 Server.initializeAndStart({
   IP_Address: "127.0.0.1",

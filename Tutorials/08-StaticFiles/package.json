@@ -1,0 +1,14 @@
+{
+  "name": "tutorials-static_files",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "@yamato-daiwa/backend": "2.0.0-alpha.0",
+    "@yamato-daiwa/es-extensions": "1.6.9",
+    "@yamato-daiwa/es-extensions-nodejs": "1.6.0-rc.0"
+  },
+  "devDependencies": {
+    "ts-node": "10.9.1",
+    "typescript": "5.0.4"
+  }
+}

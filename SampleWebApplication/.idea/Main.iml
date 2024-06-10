@@ -5,8 +5,12 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/01-Source" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Tests" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/02-DevelopmentBuild" />
-      <excludeFolder url="file://$MODULE_DIR$/03-ProductionBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/02-StaticPreviewBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/03-LocalDevelopmentBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/04-TestingBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/05-StagingBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/06-ProductionBuild" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/copilot/chatSessions" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

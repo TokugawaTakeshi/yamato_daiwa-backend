@@ -1,0 +1,435 @@
+extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
+
+
+block append Requirements
+
+  include ../../../SharedAssets/Markup/SharedAssets.english.pug
+  include ../../../SharedComponents/SharedComponents.english.pug
+
+  -
+
+    const serverInitializationPropertiesSpecification = {
+      IP_Address: {
+        type: "string",
+        required: true
+      },
+      HTTP: {
+        type: "RawConfig.HTTP",
+        required: false
+      },
+      HTTPS: {
+        type: "RawConfig.HTTPS",
+        required: false
+      }
+    };
+
+
+block append Metadata
+
+  -
+
+    HTML_PAGE_LANGUAGE = "en";
+    HTML_PAGE_TITLE = buildHTML_PageTitle("Server");
+    HTML_PageMetaData = {
+      description:
+          "Class \"Server\" of the Node.js framework \"Yamato Daiwa Backend\" (abbreviation: \"YDB\") provides the " +
+            "functionality of initialization of the server application accepting the HTTP requests with HTTPS support " +
+            "out of box.",
+      author: HTML_PAGE_AUTHOR
+    };
+
+    FAVICON_URI = "@MustBeInPublicRoot/favicon";
+
+    styleSheetsURIs = [
+      "$CommonStyles",
+      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+      "$PreMadesStyles",
+      "@CustomizedExternalComponents"
+    ];
+
+    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+
+    RoutingEmulator.setCurrentRoute("localizedRouting.API.Server");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      japanese: "./Server.japanese.html",
+      russian: "./Server.russian.html",
+    });
+
+    const pageTableOfContents = localizedRouting.API.$children.Server.$sectioning;
+
+
+block append HeadScriptsLinks
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
+
+
+block append SpecificContent
+
+  article
+
+    //- ━━━ `Server` Class ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    h1.Article-Heading1!= localizedRouting.API.$children.Server.$heading
+
+    +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning
+
+    +CompactTableOfContents--YDF_DK(pageTableOfContents, { mustApplyAnchorsInsteadOfURIs: true })
+
+    p.Article-Paragraph.
+      The main #[+Term--YDID class] of the framework providing the functionality for processing of the
+        #[+Term--YDID HTTP requests] including the #[+Term--YDID HTTPS protocol] support.
+
+
+    //- ━━━ Public Static Methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.publicStaticMethods.$heading,
+      HTML_ID: pageTableOfContents.publicStaticMethods.$anchor
+    }).Article-Heading2
+
+    //- ─── `initializeAndStart` ───────────────────────────────────────────────────────────────────────────────────────
+    +CallableExpressionScheme--YDF_DK({
+      technicalName: "initializeAndStart",
+      headingTag: "h3",
+      parametersSpecification: [
+        {
+          genericTechnicalName: "rawConfiguration",
+          type: "Server.RawConfiguration",
+          required: true
+        }
+      ],
+      returnedValue: "Server"
+    })(
+      id=pageTableOfContents.publicStaticMethods.$children.initializeAndStart.$anchor
+    )
+      +ObjectTypeAbstract--YDF_DK({
+        typeName: "Server.RawConfiguration",
+        propertiesSpecification: serverInitializationPropertiesSpecification
+      })
+
+    p.Article-Paragraph.
+      Initializes the server application with the settings passed via #[+Keyword--YDID single] #[+Term--YDID parameter],
+        then starts this application.
+      #[+Keyphrase--YDID In the simplest case], the code will be similar to the following one:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+
+    //- ─── `initialize` ───────────────────────────────────────────────────────────────────────────────────────────────
+    +CallableExpressionScheme--YDF_DK({
+      technicalName: "initialize",
+      headingTag: "h3",
+      parametersSpecification: [
+        {
+          genericTechnicalName: "rawConfiguration",
+          type: "Server.RawConfiguration",
+          required: true
+        }
+      ],
+      returnedValue: "Server"
+    })(
+      id=pageTableOfContents.publicStaticMethods.$children.initialize.$anchor
+    )
+      +ObjectTypeAbstract--YDF_DK({
+        typeName: "Server.RawConfiguration",
+        propertiesSpecification: serverInitializationPropertiesSpecification
+      })
+
+    p.Article-Paragraph.
+      Initializes the server application with the settings passed via #[+Keyword--YDID single] #[+Term--YDID parameter],
+        but does&nbsp;#[+Keyword--YDID not] start this application.
+      It could be started later by the #[+ImportantEntity__Code--YDID start], the #[+Keyword--YDID non-static]
+        #[+Term--YDID method].
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        const serverApplication: Server = Server.initialize({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+        // ...
+
+        serverApplication.start();
+
+
+    //- ━━━ Public Instance Methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.publicInstanceMethods.$heading,
+      HTML_ID: pageTableOfContents.publicInstanceMethods.$anchor
+    }).Article-Heading2
+
+    //- ─── `initializeAndStart` ───────────────────────────────────────────────────────────────────────────────────────
+    +CallableExpressionScheme--YDF_DK({
+      technicalName: "start",
+      headingTag: "h3",
+      returnedValue: "Server"
+    })(
+      id=pageTableOfContents.publicInstanceMethods.$children.start.$anchor
+    )
+
+    p.Article-Paragraph.
+      Launches the the #[+Term--YDID instance] of the server application represented by the #[+Term--YDID instance] of
+        the #[+ImportantEntity__Code--YDID Server] #[+Term--YDID class].
+      This #[+Term--YDID instance] #[+Keyword--YDID must] be created #[+Keyword--YDID preliminarily] by the
+        #[+Keyword--YDID static method] #[+ImportantEntity__Code--YDID initialize]:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        const serverApplication: Server = Server.initialize({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+        // ...
+
+        serverApplication.start();
+
+
+    //- ━━━ Related Types ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.relatedTypes.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$anchor
+    }).Article-Heading2
+
+    //- ─── `Server.RawConfig` ─────────────────────────────────────────────────────────────────────────────────────────
+    +Heading--YDF({
+      level: 3,
+      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$anchor
+    }).Article-Heading3
+
+    +ObjectTypeAbstract--YDF_DK({
+      typeName: "Server.RawConfiguration",
+      propertiesSpecification: serverInitializationPropertiesSpecification
+    })
+
+    p.Article-Paragraph.
+      Has an #[+Keyword--YDID object] #[+Term--YDID type] designed such as all that engineer must comprehend before
+        starting the server application has been made required #[+Term--YDID properties].
+
+
+    //- ─── `IP_Address` ───────────────────────────────────────────────────────────────────────────────────────────────
+    +Heading--YDF({
+      level: 4,
+      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.IP_Address.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.IP_Address.$anchor
+    }).Article-Heading4
+
+    +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.IP_Address)
+
+    p.Article-Paragraph.
+      The #[+Keyword--YDID required] #[+Term--YDID property]; #[+Keyword--YDID must] contain the valid
+        #[+Term--YDID IP address], on which the incoming #[+Term--YDID HTTP requests] will be listened .
+      #[+Keyphrase--YDID In the simplest case] with single #[+Term--YDID request handler] and #[+Keyword--YDID wihtout]
+        #[+Term--YDID HTTPS protocol support], the #[+Keyword--YDID minimal] example will be:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+
+    //- ─── `HTTP` ─────────────────────────────────────────────────────────────────────────────────────────────────────
+    +Heading--YDF({
+      level: 4,
+      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTP.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTP.$anchor
+    }).Article-Heading4
+
+    +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.HTTP)
+
+    +ObjectTypeAbstract--YDF_DK({
+      typeName: "RawConfig.HTTP",
+      propertiesSpecification: {
+        port: {
+          type: Number,
+          numberSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
+          required: true
+        }
+      }
+    })
+
+    p.Article-Paragraph.
+      Specify this settings group if you are planning to support the #[+Term--YDID HTTP protocol].
+
+    +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).
+      Modern security requirements are assume the usage of the #[+Term--YDID HTTPS protocol], while the
+        #[+Term--YDID HTTP protocol] is being considered as #[+Keyword--YDID unsafe] because of transferring
+        the information #[+Keyphrase--YDID without encryption] what could cause the
+        #[+Keyphrase--YDID the confidential data leak].
+      Thus, it is better to avoid the usage of the #[+Term--YDID HTTP protocol] even on local development stage.
+
+    p.Article-Paragraph.
+      Currently, the only setting of this group is the #[+Term--YDID HTTP port] number
+        (#[+ImportantEntity__Code--YDID port] #[+Term__Contrast--YDID property]).
+      To force the engineer to comprehend on which #[+Term--YDID port] the incoming #[+Term--YDID HTTP requests]
+        will be listened, this #[+Term--YDID property] has been make #[+Keyword--YDID required].
+      If you are satisfied with default #[+Term--YDID port] for the #[+Term--YDID HTTP protocol], use the
+        #[+ImportantEntity__Code--YDID ProtocolDependentDefaultPorts] #[+Term--YDID enumeration]:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+
+    //- ─── `HTTPS` ────────────────────────────────────────────────────────────────────────────────────────────────────
+    +Heading--YDF({
+      level: 4,
+      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTPS.$heading,
+      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTPS.$anchor
+    }).Article-Heading4
+
+    +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.HTTPS)
+
+    +ObjectTypeAbstract--YDF_DK({
+      typeName: "RawConfig.HTTPS",
+      propertiesSpecification: {
+        port: {
+          type: Number,
+          numberSet: RawObjectDataProcessor.NumbersSets.nonNegativeInteger,
+          required: true
+        },
+        SSL_KeyFileRelativeOrAbsolutePath: {
+          type: String,
+          required: true
+        },
+        SSL_CertificateFileRelativeOrAbsolutePath: {
+          type: String,
+          required: true
+        }
+      }
+    })
+
+    p.Article-Paragraph.
+      Specify this settings group is you are planning to support the #[+Term--YDID HTTPS protocol].
+      According the modern security requirements, this #[+Term--YDID protocol] is #[+Keyword--YDID exactly]
+        the one that should be used.
+
+    p.Article-Paragraph.
+      Currently, there are #[+ImportantEntity--YDID 3] settings, herewith #[+Keyword--YDID all] of them are
+        #[+Keyword--YDID required].
+      #[+Keyphrase--YDID In the simplest case] with one #[+Term--YDID request handler] the minimal example will be like
+        the following one:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+        import Path from "path";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTPS: {
+            port: ProtocolDependentDefaultPorts.HTTPS,
+            SSL_CertificateFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/SSL_Certificate.pem"),
+            SSL_KeyFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/SSL_Key.pem")
+          },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(_request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+    p.Article-Paragraph.
+      Certainly, the #[+Term--YDID SSH key] and #[+Term--YDID SSH certificate] must be prepared before launching the
+        application.
+
+    //-
+      //- ─── `routing` ──────────────────────────────────────────────────────────────────────────────────────────────────
+      +Heading--YDF({
+        level: 4,
+        innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.routing.$heading,
+        HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.routing.$anchor
+      }).Article-Heading4

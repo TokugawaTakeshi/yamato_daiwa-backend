@@ -14,12 +14,13 @@ import { ConsoleCommandsParser, ObjectDataFilesProcessor } from "@yamato-daiwa/e
 
 
 const configFromConsoleCommand: ConsoleCommandsParser.ParsedCommand<ConsoleLineInterface.ParsedArguments> =
-    ConsoleCommandsParser.parse(process.argv, ConsoleLineInterface.specification);
+    ConsoleCommandsParser.parse(ConsoleLineInterface.specification);
 
 const configFromDotenvFile: ConfigFromDotEnvFile = ObjectDataFilesProcessor.processFile({
   filePath: configFromConsoleCommand.dotEnvConfigFileRelativePath,
   schema: ObjectDataFilesProcessor.SupportedSchemas.DOTENV,
-  validDataSpecification: ConfigFromDotEnvFile.specification
+  validDataSpecification: ConfigFromDotEnvFile.specification,
+  synchronously: true
 });
 
 const normalizedConfig: NormalizedConfig = ConfigNormalizer.normalize({
@@ -30,7 +31,8 @@ ConfigRepresentative.initialize(normalizedConfig);
 
 
 /* Running the test:
-*  npx nodemon EntryPoint.ts
+*  ts-node EntryPoint.ts --dotEnvConfig .env.local
+*  ts-node EntryPoint.ts --dotEnvConfig .env.production
 * */
 Server.initializeAndStart({
   IP_Address: ConfigRepresentative.IP_Address,
