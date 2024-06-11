@@ -11,12 +11,15 @@ include ThirdPartyEmbeddableScripts/GoogleAnalyticsScript.pug
 
 -
 
+  RegularWebPageTemplate__YDF.metadata.locale = "ru";
+
   const localizedRouting = generateLocalizedRouting(routingRussianLocalization);
   let generatePageTableOfContents;
 
 
 include ../../Pages/API/Server/TableOfContents/Server.toc.russian.pug
 include ../../Pages/Tutorials/00-HelloWorld/TableOfContents/HelloWorldTutorialPage.toc.russian.pug
+include ../../Pages/Tutorials/01-HTTPS/TableOfContents/HTTPS_TutorialPage.toc.russian.pug
 
 
 -

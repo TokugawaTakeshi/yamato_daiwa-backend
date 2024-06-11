@@ -31,25 +31,20 @@ block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = buildHTML_PageTitle("Server");
-    HTML_PageMetaData = {
-      description:
-          "「Yamato Daiwa Backend」（省略：「YDB」）というNode.jsフレームワークの「Server」クラスはHTTPリクエストを受けているサーバアプリケーションの" +
-            "初期化機能を確保し、HTTPSプロトコルの対応は付き。",
-      author: HTML_PAGE_AUTHOR
-    };
-
-    FAVICON_URI = "@MustBeInPublicRoot/favicon";
-
-    styleSheetsURIs = [
-      "$CommonStyles",
-      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
-      "$PreMadesStyles",
-      "@CustomizedExternalComponents"
-    ];
-
-    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: buildHTML_PageTitle("Server"),
+        description:
+            "「Yamato Daiwa Backend」（省略：「YDB」）というNode.jsフレームワークの「Server」クラスはHTTPリクエストを受けているサーバアプリケーションの" +
+              "初期化機能を確保し、HTTPSプロトコルの対応は付き。"
+      },
+      stylesSheetsURIs: [
+        "$CommonStyles",
+        "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+        "$PreMadesStyles",
+        "@CustomizedExternalComponents"
+      ]
+    });
 
     RoutingEmulator.setCurrentRoute("localizedRouting.API.Server");
 
@@ -61,7 +56,7 @@ block append Metadata
     const pageTableOfContents = localizedRouting.API.$children.Server.$sectioning;
 
 
-block append HeadScriptsLinks
+block append HeadScripts
 
   if __IS_PRODUCTION_BUILDING_MODE__
 
@@ -386,12 +381,26 @@ block append SpecificContent
         SSL_KeyFileRelativeOrAbsolutePath: {
           localizedInterpretation: "SLLキーへのパス（絶対か相対）",
           type: String,
-          required: true
+          requiredIf: {
+            descriptionForLogging: "「SSL_Key」プロパティが指定されなかった"
+          }
+        },
+        SSL_Key: {
+          localizedInterpretation: "SLL証明書",
+          type: String,
+          required: false
         },
         SSL_CertificateFileRelativeOrAbsolutePath: {
           localizedInterpretation: "SLL証明書へのパス（絶対か相対）",
           type: String,
-          required: true
+          requiredIf: {
+            descriptionForLogging: "「SSL_Certificate」プロパティが指定されなかった"
+          }
+        },
+        SSL_Certificate: {
+          localizedInterpretation: "SLLキー",
+          type: String,
+          required: false
         }
       }
     })
@@ -401,11 +410,16 @@ block append SpecificContent
       現在のセキュリティの要件に依ると、此の#[+Term--YDID プロトコル]#[+Keyword--YDID こそ]利用する#[+Keyword--YDID べき]。
 
     p.Article-Paragraph.
-      現在は#[+ImportantEntity--YDID ３件]の項目が有り、#[+Keyword--YDID 全部]#[+Term--YDID 必須]。
-      単一の#[+Term--YDID リクエストハンドラ]の#[+Keyphrase--YDID 一番簡単な]例だと、下記の様に成る。
+      現在は#[+ImportantEntity--YDID 5件]の項目が有り、これ等の中に#[+Keyword--YDID 非相互的な]#[+ImportantEntity--YDID 2組み]が有る。
+      #[+Term--YDID HTTPSポート]番号と他に、#[+Term--YDID SSL証明書]・#[+Term--YDID SSLキー]（ファイルの相対パスか、もっと安全である絶対パス、
+        若しくは#[+Term--YDID SSL証明書]・#[+Term--YDID SSLキー]を代表している#[+Term--YDID 文字列]）を指定
+        #[+Keyword--YDID しなければいけない]。
+      下記、それぞれの場合にとって簡単な例を提供。
 
     +CodeViewer--YDF
+
       +CodeViewer-Listing--YDF({
+        fileLabel: "SSL証明書・キーをファイルからの読み込み",
         codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
       }): :code_listing--yda
         import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
@@ -419,6 +433,33 @@ block append SpecificContent
             port: ProtocolDependentDefaultPorts.HTTPS,
             SSL_CertificateFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/SSL_Certificate.pem"),
             SSL_KeyFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/SSL_Key.pem")
+          },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(_request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+      +CodeViewer-Listing--YDF({
+        fileLabel: "事前に文字列化したSSL証明書・キー",
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+        import Path from "path";
+        import { secrets } from "docker-secret";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTPS: {
+            port: ProtocolDependentDefaultPorts.HTTPS,
+            SSL_Key: secrets.SSL_KEY,
+            SSL_Certificate: secrets.SSL_CERTIFICATE
           },
           routing: [
             {

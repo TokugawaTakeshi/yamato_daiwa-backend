@@ -18,7 +18,7 @@ npm i @yamato-daiwa/backend -E
 ```
 
 
-## Quick examples
+## Quick Examples
 
 > :warning: **Warning:** 
 > Below examples has been developed to demonstrate the API of the framework such as easy to understand.
@@ -48,7 +48,8 @@ Server.initializeAndStart({
 });
 ```
 
-See the ["Hello, world!"](https://backend-es.yamato-daiwa.com/Tutorials/00-HelloWorld/HelloWorldTutorialPage.english.html) tutorial for the details.
+See the ["Hello, world!"](https://backend-es.yamato-daiwa.com/Tutorials/00-HelloWorld/HelloWorldTutorialPage.english.html) 
+  tutorial for the details.
 
 
 ### HTTPS support
@@ -60,7 +61,6 @@ import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
 
 Server.initializeAndStart({
   IP_Address: "127.0.0.1",
-  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
   HTTPS: {
     port: ProtocolDependentDefaultPorts.HTTPS,
     SSL_CertificateFileRelativeOrAbsolutePath: "SSL/cert.pem",
@@ -78,7 +78,76 @@ Server.initializeAndStart({
   ]
 });
 ```
-See the [HTTPS support](Tutorials/02-HTTPS_Support/README.md) tutorial for the details.
+
+See the [HTTPS support](https://backend-es.yamato-daiwa.com/Tutorials/01-HTTPS/HTTPS_TutorialPage.english.html) tutorial for the details.
+
+
+#### Vs. Express
+
+```typescript
+import type { Express as ExpressApplication } from "express";
+import type Express from "express";
+import createExpressApplication from "express";
+import HTTPS from "https";
+import FileSystem from "fs";
+
+
+const expressApplication: ExpressApplication = createExpressApplication();
+
+expressApplication.get(
+  "/",
+  (_request: Express.Request, response: Express.Response): void => {
+    response.send("<h1>Hello, world!</h1>");
+  }
+);
+
+const HTTPS_Server: HTTPS.Server = HTTPS.createServer(
+  {
+    key: FileSystem.readFileSync("./SSL/key.pem"),
+    cert: FileSystem.readFileSync("./SSL/cert.pem")
+  },
+  expressApplication
+);
+
+HTTPS_Server.listen(443, "127.0.0.1");
+```
+
+
+#### Vs. Express + `routing-controllers`
+
+For the Spring of 2024, the HTTPS example was not documented for **routing-controllers**.
+Although the HTTPS usage is possible with **routing-controllers**, the code is pretty verbose:
+
+```typescript
+import Express, { type Express as ExpressApplication } from "express";
+import createExpressApplication from "express";
+import { useExpressServer as supportClassSyntax } from "routing-controllers";
+
+import HTTPS from "https";
+import FileSystem from "fs";
+
+
+const expressApplication: ExpressApplication = createExpressApplication();
+
+expressApplication.get(
+  "/",
+  (_request: Express.Request, response: Express.Response): void => {
+    response.send("<h1>Hello, world!</h1>");
+  }
+);
+
+const HTTPS_Server: HTTPS.Server = HTTPS.createServer(
+  {
+    key: FileSystem.readFileSync("./SSL/key.pem"),
+    cert: FileSystem.readFileSync("./SSL/cert.pem")
+  },
+  expressApplication
+);
+
+supportClassSyntax(expressApplication);
+
+HTTPS_Server.listen(443, "127.0.0.1");
+```
 
 
 ### Routing and controllers

@@ -11,12 +11,15 @@ include ThirdPartyEmbeddableScripts/GoogleAnalyticsScript.pug
 
 -
 
+  RegularWebPageTemplate__YDF.metadata.locale = "en";
+
   const localizedRouting = generateLocalizedRouting(routingEnglishLocalization);
   let generatePageTableOfContents;
 
 
 include ../../Pages/API/Server/TableOfContents/Server.toc.english.pug
 include ../../Pages/Tutorials/00-HelloWorld/TableOfContents/HelloWorldTutorialPage.toc.english.pug
+include ../../Pages/Tutorials/01-HTTPS/TableOfContents/HTTPS_TutorialPage.toc.english.pug
 
 
 -

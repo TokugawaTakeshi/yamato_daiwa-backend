@@ -1,1 +1,42 @@
-provideCompactTableOfContentsComponent()
+provideCompactTableOfContentsComponent(
+  overridings: {
+
+    link: {
+      normalState: {
+        textColor: YDF_ColorPalette.deepPurple.dark
+      },
+      hoverState: {
+        backgroundColor: YDF_ColorPalette.deepPurple.pastelLight
+      },
+      focusState: {
+        shadowColor: YDF_ColorPalette.deepPurple.mediumDark
+      },
+      activeState: {
+        backgroundColor: YDF_ColorPalette.deepPurple.pastelBright
+      },
+      selectedState: {
+        backgroundColor: YDF_ColorPalette.deepPurple.mediumDark
+      }
+    },
+
+    title: {
+      textColor: YDF_ColorPalette.deepPurple.dark
+    },
+
+    collapsingToggle: {
+      normalState: {
+        backgroundColor: YDF_ColorPalette.deepPurple.mediumDark
+      },
+      hoverState: {
+        backgroundColor: YDF_ColorPalette.deepPurple.slightlyDark
+      },
+      focusState: {
+        shadowColor: YDF_ColorPalette.deepPurple.mediumDark
+      },
+      activeState: {
+        backgroundColor: YDF_ColorPalette.amber.bright
+      }
+    }
+
+  }
+)

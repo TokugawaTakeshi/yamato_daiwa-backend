@@ -16,25 +16,20 @@ block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "ru";
-    HTML_PAGE_TITLE = buildHTML_PageTitle("Hello, world!");
-    HTML_PageMetaData = {
-      description:
-          "Минимальный пример серверного приложения, написанного с использованием Node.js-фреймворка " +
-          "«Yamato Daiwa Backend» (сокращённо: «YDB»).",
-      author: HTML_PAGE_AUTHOR
-    }
-
-    FAVICON_URI = "@MustBeInPublicRoot/favicon"
-
-    styleSheetsURIs = [
-      "$CommonStyles",
-      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
-      "$PreMadesStyles",
-      "@CustomizedExternalComponents"
-    ];
-
-    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: buildHTML_PageTitle("Hello, world!"),
+        description:
+            "Минимальный пример серверного приложения, написанного с использованием Node.js-фреймворка " +
+              "«Yamato Daiwa Backend» (сокращённо: «YDB»)."
+      },
+      stylesSheetsURIs: [
+        "$CommonStyles",
+        "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+        "$PreMadesStyles",
+        "@CustomizedExternalComponents"
+      ]
+    });
 
     RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
 
@@ -46,7 +41,7 @@ block append Metadata
     const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
 
 
-block append HeadScriptsLinks
+block append HeadScripts
 
   if __IS_PRODUCTION_BUILDING_MODE__
 
@@ -57,6 +52,7 @@ block append SpecificContent
 
   article
 
+    //- ━━━ Простейший пример «Привет, мир!» ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$heading
 
     +AdmonitionBlock--YDF({ decorativeVariation: AdmonitionBlock__YDF.DecorativeVariations.warning, SVG_Icon: true }).

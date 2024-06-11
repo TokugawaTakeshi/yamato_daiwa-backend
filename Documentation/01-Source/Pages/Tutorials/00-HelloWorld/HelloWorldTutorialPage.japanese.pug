@@ -16,24 +16,19 @@ block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "ja";
-    HTML_PAGE_TITLE = buildHTML_PageTitle("Hello, world!");
-    HTML_PageMetaData = {
-      description:
-          "「やまとダイワバックエンド」（技術名：「Yamato Daiwa Backend」、略：「YDB」）というNode.jsフレームワークで作られた最小のサーバアプリケーションの例",
-      author: HTML_PAGE_AUTHOR
-    }
-
-    FAVICON_URI = "@MustBeInPublicRoot/favicon"
-
-    styleSheetsURIs = [
-      "$CommonStyles",
-      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
-      "$PreMadesStyles",
-      "@CustomizedExternalComponents"
-    ];
-
-    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: buildHTML_PageTitle("Hello, world!"),
+        description:
+            "「やまとダイワバックエンド」（技術名：「Yamato Daiwa Backend」、略：「YDB」）というNode.jsフレームワークで作られた最小のサーバアプリケーションの例"
+      },
+      stylesSheetsURIs: [
+        "$CommonStyles",
+        "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+        "$PreMadesStyles",
+        "@CustomizedExternalComponents"
+      ]
+    });
 
     RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
 
@@ -45,7 +40,7 @@ block append Metadata
     const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
 
 
-block append HeadScriptsLinks
+block append HeadScripts
 
   if __IS_PRODUCTION_BUILDING_MODE__
 
@@ -56,6 +51,7 @@ block append SpecificContent
 
   article.Article.DocumentationPage-Article
 
+    //- ━━━ 初手の例の「ハロー・ワールド」 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$heading
 
     +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning
