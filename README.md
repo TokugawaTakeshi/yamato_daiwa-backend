@@ -6,7 +6,7 @@ Intended to be used in full-stack applications where both client and server part
 
 ![Main visual of Yamato Daiwa Backend framework](https://user-images.githubusercontent.com/41653501/168190921-78edc07d-58cc-4298-8b59-182468cf280a.png)
 
-* [Official documentation (Under construction)](https://ydb-ee.yamato-daiwa.com/)
+* [Official documentation (Under construction)](https://backend-es.yamato-daiwa.com/)
 * [Main package](MainPackage/README.md)
 * [🌎 Issues](https://github.com/TokugawaTakeshi/yamato_daiwa-backend/issues)
 
