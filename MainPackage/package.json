@@ -1,6 +1,6 @@
 {
   "name": "@yamato-daiwa/backend",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Backend framework with build-in TypeScript type safety. Intended to be used in full-stack applications where both client and server part written in TypeScript.",
   "keywords": [
     "backend",
@@ -20,9 +20,9 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=16.13"
+    "node": ">=18.0"
   },
-  "homepage": "https://backend-es.yamato-daiwa.com/",
+  "homepage": "https://backend-es.yamato-daiwa.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/TokugawaTakeshi/yamato_daiwa-backend.git"
@@ -44,22 +44,23 @@
   },
   "dependencies": {
     "@types/pug": "2.0.10",
-    "@types/qs": "6.9.12",
-    "@yamato-daiwa/es-extensions": "1.7.0-alpha.10",
-    "@yamato-daiwa/es-extensions-nodejs": "1.7.0-alpha.6",
+    "@types/qs": "6.9.15",
+    "@yamato-daiwa/es-extensions": "1.7.0",
+    "@yamato-daiwa/es-extensions-nodejs": "1.7.0",
+    "fundamental-constants": "0.1.0",
     "handlebars": "4.7.8",
-    "pug": "3.0.2",
-    "qs": "6.12.0"
+    "pug": "3.0.3",
+    "qs": "6.12.1"
   },
   "devDependencies": {
-    "@types/mocha": "10.0.6",
-    "@types/node": "18.19.22",
-    "@yamato-daiwa/style_guides": "0.1.6",
-    "mocha": "10.3.0",
-    "nodemon": "3.1.0",
-    "rimraf": "5.0.5",
+    "@types/mocha": "10.0.7",
+    "@types/node": "20.14.9",
+    "@yamato-daiwa/style_guides": "0.2.9",
+    "mocha": "10.5.2",
+    "nodemon": "3.1.4",
+    "rimraf": "5.0.7",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "typescript": "5.3.3"
+    "typescript": "5.5.2"
   }
 }

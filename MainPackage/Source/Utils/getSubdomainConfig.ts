@@ -13,9 +13,9 @@ export default function getSubdomainConfig(
   }:
   {
     subdomainsOfMainDomain__fromTopmostLevel: Array<string>;
-    subdomainsNormalizedConfig?: Server.NormalizedConfig.Subdomains.TreeNodes;
+    subdomainsNormalizedConfig?: Server.NormalizedConfiguration.Subdomains.TreeNodes;
   }
-): Server.NormalizedConfig.Subdomains.ConfigMatch | null {
+): Server.NormalizedConfiguration.Subdomains.ConfigMatch | null {
 
   if (
     subdomainsOfMainDomain__fromTopmostLevel.length === 0 ||
@@ -25,8 +25,8 @@ export default function getSubdomainConfig(
   }
 
 
-  const parameterizedHostNameLabels: Server.NormalizedConfig.Subdomains.ParameterizedHostNameLabels = {};
-  let subdomainsTheeNodesForCurrentDomainLevel: Server.NormalizedConfig.Subdomains.TreeNodes = subdomainsNormalizedConfig;
+  const parameterizedHostNameLabels: Server.NormalizedConfiguration.Subdomains.ParameterizedHostNameLabels = {};
+  let subdomainsTheeNodesForCurrentDomainLevel: Server.NormalizedConfiguration.Subdomains.TreeNodes = subdomainsNormalizedConfig;
 
 
   for (const [ index, hostnameLabel ] of subdomainsOfMainDomain__fromTopmostLevel.entries()) {
@@ -37,7 +37,7 @@ export default function getSubdomainConfig(
 
     if (isLastHostnameLabel) {
 
-      const matchByStaticLabel: Server.NormalizedConfig.Subdomain | undefined =
+      const matchByStaticLabel: Server.NormalizedConfiguration.Subdomain | undefined =
           subdomainsTheeNodesForCurrentDomainLevel.staticLabels[hostnameLabel]?.match;
 
       if (isNotUndefined(matchByStaticLabel)) {
@@ -48,9 +48,9 @@ export default function getSubdomainConfig(
       }
 
 
-      const dynamicLabelNode: Server.NormalizedConfig.Subdomains.DynamicLabelNode | undefined =
+      const dynamicLabelNode: Server.NormalizedConfiguration.Subdomains.DynamicLabelNode | undefined =
           subdomainsTheeNodesForCurrentDomainLevel.dynamicLabel;
-      const matchByParameter: Server.NormalizedConfig.Subdomain | undefined = dynamicLabelNode?.match;
+      const matchByParameter: Server.NormalizedConfiguration.Subdomain | undefined = dynamicLabelNode?.match;
 
 
       if (isNotUndefined(dynamicLabelNode) && isNotUndefined(matchByParameter)) {
@@ -65,9 +65,9 @@ export default function getSubdomainConfig(
     }
 
 
-    const staticLabelsNodesForNextLevel: Server.NormalizedConfig.Subdomains.TreeNodes | undefined =
+    const staticLabelsNodesForNextLevel: Server.NormalizedConfiguration.Subdomains.TreeNodes | undefined =
         subdomainsTheeNodesForCurrentDomainLevel.staticLabels[hostnameLabel]?.children;
-    let nodesForNextLevel: Server.NormalizedConfig.Subdomains.TreeNodes | undefined;
+    let nodesForNextLevel: Server.NormalizedConfiguration.Subdomains.TreeNodes | undefined;
 
     if (isNotUndefined(staticLabelsNodesForNextLevel)) {
       nodesForNextLevel = staticLabelsNodesForNextLevel;
@@ -75,7 +75,7 @@ export default function getSubdomainConfig(
       nodesForNextLevel = subdomainsTheeNodesForCurrentDomainLevel.dynamicLabel.children;
     } else {
 
-      const dynamicLabelNodeForNextLevel: Server.NormalizedConfig.Subdomains.DynamicLabelNode = {
+      const dynamicLabelNodeForNextLevel: Server.NormalizedConfiguration.Subdomains.DynamicLabelNode = {
         name: hostnameLabel,
         children: { staticLabels: {} }
       };

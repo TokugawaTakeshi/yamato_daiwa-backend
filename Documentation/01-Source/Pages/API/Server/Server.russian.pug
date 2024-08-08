@@ -31,25 +31,20 @@ block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "ru";
-    HTML_PAGE_TITLE = buildHTML_PageTitle("Server");
-    HTML_PageMetaData = {
-      description:
-          "Класс «Server» Node.js-фреймворка «Yamato Daiwa Backend» (сокращённо: «YDB») обеспечивает функциональность " +
-            "инициализации серверного приложения, принимающего HTTP-запросы с поддержкой протокола HTTPS.",
-      author: HTML_PAGE_AUTHOR
-    };
-
-    FAVICON_URI = "@MustBeInPublicRoot/favicon";
-
-    styleSheetsURIs = [
-      "$CommonStyles",
-      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
-      "$PreMadesStyles",
-      "@CustomizedExternalComponents"
-    ];
-
-    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: buildHTML_PageTitle("Server"),
+        description:
+            "Класс «Server» Node.js-фреймворка «Yamato Daiwa Backend» (сокращённо: «YDB») обеспечивает функциональность " +
+              "инициализации серверного приложения, принимающего HTTP-запросы с поддержкой протокола HTTPS."
+      },
+      stylesSheetsURIs: [
+        "$CommonStyles",
+        "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+        "$PreMadesStyles",
+        "@CustomizedExternalComponents"
+      ]
+    });
 
     RoutingEmulator.setCurrentRoute("localizedRouting.API.Server");
 
@@ -61,7 +56,7 @@ block append Metadata
     const pageTableOfContents = localizedRouting.API.$children.Server.$sectioning;
 
 
-block append HeadScriptsLinks
+block append HeadScripts
 
   if __IS_PRODUCTION_BUILDING_MODE__
 
@@ -391,29 +386,49 @@ block append SpecificContent
         SSL_KeyFileRelativeOrAbsolutePath: {
           localizedInterpretation: "Относительный или абсолютный путь к SLL-ключу",
           type: String,
-          required: true
+          required: false,
+          requiredIf: {
+            descriptionForLogging: "Свойство «SSL_Key» не указано"
+          }
+        },
+        SSL_Key: {
+          localizedInterpretation: "SLL-ключ",
+          type: String,
+          required: false
         },
         SSL_CertificateFileRelativeOrAbsolutePath: {
           localizedInterpretation: "Относительный или абсолютный путь к SLL-сертификату",
           type: String,
-          required: true
+          requiredIf: {
+            descriptionForLogging: "Свойство «SSL_CertificateFileRelativeOrAbsolutePath» не указано"
+          }
+        },
+        SSL_Certificate: {
+          localizedInterpretation: "SLL-ключ",
+          type: String,
+          required: false
         }
       }
     })
 
     p.Article-Paragraph.
-      Укажите эту группу настроек, если планируете поддерживать #[+Term--YDID протокола HTTPS].
+      Укажите эту группу настроек, если планируете поддерживать #[+Term--YDID протокол HTTPS].
       Согласно современным требованиями к кибербезопасности, следует использовать #[+Keyword--YDID именно]
         #[+Keyword__Contrast--YDID этот] #[+Term--YDID протокол].
 
     p.Article-Paragraph.
-      На данный момент имеется #[+ImportantEntity--YDID 3] настройки, при этом #[+Keyword--YDID все] они являются
-        #[+Keyword--YDID обязательными].
-      #[+Keyphrase--YDID В простейшем случае] с одним #[+Term--YDID обработчиком запросов]
-        #[+Keyword--YDID минимальный] пример будет:
+      На данный момент #[+Keyword--YDID всего] имеется #[+ImportantEntity--YDID 5] свойств, среди которых
+        #[+ImportantEntity--YDID 2] #[+Keyword--YDID пары] #[+Keyword__Contrast--YDID несовместимых].
+      Помимо номера #[+Term--YDID HTTPS-порта], #[+Keyword--YDID необходимо] указать #[+Term--YDID SSL-сертификат]
+        и #[+Term--YDID SSL-ключ] — либо в виде пути (относительного или абсолютного, но #[+Keyword--YDID последний]
+        #[+Keyword__Contrast--YDID надёжнее]), либо в в виде #[+Term--YDID строки] с представляющей их
+        последовательностью символов.
+      Ниже представлен #[+Term--YDID простейший] пример для каждого из этих случаев:
 
     +CodeViewer--YDF
+
       +CodeViewer-Listing--YDF({
+        fileLabel: "Чтение SSL-сертификата и ключа из файлов",
         codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
       }): :code_listing--yda
         import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
@@ -427,6 +442,33 @@ block append SpecificContent
             port: ProtocolDependentDefaultPorts.HTTPS,
             SSL_CertificateFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/SSL_Certificate.pem"),
             SSL_KeyFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/SSL_Key.pem")
+          },
+          routing: [
+            {
+              route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+              async handler(_request: Request, response: Response): Promise<void> {
+                return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+              }
+            }
+          ]
+        });
+
+      +CodeViewer-Listing--YDF({
+        fileLabel: "SSL-сертификат и ключ в виде готовых строк",
+        codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript
+      }): :code_listing--yda
+        import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+        import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+        import Path from "path";
+        import { secrets } from "docker-secret";
+
+
+        Server.initializeAndStart({
+          IP_Address: "127.0.0.1",
+          HTTPS: {
+            port: ProtocolDependentDefaultPorts.HTTPS,
+            SSL_Key: secrets.SSL_KEY,
+            SSL_Certificate: secrets.SSL_CERTIFICATE
           },
           routing: [
             {

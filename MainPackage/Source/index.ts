@@ -16,3 +16,5 @@ export type { default as URI_QueryParametersDeserializer } from "./URI_QueryPara
 
 export { default as BooleanParameterDefaultPreValidationModifier } from
     "./DefaultConventions/BooleanParameterDefaultPreValidationModifier";
+
+export { localizeEverything } from "./Utils/localizeEverything";

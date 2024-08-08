@@ -14,7 +14,7 @@ class HostHTTP_HeaderParser {
   public static parse(
     rawHTTP_HostHeader: string, options: {
       defaultPortForActualProtocol: number;
-      supportedBasicDomains?: Array<string>;
+      supportedBasicDomains?: ReadonlyArray<string>;
     }
   ): HostHTTP_HeaderParser.ParsedHostHTTP_Header {
 
@@ -52,7 +52,7 @@ class HostHTTP_HeaderParser {
       port = options.defaultPortForActualProtocol;
     } else {
 
-      const regularExpressionSearchResults: RegExpExecArray | null = /:(?<port>\d+)$/u.exec(workpiece);
+      const regularExpressionSearchResults: RegExpExecArray | null = (/:(?<port>\d+)$/u).exec(workpiece);
       const extractedPort: string | undefined = regularExpressionSearchResults?.groups?.port;
 
       if (isNotUndefined(extractedPort)) {

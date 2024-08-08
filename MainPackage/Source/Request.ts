@@ -6,6 +6,8 @@ type Request = Readonly<{
   URI: Readonly<Omit<URL, "hash">>;
   HTTP_Method: HTTP_Methods;
 
+  parsedCookies: Map<string, string>;
+
   routePathParameters: Request.RoutePathParameters;
   $processedRoutePathParameters?: Request.RoutePathProcessedParameters;
   getProcessedRoutePathParameters:
@@ -15,6 +17,7 @@ type Request = Readonly<{
   getProcessedQueryParameters: <ProcessedQueryParameters extends ParsedJSON_Object>() => ProcessedQueryParameters;
 
   subdomainParameters: Request.SubdomainParameters;
+
 }>;
 
 

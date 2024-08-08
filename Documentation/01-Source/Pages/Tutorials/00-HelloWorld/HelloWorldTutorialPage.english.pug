@@ -12,36 +12,24 @@ block append Requirements
   include ../../../SharedComponents/SharedComponents.english.pug
 
 
-block append HeadScriptsLinks
-
-  if __IS_PRODUCTION_BUILDING_MODE__
-
-    +GoogleAnalyticsScript
-
-
 block append Metadata
 
   -
 
-    HTML_PAGE_LANGUAGE = "en";
-    HTML_PAGE_TITLE = buildHTML_PageTitle("Hello, world!");
-    HTML_PageMetaData = {
-      description:
-          "The minimal example of the server application created by the \"Yamato Daiwa Backend\" " +
-          "(abbreviation: \"YDB\"), the Node.js-framework. ",
-      author: HTML_PAGE_AUTHOR
-    }
-
-    FAVICON_URI = "@MustBeInPublicRoot/favicon"
-
-    styleSheetsURIs = [
-      "$CommonStyles",
-      "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
-      "$PreMadesStyles",
-      "@CustomizedExternalComponents"
-    ];
-
-    scriptsURIs.endOfBody = [ "$CommonLogic" ];
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: buildHTML_PageTitle("Hello, world!"),
+        description:
+            "The minimal example of the server application created by the \"Yamato Daiwa Backend\" " +
+              "(abbreviation: \"YDB\"), the Node.js-framework."
+      },
+      stylesSheetsURIs: [
+        "$CommonStyles",
+        "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+        "$PreMadesStyles",
+        "@CustomizedExternalComponents"
+      ]
+    });
 
     RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
 
@@ -53,7 +41,7 @@ block append Metadata
     const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
 
 
-block append HeadScriptsLinks
+block append HeadScripts
 
   if __IS_PRODUCTION_BUILDING_MODE__
 
@@ -64,6 +52,7 @@ block append SpecificContent
 
   article
 
+    //- ━━━ "Hello, world" — The Minimal Example ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     h1.Article-Heading1= localizedRouting.tutorials.$children.helloWorld.$heading
 
     +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning

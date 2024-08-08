@@ -3,7 +3,7 @@ import type Response from "../Response/Response";
 import type Server from "../Server/Server";
 
 
-type Middleware = (required: Request, response: Response, serverConfig: Server.NormalizedConfig) =>
+type Middleware = (required: Request, response: Response, serverConfig: Server.NormalizedConfiguration) =>
     Promise<Middleware.CompletionSignal>;
 
 

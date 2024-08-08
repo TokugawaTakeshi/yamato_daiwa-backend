@@ -1,3 +1,5 @@
+import type Server from "../Server/Server";
+
 import type HTTP from "http";
 import FileSystem from "fs";
 
@@ -21,8 +23,18 @@ class Response {
   private readonly rawResponse: HTTP.ServerResponse;
 
 
-  public constructor(rawResponse: HTTP.ServerResponse) {
+  public constructor(rawResponse: HTTP.ServerResponse, configuration: Server.NormalizedConfiguration) {
+
     this.rawResponse = rawResponse;
+
+    this.rawResponse.
+        setHeader("Cross-Origin-Opener-Policy", configuration.security.HTTP_Headers.crossOriginOpenerPolicy).
+        setHeader("Cross-Origin-Resource-Policy", configuration.security.HTTP_Headers.crossOriginResourcePolicy);
+
+    if (configuration.security.HTTP_Headers.originAgentCluster) {
+      this.rawResponse.setHeader("Origin-Agent-Cluster", "?1");
+    }
+
   }
 
 

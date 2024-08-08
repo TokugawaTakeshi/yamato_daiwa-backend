@@ -1,0 +1,22 @@
+include HTTPS_TutorialPage.toc.pug
+
+
+-
+
+  localizedRouting.tutorials.$children.HTTPS.$sectioning =
+
+      generatePageTableOfContents(
+        (() => {
+
+          /* [ Maintainability ] Keep this constant to make able the copying of qualified names in IntelliJ IDEA IDEs. */
+          const localizedStrings = {
+            theory: { $heading: "Теория" },
+            SLL_KeyAndCertificateIssue: { $heading: "Выпуск пары сертификат/ключ для режима локальной разработки" },
+            code: { $heading: "Код приложения" },
+            testing: { $heading: "Тестирование" }
+          };
+
+          return localizedStrings;
+
+        })()
+      );

@@ -1,0 +1,306 @@
+extends ../../../../node_modules/@yamato-daiwa/programming_documentation/Layouts/TwoColumns/TwoColumnsLayout.pug
+
+
+block append Requirements
+
+  include ../../../SharedAssets/Markup/SharedAssets.english.pug
+  include ../../../SharedComponents/SharedComponents.english.pug
+
+
+block append Metadata
+
+  -
+
+    RegularWebPageTemplate__YDF.configure({
+      metadata: {
+        title: buildHTML_PageTitle("HTTPS Usage"),
+        description:
+            "Node.js framework \"Yamato Daiwa Backend\" (abbreviation: \"YDB\") has the HTTPS protocol support out of " +
+              "box herewith with eloquent syntax."
+      },
+      stylesSheetsURIs: [
+        "$CommonStyles",
+        "$LayoutsStyles/TwoColumns/TwoColumnsLayout.css",
+        "$PreMadesStyles",
+        "@CustomizedExternalComponents"
+      ]
+    });
+
+    RoutingEmulator.setCurrentRoute("tutorials.HTTPS");
+
+    LanguageDropDownList__YDF_DK.setLinks({
+      japanese: "./HTTPS_TutorialPage.japanese.html",
+      russian: "./HTTPS_TutorialPage.russian.html",
+    });
+
+    const pageTableOfContents = localizedRouting.tutorials.$children.HTTPS.$sectioning;
+
+
+block append HeadScripts
+
+  if __IS_PRODUCTION_BUILDING_MODE__
+
+    +GoogleAnalyticsScript
+
+
+block append SpecificContent
+
+  article
+
+    //- ━━━ HTTPS Usage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    h1.Article-Heading1= localizedRouting.tutorials.$children.HTTPS.$heading
+
+    //- ━━━ Theory ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.theory.$heading,
+      HTML_ID: pageTableOfContents.theory.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph
+      | #[+Keyphrase--YDID For the local development mode] the #[+Term--YDID HTTP protocol] could be enough, however
+      |
+      +Keyphrase--YDID.
+        is it #[+Keyword--YDID strongly]&nbsp;advised #[+Keyword--YDID against] of usage of #[+Term--YDID HTTP]
+          in production
+      | .
+      | With the #[+Term--YDID HTTP protocol], the data transferring (including passwords, credit cards
+      |   numbers and any other confidential information) is been executed #[+Keyword--YDID without] encryption that
+      |   makes this data interceptable by the malware which could&nbsp;not&nbsp;be detected with 100% probability
+      |   by any antivirus software.
+      | But even you have just a simple website does not work with the personal data, the search engines will
+      |   give the smaller ranking to it if you are using the #[+Term--YDID протокол HTTP protocol].
+
+    p.Article-Paragraph.
+      The standard solution in the usage of the #[+DefinableTerm--YDID HTTPS protocol] — the #[+Keyword--YDID extension]
+        of #[+Term--YDID HTTP] using the #[+ImportantEntity--YDID SSL/TLS] #[+Term--YDID cryptographic protocols]
+        for the providing of confidential data exchanging.
+      Because #[+Term--YDID HTTPS] is the #[+Keyword--YDID extension] of #[+Term--YDID HTTP], the terms like
+        #[+Term--YDID "HTTP request"] are still actual.
+      But, to make the #[+ImportantEntity--YDID HTTPS] magic work, first of all, below things must be prepared.
+
+    dl.Article-DescriptionList
+
+      dt Digital Certificate
+      dd.
+        Large #[+Term--YDID characters sequence] identifying the #[+Term--YDID server] and which is being inspected by
+          the browser and other software can submit the #[+Term--YDID HTTP requests] to decide, is it secure to exchange
+          by data with this #[+Term--YDID server].
+
+      dt (Private) SLL Key
+      dd.
+        Large #[+Term--YDID characters sequence] which is being used by #[+Term--YDID server] to establish the
+          trusted connection.
+
+    p.Article-Paragraph.
+      #[+Keyword--YDID Both] #[+Term--YDID SLL certificate] and #[+Term--YDID SLL key] could be stored on local computer
+        or server as files, but ultimately the #[+Term--YDID characters sequences] are being used.
+
+    p.Article-Paragraph.
+      #[+Keyphrase--YDID In the production case], #[+Term--YDID the digital certificate] and
+        #[+Term__Contrast--YDID private key] #[+Keyword--YDID must] (due to security requirements) be
+        #[+Keyword--YDID acquired] #[+Keyword__Contrast--YDID regularly] because of #[+Keyword--YDID limited] validity
+        period.
+      Usually, it is possible to acquire them from the server providers, with which, most likely, you will deal.
+      There are both payed an free #[+Term--YDID certificate/key pairs], but fortunately, in modern times the
+        #[+Keyword--YDID payed] ones are required mainly for the sites and applications with stricter than usual
+        security requirements (the bank applications, public services sites etc.)
+
+    p.Article-Paragraph.
+      #[+Keyphrase--YDID For the local development mode] the #[+Term--YDID certificate] and the #[+Term--YDID key] could
+        be issued by #[+Keyword--YDID yourself].
+      The issuing process is pretty simple, but it is more difficult to assure the browser that it is fine to trust
+        these #[+Term--YDID key/certificate pair].
+      Self-issued #[+Term--YDID keys] and #[+Term--YDID certificates] provides #[+Keyword--YDID same] security level
+        as acquired ones, but the browsers also accounts where #[+Term--YDID key] and #[+Term--YDID certificate] has
+        been issued, and if the trust level is&nbsp;not&nbsp;enough, you will see the message like below one:
+
+    +SingleImageViewer--YDF({
+      imageURI: "@AssociatedWithPages/Tutorials/01-HTTPS/Images/ConnectionIsNotPrivateBrowserError.english",
+      imageAlternateText:
+          "Browser is warns: \"You connection is not private\". " +
+          "The cause could the distrust to issued SLL certificate.",
+      autoAspectRatioByYDA: true
+    })
+
+    p.Article-Paragraph.
+      Is is weird to receive such warnings about possible data stealing in relation to the website or web application
+        locally developed by us and launched on the the #[+SecondaryEntity__Code--YDID localhost] (not&nbsp;in the
+        internet), it&nbsp;not&nbsp;it?
+      That is how such security technologies works.
+      One of features is, the #[+Term--YDID domain name] is being bound to controllable servers #[+Keyword--YDID set]
+        while the #[+ImportantEntity__Code--YDID localhost] does&nbsp;#[+Keyword--YDID not]&nbsp;have such binding
+        and could&nbsp;#[+Keyword--YDID not]&nbsp;have, because #[+Keyword--YDID each] local machine has
+        #[+Keyword--YDID own] server at #[+ImportantEntity--YDID localhost].
+      In addition, the computer could be setup such as the #[+ImportantEntity--YDID localhost] be associated with
+        some domain in the internet (hardly you will do such setup, but the malware can).
+      As result, the browser could&nbsp;#[+Keyword--YDID not]&nbsp;know what is associated with the
+        #[+ImportantEntity--YDID localhost], so it does&nbsp;#[+Keyword--YDID not]&nbsp;trust to is same as to any
+        website published in the interned and has the #[+Term--YDID certificate] from doubtful issues.
+
+    p.Article-Paragraph.
+      How we can mae the browser to trust the self-issues certificate?
+      The easiest way is the #[+ImportantEntity--YDID mkcert], the cross-platform utility.
+      Although even it has the limitations (for example, at the moment of #[+SecondaryEntity--YDID Spring 2024]
+        the #[+SecondaryEntity--YDID Firefox] browser for #[+SecondaryEntity--YDID Windows] has not being supported),
+        generally it can make the majority of popular browsers to trust the self-issues #[+Term--YDID certificates] and
+        #[+Term--YDID keys] on most popular #[+Term--YDID Operationing Systems].
+
+
+    //- ━━━ SSL Certificate and Private Key Issuing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.SLL_KeyAndCertificateIssue.$heading,
+      HTML_ID: pageTableOfContents.SLL_KeyAndCertificateIssue.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph
+      | The #[+ImportantEntity--YDID mkcert] utility does&nbsp;#[+Keyword--YDID not]&nbsp;related with
+      |   #[+ImportantEntity--YDID Node.js] (thus with #[+ImportantEntity--YDID npm]), so it have to be installed by the
+      |   #[+Term--YDID Operationing System] dependent standard #[+Term--YDID package managers]
+      |   (#[+ImportantEntity--YDID Chocolatey] for #[+ImportantEntity--YDID Windows],
+      |   #[+ImportantEntity--YDID Homebrew] or #[+ImportantEntity--YDID MacPorts] for #[+ImportantEntity--YDID macOS],
+      |   and for the #[+ImportantEntity--YDID Linux] it also will be the #[+ImportantEntity--YDID Homebrew], but the
+      |   installation is a little bit more complicated).
+      | Consult with
+      |
+      +Link--YDF({
+        unendorsedExternalURI: "https://github.com/FiloSottile/mkcert?tab=readme-ov-file"
+      }).Article-Link official GitHub page of this project
+      |   about the actual installation method.
+
+    p.Article-Paragraph.
+      Once utility installation done, execute the #[+ImportantEntity__Code--YDID mkcert -install] command.
+      It will install the #[+Term--YDID certification authority] which confirms the authenticity of the encryption keys.
+      It is #[+Keyword--YDID enough] to execute this #[+Keyword--YDID once]
+        #[+Keyphrase--YDID regardless of how many #[+Term--YDID certificates] and #[+Term--YDID keys] you will issue].
+
+    p.Article-Paragraph.
+      So, we need the browser trust the #[+Term--YDID certificate] which we will issued for
+        #[+SecondaryEntity__Code--YDID https://127.0.0.1] #[+ImportantEntity--YDID URI], and preferably,
+        #[+SecondaryEntity__Code--YDID https://localhost].
+      Although the #[+SecondaryEntity__Code--YDID localhost] and #[+SecondaryEntity__Code--YDID 127.0.0.1]
+        are the same domain, #[+ImportantEntity--YDID mkcert] must introduce each one to browser separately, thus
+        both #[+Keyword--YDID must] be specified:
+
+    +CodeViewer--YDF
+      +CodeViewer-Listing--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.Bash }).
+        mkcert localhost 127.0.0.1
+
+    p.Article-Paragraph.
+      You will get the message about #[+SecondaryEntity--YDID localhost.pem] and
+        #[+SecondaryEntity--YDID localhost-key.pem] files has been created and also their validity periods:
+
+    +ConsoleOutput--YDF.
+      Created a new certificate valid for the following names 📜
+        - "localhost"
+        - "127.0.0.1"
+
+      The certificate is at "./localhost+1.pem" and the key at "./localhost+1-key.pem" ✅
+
+      It will expire on 18 July 2026
+
+    p.Article-Paragraph.
+      It is unclear from the files' names what they contains, is not it?
+      That is why we will rename them.
+      Actually, we were able to specify the custom names during the inputting of the console command, but during the
+        inputting of long command it is easy to make the type mistake, so we will do it using the GUI.
+      Now, rename #[+SecondaryEntity--YDID localhost.pem] to #[+SecondaryEntity--YDID SSL_Certificate.pem], and
+        #[+SecondaryEntity--YDID localhost-key.pem] to #[+SecondaryEntity--YDID SSL_Key.pem].
+      Although with such names is still unclear to which project these #[+Term--YDID certificate] and #[+Term--YDID key]
+        related, we will store them only in this project's directory and use only of this project, so we can be
+        satisfied with such names.
+      Lastly, move these files to #[+SecondaryEntity--YDID SSL] folder of your project.
+
+
+    //- ━━━ Application Code ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.code.$heading,
+      HTML_ID: pageTableOfContents.code.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph.
+      #[+ImportantEntity--YDID YDB] supports #[+ImportantEntity--YDID HTTPS] #[+Keyword--YDID without]&nbsp;plugins.
+      All that required is specify the path to #[+Term--YDID SSL certificate] and #[+Term--YDID key] issued previously.
+      The dedicated properties of the #[+Keyword--YDID first] #[+Term--YDID parameter] of
+        #[+ImportantEntity__Code--YDID initializeAndStart] #[+Term--YDID method] are belong to #[+Term--YDID HTTPS]
+        group which this time we will specify instead of #[+ImportantEntity__Code--YDID HTTP]:
+
+    +CodeViewer--YDF.Article-CodeViewer
+      +CodeViewer-TabPanel--YDF({ codeLanguage: CodeViewer__YDF.SupportedCodesLanguages.TypeScript })
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda
+          import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+          import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+          import Path from "path";
+
+
+          Server.initializeAndStart({
+            IP_Address: "127.0.0.1",
+            HTTPS: {
+              port: ProtocolDependentDefaultPorts.HTTPS,
+        +CodeViewer-Explanation--YDF.
+          The #[+Keyword--YDID default] #[+Keyphrase--YDID for #[+ImportantEntity--YDID HTTPS]] #[+Term--YDID port]
+            number is #[+ImportantEntity__Code--YDID 443].
+          Again, no need to memorize it, it is enough just to know will we use the default #[+Term--YDID port] or some
+            #[+Term--YDID port] else.
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="3" indentationString="  ")
+          SSL_CertificateFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/cert.pem"),
+          SSL_KeyFileRelativeOrAbsolutePath: Path.resolve(__dirname, "./SSL/key.pem"),
+        +CodeViewer-Explanation--YDF
+
+          p.Article-Paragraph.
+            Specifying the paths to #[+Term--YDID certificate] and #[+Term--YDID key] issued previously.
+            Relative paths (#[+SecondaryEntity__Code--YDID SSL/cert.pem] and #[+SecondaryEntity__Code--YDID SSL/cert.pem]
+              respectively) also will work #[+Keyphrase--YDID in this case], but the #[+Keyword--YDID absolute ones]
+              are more #[+Keyword__Contrast--YDID safe].
+
+          p.Article-Paragraph.
+            If you are already have the #[+Term--YDID certificate] and #[+Term--YDID key] as
+              #[+Term__Contrast--YDID strings] thus don't need ro read the files, specify
+              #[+ImportantEntity__Code--YDID SSL_Certificate] and #[ImportantEntity__Code--YDID SSL_Key]
+              #[+Term--YDID properties] #[+Keyword--YDID instead].
+
+        +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="2" indentationString="  ")
+          routing: [
+              {
+                route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+                async handler(_request: Request, response: Response): Promise<void> {
+                  return response.submitWithSuccess({ HTML_Content: "<h1>Hello, world!</h1>" });
+                }
+              }
+            ]
+          });
+
+    p.Article-Paragraph.
+      The #[+ImportantEntity__Code--YDID HTTPS] is #[+Keyword--YDID not]&nbsp;mutually exclusive with
+        #[+ImportantEntity__Code--YDID HTTP] while different #[+Term--YDID ports] are being used, but if you can
+        support #[+Term--YDID HTTPS protocol] and do&nbsp;not&nbsp;have the certain reasons to support the
+        #[+ImportantEntity--YDID HTTP], it is better to #[+Keyword--YDID drop] the support for the
+        #[+Keyword--YDID last] one.
+      It would be great to support the #[+Term--YDID HTTPS protocol] #[+Keyword--YDID only] in the subsequent lessons
+        to make the habit to consider the #[+Term--YDID HTTPS protocol] as #[+Keyphrase--YDID security standard].
+      Unfortunately, many people who studying these lessons are ignoring our strong recommendation to lean the lessons
+        in suggested sequence, so will face with troubles with providing of the providing of
+        #[+ImportantEntity--YDID HTTPS] support, so from the next lesson well use the #[+Term--YDID HTTP protocol]
+        again.
+
+
+    //- ━━━ Testing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    +Heading--YDF({
+      level: 2,
+      text: pageTableOfContents.testing.$heading,
+      HTML_ID: pageTableOfContents.testing.$anchor
+    }).Article-Heading2
+
+    p.Article-Paragraph.
+      Launch the application by #[+SecondaryEntity__Code--YDID ts-node EntryPoint.ts] command.
+      This time, the listening of incoming request is being executed on
+        #[+SecondaryEntity__Code--YDID https://127.0.0.1:443] (the color and port number could be omitted
+        #[+Keyphrase--YDID while the #[+Term--YDID port] is default].
+      Let us open this address in browser.
+      If above procedures has been executed correctly and the #[+ImportantEntity--YDID mkcert] supports your browser,
+        you will see the page with #[+SecondaryEntity__Code--YDID Hello, world!] heading.
+      Check also the #[+SecondaryEntity__Code--YDID https://localhost:443].
