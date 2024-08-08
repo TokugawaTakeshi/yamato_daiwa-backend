@@ -108,35 +108,6 @@ const HTTPS_Server: HTTPS.Server = HTTPS.createServer(
 HTTPS_Server.listen(443, "127.0.0.1");
 ```
 
-
-### Routing and controllers
-#### Entry point
-
-```typescript
-import ProductController from "./ProductController";
-
-import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
-import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
-
-
-Server.initializeAndStart({
-  IP_Address: "127.0.0.1",
-  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
-  routing: [
-    {
-      route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
-      async handler(_request: Request, response: Response): Promise<void> {
-        return response.submitWithSuccess({
-          HTML_Content: "<h1>Top page</h1>"
-        });
-      }
-    },
-    ProductController
-  ]
-});
-```
-
-
 #### Vs. Express + `routing-controllers`
 
 For the Spring of 2024, the HTTPS example was not documented for **routing-controllers**.
@@ -171,6 +142,34 @@ const HTTPS_Server: HTTPS.Server = HTTPS.createServer(
 supportClassSyntax(expressApplication);
 
 HTTPS_Server.listen(443, "127.0.0.1");
+```
+
+
+### Routing and controllers
+#### Entry point
+
+```typescript
+import ProductController from "./ProductController";
+
+import { Server, Request, Response, ProtocolDependentDefaultPorts } from "@yamato-daiwa/backend";
+import { HTTP_Methods } from "@yamato-daiwa/es-extensions";
+
+
+Server.initializeAndStart({
+  IP_Address: "127.0.0.1",
+  HTTP: { port: ProtocolDependentDefaultPorts.HTTP },
+  routing: [
+    {
+      route: { HTTP_Method: HTTP_Methods.get, pathTemplate: "/" },
+      async handler(_request: Request, response: Response): Promise<void> {
+        return response.submitWithSuccess({
+          HTML_Content: "<h1>Top page</h1>"
+        });
+      }
+    },
+    ProductController
+  ]
+});
 ```
 
 
