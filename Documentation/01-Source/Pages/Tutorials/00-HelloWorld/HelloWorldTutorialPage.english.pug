@@ -34,11 +34,11 @@ block append Metadata
     RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      japanese: "./HelloWorldTutorialPage.japanese.html",
-      russian: "./HelloWorldTutorialPage.russian.html"
+      japanese: routing.japanese.tutorials.$children.helloWorld.$URI,
+      russian: routing.russian.tutorials.$children.helloWorld.$URI
     });
 
-    const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
+    const localizedSectioning = routing.english.tutorials.$children.helloWorld.$sectioning;
 
 
 block append HeadScripts
@@ -68,8 +68,8 @@ block append SpecificContent
     //- ━━━ Pre-requirement Knowledge and Skills ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.preRequirements.$heading,
-      HTML_ID: pageTableOfContents.preRequirements.$anchor
+      text: localizedSectioning.preRequirements.$heading,
+      HTML_ID: localizedSectioning.preRequirements.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -98,8 +98,8 @@ block append SpecificContent
     //- ━━━ Node.js-project Rollout ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.projectRollout.$heading,
-      HTML_ID: pageTableOfContents.projectRollout.$anchor
+      text: localizedSectioning.projectRollout.$heading,
+      HTML_ID: localizedSectioning.projectRollout.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -145,8 +145,8 @@ block append SpecificContent
     //- ━━━ Code ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.code.$heading,
-      HTML_ID: pageTableOfContents.code.$anchor
+      text: localizedSectioning.code.$heading,
+      HTML_ID: localizedSectioning.code.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -230,7 +230,7 @@ block append SpecificContent
             #[+SecondaryEntity__Code--YDID http://127.0.0.1:80/bar/baz]), the server will respond with "not found" error.
 
         +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="4" indentationString="  ")
-          async handler(request: Request, response: Response): Promise＜void＞ {
+          async handler(request: Request, response: Response): Promise<void> {
         +CodeViewer-Explanation--YDF
 
           p.Article-Paragraph.
@@ -297,8 +297,8 @@ block append SpecificContent
     //- ━━━ Testing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.testing.$heading,
-      HTML_ID: pageTableOfContents.testing.$anchor
+      text: localizedSectioning.testing.$heading,
+      HTML_ID: localizedSectioning.testing.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.

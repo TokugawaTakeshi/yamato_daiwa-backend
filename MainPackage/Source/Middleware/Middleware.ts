@@ -1,4 +1,4 @@
-import type Request from "../Request";
+import type Request from "../Request/Request";
 import type Response from "../Response/Response";
 import type Server from "../Server/Server";
 

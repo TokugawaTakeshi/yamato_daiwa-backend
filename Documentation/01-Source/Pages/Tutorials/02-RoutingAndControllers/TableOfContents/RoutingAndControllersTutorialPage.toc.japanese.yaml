@@ -1,0 +1,42 @@
+theory:
+
+  $heading: "理論"
+
+  URL_URN_URI:
+
+    URI_Anatomy:
+
+      $heading: "URI解剖学"
+
+  workingWithEntities:
+
+    $heading: "実体の取り扱い"
+
+  HTTP_Methods:
+
+    $heading: "HTTPメソッド"
+
+  routingDefinition:
+
+    $heading: "ルーチング及び関連用語の定後"
+
+  primitiveRoutingImplementation:
+
+    $heading: "ルーチングの簡易な実装"
+
+
+routingInYDB:
+
+  $heading: "YDBに於けるルーチング"
+
+  functionalAPI:
+
+    $heading: "関数API"
+
+  pathParameters:
+
+    $heading: "引数付きルートの定義"
+
+    numeric:
+
+      $heading: "数型のルート引数"

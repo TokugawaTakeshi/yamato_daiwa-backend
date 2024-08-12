@@ -1,0 +1,15 @@
+theory:
+  $heading: `theory.$heading`
+  $anchor: THEORY--SECTION
+
+SLL_KeyAndCertificateIssue:
+  $heading: `SLL_KeyAndCertificateIssue.$heading`
+  $anchor: SSL_KEY_AND_CERTIFICATE_ISSUE--SECTION
+
+code:
+  $heading: `code.$heading`
+  $anchor: CODE--SECTION
+
+testing:
+  $heading: `testing.$heading`
+  $anchor: TESTING--SECTION

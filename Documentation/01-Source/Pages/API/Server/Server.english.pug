@@ -47,11 +47,11 @@ block append Metadata
     RoutingEmulator.setCurrentRoute("localizedRouting.API.Server");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      japanese: "./Server.japanese.html",
-      russian: "./Server.russian.html",
+      japanese: routing.japanese.API.$children.Server.$URI,
+      russian: routing.russian.API.$children.Server.$URI
     });
 
-    const pageTableOfContents = localizedRouting.API.$children.Server.$sectioning;
+    const localizedSectioning = routing.english.API.$children.Server.$sectioning;
 
 
 block append HeadScripts
@@ -70,7 +70,7 @@ block append SpecificContent
 
     +ThisPageHasNotBeenCheckedByNativeSpeakersYetWarning
 
-    +CompactTableOfContents--YDF_DK(pageTableOfContents, { mustApplyAnchorsInsteadOfURIs: true })
+    +CompactTableOfContents--YDF_DK(localizedSectioning, { mustApplyAnchorsInsteadOfURIs: true })
 
     p.Article-Paragraph.
       The main #[+Term--YDID class] of the framework providing the functionality for processing of the
@@ -80,8 +80,8 @@ block append SpecificContent
     //- ━━━ Public Static Methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.publicStaticMethods.$heading,
-      HTML_ID: pageTableOfContents.publicStaticMethods.$anchor
+      text: localizedSectioning.publicStaticMethods.$heading,
+      HTML_ID: localizedSectioning.publicStaticMethods.$anchor
     }).Article-Heading2
 
     //- ─── `initializeAndStart` ───────────────────────────────────────────────────────────────────────────────────────
@@ -97,7 +97,7 @@ block append SpecificContent
       ],
       returnedValue: "Server"
     })(
-      id=pageTableOfContents.publicStaticMethods.$children.initializeAndStart.$anchor
+      id=localizedSectioning.publicStaticMethods.$children.initializeAndStart.$anchor
     )
       +ObjectTypeAbstract--YDF_DK({
         typeName: "Server.RawConfiguration",
@@ -144,7 +144,7 @@ block append SpecificContent
       ],
       returnedValue: "Server"
     })(
-      id=pageTableOfContents.publicStaticMethods.$children.initialize.$anchor
+      id=localizedSectioning.publicStaticMethods.$children.initialize.$anchor
     )
       +ObjectTypeAbstract--YDF_DK({
         typeName: "Server.RawConfiguration",
@@ -186,8 +186,8 @@ block append SpecificContent
     //- ━━━ Public Instance Methods ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.publicInstanceMethods.$heading,
-      HTML_ID: pageTableOfContents.publicInstanceMethods.$anchor
+      text: localizedSectioning.publicInstanceMethods.$heading,
+      HTML_ID: localizedSectioning.publicInstanceMethods.$anchor
     }).Article-Heading2
 
     //- ─── `initializeAndStart` ───────────────────────────────────────────────────────────────────────────────────────
@@ -196,7 +196,7 @@ block append SpecificContent
       headingTag: "h3",
       returnedValue: "Server"
     })(
-      id=pageTableOfContents.publicInstanceMethods.$children.start.$anchor
+      id=localizedSectioning.publicInstanceMethods.$children.start.$anchor
     )
 
     p.Article-Paragraph.
@@ -234,15 +234,15 @@ block append SpecificContent
     //- ━━━ Related Types ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.relatedTypes.$heading,
-      HTML_ID: pageTableOfContents.relatedTypes.$anchor
+      text: localizedSectioning.relatedTypes.$heading,
+      HTML_ID: localizedSectioning.relatedTypes.$anchor
     }).Article-Heading2
 
     //- ─── `Server.RawConfig` ─────────────────────────────────────────────────────────────────────────────────────────
     +Heading--YDF({
       level: 3,
-      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$heading,
-      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$anchor
+      innerHTML: localizedSectioning.relatedTypes.$children.RawConfig.$heading,
+      HTML_ID: localizedSectioning.relatedTypes.$children.RawConfig.$anchor
     }).Article-Heading3
 
     +ObjectTypeAbstract--YDF_DK({
@@ -258,8 +258,8 @@ block append SpecificContent
     //- ─── `IP_Address` ───────────────────────────────────────────────────────────────────────────────────────────────
     +Heading--YDF({
       level: 4,
-      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.IP_Address.$heading,
-      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.IP_Address.$anchor
+      innerHTML: localizedSectioning.relatedTypes.$children.RawConfig.$children.IP_Address.$heading,
+      HTML_ID: localizedSectioning.relatedTypes.$children.RawConfig.$children.IP_Address.$anchor
     }).Article-Heading4
 
     +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.IP_Address)
@@ -295,8 +295,8 @@ block append SpecificContent
     //- ─── `HTTP` ─────────────────────────────────────────────────────────────────────────────────────────────────────
     +Heading--YDF({
       level: 4,
-      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTP.$heading,
-      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTP.$anchor
+      innerHTML: localizedSectioning.relatedTypes.$children.RawConfig.$children.HTTP.$heading,
+      HTML_ID: localizedSectioning.relatedTypes.$children.RawConfig.$children.HTTP.$anchor
     }).Article-Heading4
 
     +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.HTTP)
@@ -355,8 +355,8 @@ block append SpecificContent
     //- ─── `HTTPS` ────────────────────────────────────────────────────────────────────────────────────────────────────
     +Heading--YDF({
       level: 4,
-      innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTPS.$heading,
-      HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.HTTPS.$anchor
+      innerHTML: localizedSectioning.relatedTypes.$children.RawConfig.$children.HTTPS.$heading,
+      HTML_ID: localizedSectioning.relatedTypes.$children.RawConfig.$children.HTTPS.$anchor
     }).Article-Heading4
 
     +PropertyMetadata--YDF_DK(serverInitializationPropertiesSpecification.HTTPS)
@@ -469,6 +469,6 @@ block append SpecificContent
       //- ─── `routing` ──────────────────────────────────────────────────────────────────────────────────────────────────
       +Heading--YDF({
         level: 4,
-        innerHTML: pageTableOfContents.relatedTypes.$children.RawConfig.$children.routing.$heading,
-        HTML_ID: pageTableOfContents.relatedTypes.$children.RawConfig.$children.routing.$anchor
+        innerHTML: localizedSectioning.relatedTypes.$children.RawConfig.$children.routing.$heading,
+        HTML_ID: localizedSectioning.relatedTypes.$children.RawConfig.$children.routing.$anchor
       }).Article-Heading4

@@ -1,0 +1,15 @@
+preRequirements:
+  $heading: `preRequirements.$heading`
+  $anchor: PRE_REQUIREMENT_KNOWLEDGE_AND_SKILLS--SECTION
+
+projectRollout:
+  $heading: `projectRollout.$heading`
+  $anchor: PROJECT_ROLLOUT--SECTION
+
+code:
+  $heading: `code.$heading`
+  $anchor: CODE--SECTION
+
+testing:
+  $heading: `testing.$heading`
+  $anchor: TESTING--SECTION

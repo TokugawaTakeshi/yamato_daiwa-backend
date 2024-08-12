@@ -5,7 +5,7 @@
  */
 
 export { default as Server } from "./Server/Server";
-export type { default as Request } from "./Request";
+export { default as Request } from "./Request/Request";
 export { default as Response } from "./Response/Response";
 export { default as Controller } from "./Controller/Controller";
 export { default as Router } from "./Router";

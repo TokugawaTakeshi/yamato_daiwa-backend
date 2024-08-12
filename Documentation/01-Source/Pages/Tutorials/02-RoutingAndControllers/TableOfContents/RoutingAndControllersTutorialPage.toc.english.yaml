@@ -1,0 +1,41 @@
+theory:
+
+  $heading: "Theory"
+
+  URL_URN_URI:
+
+    URI_Anatomy:
+
+      $heading: "URI Anatomy"
+
+  workingWithEntities:
+
+    $heading: "Working with Entities"
+
+  HTTP_Methods:
+
+    $heading: "HTTP Methods"
+
+  routingDefinition:
+
+    $heading: "Definition of Routing and Related Terms"
+
+  primitiveRoutingImplementation:
+
+    $heading: "Routing Primitive Implementation"
+
+routingInYDB:
+
+  $heading: "Routing in YDB"
+
+  functionalAPI:
+
+    $heading: "Functional API"
+
+  pathParameters:
+
+    $heading: "Defining of Routes with Path Parameters"
+
+    numeric:
+
+      $heading: "Numeric Path Parameters"

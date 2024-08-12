@@ -27,11 +27,11 @@ block append Metadata
     RoutingEmulator.setCurrentRoute("tutorials.HTTPS");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      english: "./HTTPS_TutorialPage.english.html",
-      russian: "./HTTPS_TutorialPage.russian.html",
+      english: routing.english.tutorials.$children.HTTPS.$URI,
+      russian: routing.russian.tutorials.$children.HTTPS.$URI
     });
 
-    const pageTableOfContents = localizedRouting.tutorials.$children.HTTPS.$sectioning;
+    const localizedSectioning = routing.japanese.tutorials.$children.HTTPS.$sectioning;
 
 
 block append HeadScripts
@@ -59,8 +59,8 @@ block append SpecificContent
     //- ━━━ 理論 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.theory.$heading,
-      HTML_ID: pageTableOfContents.theory.$anchor
+      text: localizedSectioning.theory.$heading,
+      HTML_ID: localizedSectioning.theory.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -141,8 +141,8 @@ block append SpecificContent
     //- ━━━ ロカール開発専用デジタル証明書・キーを発行 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.SLL_KeyAndCertificateIssue.$heading,
-      HTML_ID: pageTableOfContents.SLL_KeyAndCertificateIssue.$anchor
+      text: localizedSectioning.SLL_KeyAndCertificateIssue.$heading,
+      HTML_ID: localizedSectioning.SLL_KeyAndCertificateIssue.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph
@@ -202,8 +202,8 @@ block append SpecificContent
     //- ━━━ アプリケーションコード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.code.$heading,
-      HTML_ID: pageTableOfContents.code.$anchor
+      text: localizedSectioning.code.$heading,
+      HTML_ID: localizedSectioning.code.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -271,8 +271,8 @@ block append SpecificContent
     //- ━━━ テスティング ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.testing.$heading,
-      HTML_ID: pageTableOfContents.testing.$anchor
+      text: localizedSectioning.testing.$heading,
+      HTML_ID: localizedSectioning.testing.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.

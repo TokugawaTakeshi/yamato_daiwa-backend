@@ -1,0 +1,4 @@
+theory: { $heading: "Теория" }
+SLL_KeyAndCertificateIssue: { $heading: "Выпуск пары сертификат/ключ для режима локальной разработки" }
+code: { $heading: "Код приложения" }
+testing: { $heading: "Тестирование" }

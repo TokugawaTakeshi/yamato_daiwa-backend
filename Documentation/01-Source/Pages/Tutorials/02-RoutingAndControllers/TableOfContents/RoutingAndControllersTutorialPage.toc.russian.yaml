@@ -1,0 +1,41 @@
+theory:
+
+  $heading: "Теория"
+
+  URL_URN_URI:
+
+    URI_Anatomy:
+
+      $heading: "Анатомия URI"
+
+  workingWithEntities:
+
+    $heading: "Работа с сущностями"
+
+  HTTP_Methods:
+
+    $heading: "HTTP-методы"
+
+  routingDefinition:
+
+    $heading: "Определение маршрутизации и связанных терминов"
+
+  primitiveRoutingImplementation:
+
+    $heading: "Примитивная реализация маршрутизации"
+
+routingInYDB:
+
+  $heading: "Маршрутизация в YDB"
+
+  functionalAPI:
+
+    $heading: "Функциональный API"
+
+  pathParameters:
+
+    $heading: "Определение маршрутов с параметрами пути"
+
+    numeric:
+
+      $heading: "Числовые параметры пути"

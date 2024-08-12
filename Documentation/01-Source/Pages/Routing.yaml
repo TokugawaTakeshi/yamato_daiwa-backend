@@ -1,0 +1,77 @@
+top:
+  $heading: `top.$heading`
+  $URI: `top.$URI`
+
+
+tutorials:
+
+  $heading: `tutorials.$heading`
+
+  $children:
+
+    helloWorld:
+      $heading: `tutorials.helloWorld.$heading`
+      $URI: `@All/Tutorials/00-HelloWorld/HelloWorldTutorialPage.${ fileNameLocalizationExtension }`
+      $sectioning:
+        $specificationFileRelativePath: 01-Source/Pages/Tutorials/00-HelloWorld/TableOfContents/HelloWorldTutorialPage.toc.yaml
+        $localizations:
+          english: 01-Source/Pages/Tutorials/00-HelloWorld/TableOfContents/HelloWorldTutorialPage.toc.english.yaml
+          japanese: 01-Source/Pages/Tutorials/00-HelloWorld/TableOfContents/HelloWorldTutorialPage.toc.japanese.yaml
+          russian: 01-Source/Pages/Tutorials/00-HelloWorld/TableOfContents/HelloWorldTutorialPage.toc.russian.yaml
+
+    HTTPS:
+      $heading: `tutorials.HTTPS.$heading`
+      $URI: `@All/Tutorials/01-HTTPS/HTTPS_TutorialPage.${ fileNameLocalizationExtension }`
+      $sectioning:
+        $specificationFileRelativePath: 01-Source/Pages/Tutorials/01-HTTPS/TableOfContents/HTTPS_TutorialPage.toc.yaml
+        $localizations:
+          english: 01-Source/Pages/Tutorials/01-HTTPS/TableOfContents/HTTPS_TutorialPage.toc.english.yaml
+          japanese: 01-Source/Pages/Tutorials/01-HTTPS/TableOfContents/HTTPS_TutorialPage.toc.japanese.yaml
+          russian: 01-Source/Pages/Tutorials/01-HTTPS/TableOfContents/HTTPS_TutorialPage.toc.russian.yaml
+
+    routingAndControllers:
+      $heading: `tutorials.routingAndControllers.$heading`
+      $URI: `@All/Tutorials/02-RoutingAndControllers/RoutingAndControllersTutorialPage.${ fileNameLocalizationExtension }`
+      $sectioning:
+        $specificationFileRelativePath: 01-Source/Pages/Tutorials/02-RoutingAndControllers/TableOfContents/RoutingAndControllersTutorialPage.toc.yaml
+        $localizations:
+          english: 01-Source/Pages/Tutorials/02-RoutingAndControllers/TableOfContents/RoutingAndControllersTutorialPage.toc.english.yaml
+          japanese: 01-Source/Pages/Tutorials/02-RoutingAndControllers/TableOfContents/RoutingAndControllersTutorialPage.toc.japanese.yaml
+          russian: 01-Source/Pages/Tutorials/02-RoutingAndControllers/TableOfContents/RoutingAndControllersTutorialPage.toc.russian.yaml
+
+    routePathParameters:
+      $heading: `tutorials.routePathParameters.$heading`
+      $URI: "https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/04-RoutePathParameters/README.md"
+      # $URI: `@All/Tutorials/02-RoutingAndControllers/RoutingAndControllers.${ fileNameLocalizationExtension }`
+
+    routeQueryParameters:
+      $heading: `tutorials.routeQueryParameters.$heading`
+      $URI: "https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/05-RouteQueryParameters/README.md"
+      # $URI: `@All/Tutorials/02-RoutingAndControllers/RoutingAndControllers.${ fileNameLocalizationExtension }`
+
+    dotEnvConfiguration:
+      $heading: `tutorials.dotEnvConfiguration.$heading`
+      $URI: "https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/06-DotenvConfig/README.md"
+      # $URI: `@All/Tutorials/02-RoutingAndControllers/RoutingAndControllers.${ fileNameLocalizationExtension }`
+
+    consoleLineInterfaceConfiguration:
+      $heading: `tutorials.consoleLineInterfaceConfiguration.$heading`
+      $URI: "https://github.com/TokugawaTakeshi/Yamato-Daiwa-Backend/blob/master/Tutorials/07-ConsoleLineInterface/README.md"
+      # $URI: `@All/Tutorials/02-RoutingAndControllers/RoutingAndControllers.${ fileNameLocalizationExtension }`
+
+
+API:
+
+  $heading: API
+
+  $children:
+
+    Server:
+      $heading: `API.Server.$heading`
+      $URI: `@All/API/Server/Server.${ fileNameLocalizationExtension }`
+      $sectioning:
+        $specificationFileRelativePath: 01-Source/Pages/API/Server/TableOfContents/Server.toc.yaml
+        $localizations:
+          english: 01-Source/Pages/API/Server/TableOfContents/Server.toc.english.yaml
+          japanese: 01-Source/Pages/API/Server/TableOfContents/Server.toc.japanese.yaml
+          russian: 01-Source/Pages/API/Server/TableOfContents/Server.toc.russian.yaml

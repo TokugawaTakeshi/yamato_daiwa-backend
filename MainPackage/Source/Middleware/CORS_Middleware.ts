@@ -1,5 +1,5 @@
 import Middleware from "./Middleware";
-import type Request from "../Request";
+import type Request from "../Request/Request";
 import type Response from "../Response/Response";
 
 

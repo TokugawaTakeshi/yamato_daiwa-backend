@@ -33,11 +33,11 @@ block append Metadata
     RoutingEmulator.setCurrentRoute("tutorials.helloWorld");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      english: "./HelloWorldTutorialPage.english.html",
-      russian: "./HelloWorldTutorialPage.russian.html"
+      english: routing.english.tutorials.$children.helloWorld.$URI,
+      russian: routing.russian.tutorials.$children.helloWorld.$URI
     });
 
-    const pageTableOfContents = localizedRouting.tutorials.$children.helloWorld.$sectioning;
+    const localizedSectioning = routing.japanese.tutorials.$children.helloWorld.$sectioning;
 
 
 block append HeadScripts
@@ -65,8 +65,8 @@ block append SpecificContent
     //- ━━━ 事前に必要な知識・熟練 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.preRequirements.$heading,
-      HTML_ID: pageTableOfContents.preRequirements.$anchor
+      text: localizedSectioning.preRequirements.$heading,
+      HTML_ID: localizedSectioning.preRequirements.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -93,8 +93,8 @@ block append SpecificContent
     //- ━━━ Node.jsプロジェクトの展開 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.projectRollout.$heading,
-      HTML_ID: pageTableOfContents.projectRollout.$anchor
+      text: localizedSectioning.projectRollout.$heading,
+      HTML_ID: localizedSectioning.projectRollout.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -140,8 +140,8 @@ block append SpecificContent
     //- ━━━ コード ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.code.$heading,
-      HTML_ID: pageTableOfContents.code.$anchor
+      text: localizedSectioning.code.$heading,
+      HTML_ID: localizedSectioning.code.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -217,7 +217,7 @@ block append SpecificContent
             「見つからなかった」と言うエラーを含む#[+Term--YDID レスポンス]を返す。
 
         +CodeViewer-PartialListing--YDF: :code_listing--yda(indentationMultiplier="4" indentationString="  ")
-          async handler(request: Request, response: Response): Promise＜void＞ {
+          async handler(request: Request, response: Response): Promise<void> {
         +CodeViewer-Explanation--YDF
 
           p.Article-Paragraph.
@@ -273,8 +273,8 @@ block append SpecificContent
     //- ━━━ テスティング ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.testing.$heading,
-      HTML_ID: pageTableOfContents.testing.$anchor
+      text: localizedSectioning.testing.$heading,
+      HTML_ID: localizedSectioning.testing.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.

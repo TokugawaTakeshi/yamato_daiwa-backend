@@ -29,11 +29,11 @@ block append Metadata
     RoutingEmulator.setCurrentRoute("tutorials.HTTPS");
 
     LanguageDropDownList__YDF_DK.setLinks({
-      japanese: "./HTTPS_TutorialPage.japanese.html",
-      russian: "./HTTPS_TutorialPage.russian.html",
+      japanese: routing.japanese.tutorials.$children.HTTPS.$URI,
+      russian: routing.russian.tutorials.$children.HTTPS.$URI
     });
 
-    const pageTableOfContents = localizedRouting.tutorials.$children.HTTPS.$sectioning;
+    const localizedSectioning = routing.english.tutorials.$children.HTTPS.$sectioning;
 
 
 block append HeadScripts
@@ -63,8 +63,8 @@ block append SpecificContent
     //- ━━━ Theory ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.theory.$heading,
-      HTML_ID: pageTableOfContents.theory.$anchor
+      text: localizedSectioning.theory.$heading,
+      HTML_ID: localizedSectioning.theory.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph
@@ -160,8 +160,8 @@ block append SpecificContent
     //- ━━━ SSL Certificate and Private Key Issuing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.SLL_KeyAndCertificateIssue.$heading,
-      HTML_ID: pageTableOfContents.SLL_KeyAndCertificateIssue.$anchor
+      text: localizedSectioning.SLL_KeyAndCertificateIssue.$heading,
+      HTML_ID: localizedSectioning.SLL_KeyAndCertificateIssue.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph
@@ -226,8 +226,8 @@ block append SpecificContent
     //- ━━━ Application Code ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.code.$heading,
-      HTML_ID: pageTableOfContents.code.$anchor
+      text: localizedSectioning.code.$heading,
+      HTML_ID: localizedSectioning.code.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.
@@ -301,8 +301,8 @@ block append SpecificContent
     //- ━━━ Testing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     +Heading--YDF({
       level: 2,
-      text: pageTableOfContents.testing.$heading,
-      HTML_ID: pageTableOfContents.testing.$anchor
+      text: localizedSectioning.testing.$heading,
+      HTML_ID: localizedSectioning.testing.$anchor
     }).Article-Heading2
 
     p.Article-Paragraph.

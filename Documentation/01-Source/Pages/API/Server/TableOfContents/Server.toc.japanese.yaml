@@ -1,0 +1,3 @@
+publicStaticMethods: { $heading: "パブリック静的メソッド" }
+publicInstanceMethods: { $heading: "パブリック・インスタンス・メソッド" }
+relatedTypes: { $heading: "関連型" }

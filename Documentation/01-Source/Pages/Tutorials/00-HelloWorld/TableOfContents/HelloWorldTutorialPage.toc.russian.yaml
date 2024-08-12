@@ -1,0 +1,4 @@
+preRequirements: { $heading: "Требуемые знания и навыки" }
+projectRollout: { $heading: "Развёртывание Node.js-проекта" }
+code: { $heading: "Код" }
+testing: { $heading: "Тестирование" }

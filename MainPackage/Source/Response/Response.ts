@@ -63,13 +63,16 @@ class Response {
     return new Promise<void>((resolve: () => void): void => {
       this.rawResponse.end(resolve);
     });
+
   }
 
   public async submitWithError(payload: Response.ErroredSubmittingPayload): Promise<void> {
 
     this.rawResponse.statusCode = payload.statusCode;
 
-    this.rawResponse.writeHead(payload.statusCode, payload.errorMessage);
+    if (isNotUndefined(payload.errorMessage)) {
+      this.rawResponse.statusMessage = payload.errorMessage;
+    }
 
     if (isNotUndefined(payload.HTML_Content)) {
       this.rawResponse.setHeader("Content-Type", "text/html");
@@ -111,6 +114,7 @@ class Response {
         });
 
         reject(fileReadingError);
+
       });
 
 
@@ -124,8 +128,10 @@ class Response {
         fileReadingStream.destroy();
         resolve();
       });
+
     });
   }
+
 }
 
 

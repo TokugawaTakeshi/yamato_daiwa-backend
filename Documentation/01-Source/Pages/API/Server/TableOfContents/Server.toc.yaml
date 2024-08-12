@@ -1,0 +1,55 @@
+publicStaticMethods:
+
+  $heading: `publicStaticMethods.$heading`
+  $anchor: PUBLIC_STATIC_METHODS--SECTION
+
+  $children:
+
+    initializeAndStart:
+      $heading: <code>initializeAndStart</code>
+      $anchor: PUBLIC_STATIC_METHODS-INITIALIZE_AND_START--SECTION
+
+    initialize:
+      $heading: <code>initialize</code>
+      $anchor: PUBLIC_STATIC_METHODS-INITIALIZE--SECTION
+
+publicInstanceMethods:
+
+  $heading: `publicInstanceMethods.$heading`
+  $anchor: PUBLIC_INSTANCE_METHODS--SECTION
+
+  $children:
+
+    start:
+      $heading: <code>start</code>
+      $anchor: PUBLIC_INSTANCE_METHODS-START--SECTION
+
+relatedTypes:
+
+  $heading: `relatedTypes.$heading`
+  $anchor: RELATED_TYPES--SECTION
+
+  $children:
+
+    RawConfig:
+
+      $heading: <code>Server.RawConfig</code>
+      $anchor: RAW_CONFIG--SECTION
+
+      $children:
+
+        IP_Address:
+          $heading: <code>IP_Address</code>
+          $anchor: RAW_CONFIG-IP_ADDRESS--SECTION
+
+        HTTP:
+          $heading: <code>HTTP</code>
+          $anchor: RAW_CONFIG-HTTP--SECTION
+
+        HTTPS:
+          $heading: <code>HTTPS</code>
+          $anchor: RAW_CONFIG-HTTPS--SECTION
+
+#        routing:
+#          $heading: <code>routing</code>
+#          $anchor: RAW_CONFIG-ROUTING--SECTION

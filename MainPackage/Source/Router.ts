@@ -1,5 +1,5 @@
 /* --- Framework --------------------------------------------------------------------------------------------------- */
-import type Request from "./Request";
+import type Request from "./Request/Request";
 import type Response from "./Response/Response";
 import type { ControllerInheritingClass } from "./Controller/Controller";
 import type Controller from "./Controller/Controller";
@@ -91,26 +91,13 @@ abstract class Router {
 
       const handlerForPathOfCurrentLength: Router.RouteHandler | undefined =
           matchesActualForCurrentHTTP_Method["/"]?.handlerForPathOfCurrentLength;
-      const pathParametersProcessingForPathOfCurrentLength: RawObjectDataProcessor.PropertiesSpecification | undefined =
-          matchesActualForCurrentHTTP_Method["/"]?.pathParametersProcessingForPathOfCurrentLength;
-      const queryParametersProcessingForPathOfCurrentLength: RawObjectDataProcessor.PropertiesSpecification | undefined =
-          matchesActualForCurrentHTTP_Method["/"]?.queryParametersProcessingForPathOfCurrentLength;
-      const queryParametersDeserializerForPathOfCurrentLength: URI_QueryParametersDeserializer | undefined =
-          matchesActualForCurrentHTTP_Method["/"]?.queryParametersDeserializerForPathOfCurrentLength;
 
       return isNotUndefined(handlerForPathOfCurrentLength) ? {
         handler: handlerForPathOfCurrentLength,
         routePathParameters,
-        ...isNotUndefined(pathParametersProcessingForPathOfCurrentLength) ? {
-          routePathParameterProcessing: pathParametersProcessingForPathOfCurrentLength
-        } : null,
-        ...isNotUndefined(queryParametersProcessingForPathOfCurrentLength) ? {
-          routeQueryParametersProcessing: queryParametersProcessingForPathOfCurrentLength
-        } : null,
-        ...isNotUndefined(queryParametersDeserializerForPathOfCurrentLength) ? {
-          routeQueryParametersDeserializer: queryParametersDeserializerForPathOfCurrentLength
-        } : null
+        routePathTemplate: "/"
       } : null;
+
     }
 
 
@@ -136,16 +123,9 @@ abstract class Router {
         return {
           handler: matchesForCurrentPathSegmentsCount.handlerForPathOfCurrentLength,
           routePathParameters,
-          ...isNotUndefined(matchesForCurrentPathSegmentsCount.pathParametersProcessingForPathOfCurrentLength) ? {
-            routePathParameterProcessing: matchesForCurrentPathSegmentsCount.pathParametersProcessingForPathOfCurrentLength
-          } : null,
-          ...isNotUndefined(matchesForCurrentPathSegmentsCount.queryParametersProcessingForPathOfCurrentLength) ? {
-            routeQueryParametersProcessing: matchesForCurrentPathSegmentsCount.queryParametersProcessingForPathOfCurrentLength
-          } : null,
-          ...isNotUndefined(matchesForCurrentPathSegmentsCount.queryParametersDeserializerForPathOfCurrentLength) ? {
-            routeQueryParametersDeserializer: matchesForCurrentPathSegmentsCount.queryParametersDeserializerForPathOfCurrentLength
-          } : null
+          routePathTemplate: "(Wait until refactor will done)" // FIXME
         };
+
       }
 
 
@@ -188,13 +168,7 @@ abstract class Router {
 
     if (route.pathTemplate === "/") {
       normalizedRoutesOfCurrentHTTP_Method["/"] = {
-        handlerForPathOfCurrentLength: handler,
-        ...isNotUndefined(route.pathParametersProcessing) ? {
-          pathParametersProcessingForPathOfCurrentLength: route.pathParametersProcessing
-        } : null,
-        ...isNotUndefined(route.queryParametersProcessing) ? {
-          queryParametersProcessingForPathOfCurrentLength: route.queryParametersProcessing
-        } : null
+        handlerForPathOfCurrentLength: handler
       };
       return;
     }
@@ -224,16 +198,6 @@ abstract class Router {
       if (isLastSegment) {
 
         normalizedRoutingDataForSpecificPathSegment.handlerForPathOfCurrentLength = handler;
-
-        if (isNotUndefined(route.pathParametersProcessing)) {
-          normalizedRoutingDataForSpecificPathSegment.pathParametersProcessingForPathOfCurrentLength =
-              route.pathParametersProcessing;
-        }
-
-        if (isNotUndefined(route.queryParametersProcessing)) {
-          normalizedRoutingDataForSpecificPathSegment.queryParametersProcessingForPathOfCurrentLength =
-              route.queryParametersProcessing;
-        }
 
         continue;
       }
@@ -302,6 +266,7 @@ abstract class Router {
   private static isSegmentIsRouteParameter(targetURL_Segment: string): boolean {
     return targetURL_Segment.startsWith(":");
   }
+
 }
 
 
@@ -316,17 +281,14 @@ namespace Router {
   export type Route = Readonly<{
     HTTP_Method: HTTP_Methods;
     pathTemplate: string;
-    pathParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
     queryParametersDeserializer?: URI_QueryParametersDeserializer;
     queryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
   }>;
 
   export type RouteMatch = Readonly<{
     handler: RouteHandler;
+    routePathTemplate: string;
     routePathParameters: RoutePathParameters;
-    routePathParameterProcessing?: RawObjectDataProcessor.PropertiesSpecification;
-    routeQueryParametersDeserializer?: URI_QueryParametersDeserializer;
-    routeQueryParametersProcessing?: RawObjectDataProcessor.PropertiesSpecification;
   }>;
 
   export type RoutePathParameters = { [pathSegment: string]: string | undefined; };
@@ -353,9 +315,6 @@ namespace Router {
 
     export type RoutingDataForSpecificPathSegment = {
       handlerForPathOfCurrentLength?: RouteHandler;
-      pathParametersProcessingForPathOfCurrentLength?: RawObjectDataProcessor.PropertiesSpecification;
-      queryParametersProcessingForPathOfCurrentLength?: RawObjectDataProcessor.PropertiesSpecification;
-      queryParametersDeserializerForPathOfCurrentLength?: URI_QueryParametersDeserializer;
       routingForStaticPathSegmentsAtNextPosition?: RoutingForStaticPathSegmentsAtNextPosition;
       routingForRoutePathParameterAtNextPosition?: RoutingForRouteParameterAtNextPosition;
     };
@@ -365,6 +324,7 @@ namespace Router {
     };
     export type RoutingForRouteParameterAtNextPosition = RoutingDataForSpecificPathSegment & Readonly<{ parameterName: string; }>;
   }
+
 }
 
 

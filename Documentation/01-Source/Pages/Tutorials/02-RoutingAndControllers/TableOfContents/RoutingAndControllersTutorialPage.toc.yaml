@@ -1,0 +1,66 @@
+theory:
+
+  $heading: `theory.$heading`
+  $anchor: THEORY--SECTION
+
+  $children:
+
+    URL_URN_URI:
+
+      $heading: "URL, URN, URI"
+      $anchor: URL_URN_URI--SECTION
+
+      $children:
+
+        URI_Anatomy:
+
+          $heading: `theory.URL_URN_URI.URI_Anatomy.$heading`
+          $anchor: URI_ANATOMY--SECTION
+
+    workingWithEntities:
+
+      $heading: `theory.workingWithEntities.$heading`
+      $anchor: WORKING_WITH_ENTITIES--SECTION
+
+
+    HTTP_Methods:
+
+      $heading: `theory.HTTP_Methods.$heading`
+      $anchor: HTTP_METHODS--SECTION
+
+
+    routingDefinition:
+
+      $heading: `theory.routingDefinition.$heading`
+      $anchor: ROUTING_DEFINITION--SECTION
+
+    routingPrimitiveImplementation:
+
+      $heading: `theory.primitiveRoutingImplementation.$heading`
+      $anchor: ROUTING_PRIMITIVE_IMPLEMENTATION--SECTION
+
+
+routingInYDB:
+
+  $heading: `routingInYDB.$heading`
+  $anchor: ROUTING_IN_YDB--SECTION
+
+  $children:
+
+    functionalAPI:
+
+      $heading: `routingInYDB.functionalAPI.$heading`
+      $anchor: ROUTING_IN_YDB-FUNCTIONAL_API--SECTION
+
+    pathParameters:
+
+      $heading: `routingInYDB.pathParameters.$heading`
+      $anchor: ROUTING_IN_YDB-PATH_PARAMETERS--SECTION
+
+      $children:
+
+        numeric:
+
+          $heading: `routingInYDB.pathParameters.numeric.$heading`
+          $anchor: ROUTING_IN_YDB-PATH_PARAMETERS-NUMERIC--SECTION
+

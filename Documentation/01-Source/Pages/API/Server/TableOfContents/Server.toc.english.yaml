@@ -1,0 +1,3 @@
+publicStaticMethods: { $heading: "Public Static Methods" }
+publicInstanceMethods: { $heading: "Public Instance Methods" }
+relatedTypes: { $heading: "Related Types" }

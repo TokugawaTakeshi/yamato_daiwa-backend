@@ -1,0 +1,3 @@
+publicStaticMethods: { $heading: "Открытые статические методы" }
+publicInstanceMethods: { $heading: "Открытые методы экземпляра" }
+relatedTypes: { $heading: "Связанные типы" }

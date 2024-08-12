@@ -1,5 +1,5 @@
 import type Server from "./Server";
-import { PoliteErrorsMessagesBuilder, ImproperUsageError } from "@yamato-daiwa/es-extensions";
+import { PoliteErrorsMessagesBuilder } from "@yamato-daiwa/es-extensions";
 
 
 const serverLocalization__english: Server.Localization = {
@@ -71,7 +71,7 @@ const serverLocalization__english: Server.Localization = {
 
     missingHostHTTP_Header: {
       title: "Required HTTP Header is Missing",
-      description: "Required \"Host\" HTTP header is missing while it must be sent in all HTTP/1.1 request messages."
+      description: "The \"Host\" HTTP header is missing while it must be sent in all HTTP/1.1 request messages."
     },
 
     hostHTTP_HeaderParsingFailed: {
@@ -100,48 +100,6 @@ const serverLocalization__english: Server.Localization = {
         { requestedSubdomain }: Server.Localization.Errors.UnknownSubdomain.TemplateVariables
       ): string =>
           `No configuration has been found for requested subdomain "${ requestedSubdomain }".`
-    },
-
-    invalidRoutePathParameters: {
-      title: "Invalid Route Path Parameters",
-      generateDataNameForDescription: (
-        { targetURI }: Server.Localization.Errors.InvalidRoutePathParameters.DataName.TemplateVariables
-      ): string =>
-          `Path parameters of "${ targetURI }" route`,
-      generateDescription:
-          (
-            { formattedPreIndentedValidationErrorsMessages }:
-                Server.Localization.Errors.InvalidRoutePathParameters.Description.TemplateVariables
-          ): string =>
-              `Invalid route path parameters detected. ${ formattedPreIndentedValidationErrorsMessages }`
-    },
-
-    invalidRouteQueryParameters: {
-      title: "Invalid Route Query Parameters",
-      generateDataNameForDescription:
-          ({ targetURI }: Server.Localization.Errors.InvalidRouteQueryParameters.DataName.TemplateVariables): string =>
-              `Deserialized query parameters of ${ targetURI } route`,
-      generateDescription:
-          (
-            {
-              formattedPreIndentedValidationErrorsMessages
-            }: Server.Localization.Errors.InvalidRouteQueryParameters.Description.TemplateVariables
-          ): string =>
-              `Invalid query parameters detected. ${ formattedPreIndentedValidationErrorsMessages }`
-    },
-
-    unableToAccessToProcessedRoutePathParameters: {
-      title: ImproperUsageError.localization.defaultTitle,
-      description:
-          "\"request.getProcessedRoutePathParameters\" has been called while processing of URI path parameters " +
-            "has not been defined at \"route.pathParameterProcessing\"."
-    },
-
-    unableToAccessToProcessedRouteQueryParameters: {
-      title: ImproperUsageError.localization.defaultTitle,
-      description:
-          "\"request.getProcessedQueryParameters\" has been called while processing of URI query parameters " +
-            "has not been defined at \"route.queryParametersProcessing\"."
     },
 
     middlewareExecutionFailed: {
@@ -216,8 +174,8 @@ const serverLocalization__english: Server.Localization = {
               formattedHTTP_Headers
             }: Server.Localization.Notifications.NullBytePoisoningAttackAttemptDetected.TemplateVariables
           ): string =>
-              "Below request URI including null byte which could be only injected maliciously. YDB " +
-              "framework successfully parried this attack.\n" +
+              "Below request URI including null byte which could be only injected maliciously. " +
+              "YDB framework successfully parried this attack.\n" +
               formattedHTTP_Headers
     },
 
